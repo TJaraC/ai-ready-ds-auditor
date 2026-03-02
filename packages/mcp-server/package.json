@@ -1,0 +1,14 @@
+{
+  "name": "@ai-ds-auditor/mcp-server",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@ai-ds-auditor/shared": "*"
+  },
+  "scripts": {
+    "build": "tsc --project tsconfig.json",
+    "dev": "tsx watch src/index.ts",
+    "type-check": "tsc --noEmit",
+    "lint": "eslint ."
+  }
+}

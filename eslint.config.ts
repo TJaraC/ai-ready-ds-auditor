@@ -13,6 +13,6 @@ export default tseslint.config(
     },
   },
   {
-    ignores: ['**/dist/**', '**/node_modules/**', '**/*.js'],
+    ignores: ['**/dist/**', '**/node_modules/**', '**/*.js', '**/*.cjs', '.claude/**', '.planning/**'],
   },
 );

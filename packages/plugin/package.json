@@ -1,0 +1,12 @@
+{
+  "name": "@ai-ds-auditor/plugin",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@ai-ds-auditor/shared": "*"
+  },
+  "scripts": {
+    "build": "echo 'Plugin build not yet configured'",
+    "type-check": "tsc --noEmit"
+  }
+}
