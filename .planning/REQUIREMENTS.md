@@ -45,7 +45,7 @@
 - [ ] **DATA-05**: Chunk sizes are measured using `TextEncoder` for byte-accurate counting (not character counting)
 - [ ] **DATA-06**: Plugin listens to `figma.on("documentchange")` with a 2-second debounce
 - [ ] **DATA-07**: When relevant changes are detected (component/style/variable modifications), UI receives a sync-outdated message
-- [ ] **DATA-08**: UI displays a visual "🔴 Out of Sync" indicator when data is outdated since last injection
+- [ ] **DATA-08**: UI displays a visual "Out of Sync" indicator when data is outdated since last injection
 
 ### Figma Plugin — UI (UI)
 
@@ -125,7 +125,7 @@
 | Cloud-hosted MCP server | Local-only is the core value proposition (free, private, no auth needed) |
 | Token sync to code repositories | Out-of-scope for DesignOps audit tool; separate tooling responsibility |
 | Multi-tool support (Sketch, Adobe XD) | Figma-first; other tools may not have equivalent plugin APIs |
-| Figma Enterprise features | Non-Enterprise only — Enterprise has native solutions |
+| Figma Enterprise features | Non-Enterprise only -- Enterprise has native solutions |
 | OAuth / Figma OAuth flow | Personal access token is sufficient for free tier; OAuth is unnecessary complexity |
 | Native mobile companion app | Desktop IDEs (Trae, Cursor) are the target; mobile is v3+ |
 
@@ -135,22 +135,75 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| INFRA-01 through INFRA-07 | Phase 1 | Pending |
-| PLUG-01 through PLUG-06 | Phase 1 | Pending |
-| INFRA-02 (shared types) | Phase 1 | Pending |
-| AUDIT-01 through AUDIT-09 | Phase 2 | Pending |
-| DATA-01 through DATA-08 | Phase 3 | Pending |
-| UI-01 through UI-10 | Phase 3 | Pending |
-| MCP-01 through MCP-09 | Phase 4 | Pending |
-| ERR-01 through ERR-04 | Phase 4 | Pending |
-| TOOL-01 through TOOL-05 | Phase 4 | Pending |
-| FMT-01 through FMT-04 | Phase 4 | Pending |
+| INFRA-01 | Phase 1: Foundation | Pending |
+| INFRA-02 | Phase 1: Foundation | Pending |
+| INFRA-03 | Phase 1: Foundation | Pending |
+| INFRA-04 | Phase 1: Foundation | Pending |
+| INFRA-05 | Phase 1: Foundation | Pending |
+| INFRA-06 | Phase 1: Foundation | Pending |
+| INFRA-07 | Phase 1: Foundation | Pending |
+| PLUG-01 | Phase 1: Foundation | Pending |
+| PLUG-02 | Phase 1: Foundation | Pending |
+| PLUG-03 | Phase 1: Foundation | Pending |
+| PLUG-04 | Phase 1: Foundation | Pending |
+| PLUG-05 | Phase 1: Foundation | Pending |
+| PLUG-06 | Phase 1: Foundation | Pending |
+| AUDIT-01 | Phase 2: Audit Engine | Pending |
+| AUDIT-02 | Phase 2: Audit Engine | Pending |
+| AUDIT-03 | Phase 2: Audit Engine | Pending |
+| AUDIT-04 | Phase 2: Audit Engine | Pending |
+| AUDIT-05 | Phase 2: Audit Engine | Pending |
+| AUDIT-06 | Phase 2: Audit Engine | Pending |
+| AUDIT-07 | Phase 2: Audit Engine | Pending |
+| AUDIT-08 | Phase 2: Audit Engine | Pending |
+| AUDIT-09 | Phase 2: Audit Engine | Pending |
+| DATA-01 | Phase 3: Data Injection & Plugin UI | Pending |
+| DATA-02 | Phase 3: Data Injection & Plugin UI | Pending |
+| DATA-03 | Phase 3: Data Injection & Plugin UI | Pending |
+| DATA-04 | Phase 3: Data Injection & Plugin UI | Pending |
+| DATA-05 | Phase 3: Data Injection & Plugin UI | Pending |
+| DATA-06 | Phase 3: Data Injection & Plugin UI | Pending |
+| DATA-07 | Phase 3: Data Injection & Plugin UI | Pending |
+| DATA-08 | Phase 3: Data Injection & Plugin UI | Pending |
+| UI-01 | Phase 3: Data Injection & Plugin UI | Pending |
+| UI-02 | Phase 3: Data Injection & Plugin UI | Pending |
+| UI-03 | Phase 3: Data Injection & Plugin UI | Pending |
+| UI-04 | Phase 3: Data Injection & Plugin UI | Pending |
+| UI-05 | Phase 3: Data Injection & Plugin UI | Pending |
+| UI-06 | Phase 3: Data Injection & Plugin UI | Pending |
+| UI-07 | Phase 3: Data Injection & Plugin UI | Pending |
+| UI-08 | Phase 3: Data Injection & Plugin UI | Pending |
+| UI-09 | Phase 3: Data Injection & Plugin UI | Pending |
+| UI-10 | Phase 3: Data Injection & Plugin UI | Pending |
+| MCP-01 | Phase 4: MCP Server | Pending |
+| MCP-02 | Phase 4: MCP Server | Pending |
+| MCP-03 | Phase 4: MCP Server | Pending |
+| MCP-04 | Phase 4: MCP Server | Pending |
+| MCP-05 | Phase 4: MCP Server | Pending |
+| MCP-06 | Phase 4: MCP Server | Pending |
+| MCP-07 | Phase 4: MCP Server | Pending |
+| MCP-08 | Phase 4: MCP Server | Pending |
+| MCP-09 | Phase 4: MCP Server | Pending |
+| ERR-01 | Phase 4: MCP Server | Pending |
+| ERR-02 | Phase 4: MCP Server | Pending |
+| ERR-03 | Phase 4: MCP Server | Pending |
+| ERR-04 | Phase 4: MCP Server | Pending |
+| TOOL-01 | Phase 4: MCP Server | Pending |
+| TOOL-02 | Phase 4: MCP Server | Pending |
+| TOOL-03 | Phase 4: MCP Server | Pending |
+| TOOL-04 | Phase 4: MCP Server | Pending |
+| TOOL-05 | Phase 4: MCP Server | Pending |
+| FMT-01 | Phase 4: MCP Server | Pending |
+| FMT-02 | Phase 4: MCP Server | Pending |
+| FMT-03 | Phase 4: MCP Server | Pending |
+| FMT-04 | Phase 4: MCP Server | Pending |
 
 **Coverage:**
-- v1 requirements: 56 total
-- Mapped to phases: 56
-- Unmapped: 0 ✓
+- v1 requirements: 62 total
+- Mapped to phases: 62
+- Phase 5 (Integration & Polish): Cross-cutting validation, no new requirements
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-03-02*
-*Last updated: 2026-03-02 after initial definition*
+*Last updated: 2026-03-02 after roadmap creation*
