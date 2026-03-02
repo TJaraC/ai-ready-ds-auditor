@@ -7,13 +7,13 @@
 
 ### Infrastructure & Foundation (INFRA)
 
-- [ ] **INFRA-01**: Project is structured as an npm workspaces monorepo with three packages: `packages/shared`, `packages/plugin`, `packages/mcp-server`
-- [ ] **INFRA-02**: Shared types package (`packages/shared`) exports: `AuditReport`, `AuditMeta`, `DesignToken`, `ComponentSpec`, chunking constants, and `schemaVersion`
-- [ ] **INFRA-03**: TypeScript strict mode enabled across all packages (`strict: true`, `noUncheckedIndexedAccess: true`, `exactOptionalPropertyTypes: true`)
-- [ ] **INFRA-04**: TypeScript project references configured between packages (shared → plugin, shared → mcp-server)
-- [ ] **INFRA-05**: ESLint configured with TypeScript rules + rule banning `console.log` in `packages/mcp-server` (stdio transport safety)
-- [ ] **INFRA-06**: Prettier configured with consistent code style across all packages
-- [ ] **INFRA-07**: Root-level npm scripts: `dev`, `build`, `lint`, `type-check`, `test`
+- [x] **INFRA-01**: Project is structured as an npm workspaces monorepo with three packages: `packages/shared`, `packages/plugin`, `packages/mcp-server`
+- [x] **INFRA-02**: Shared types package (`packages/shared`) exports: `AuditReport`, `AuditMeta`, `DesignToken`, `ComponentSpec`, chunking constants, and `schemaVersion`
+- [x] **INFRA-03**: TypeScript strict mode enabled across all packages (`strict: true`, `noUncheckedIndexedAccess: true`, `exactOptionalPropertyTypes: true`)
+- [x] **INFRA-04**: TypeScript project references configured between packages (shared → plugin, shared → mcp-server)
+- [x] **INFRA-05**: ESLint configured with TypeScript rules + rule banning `console.log` in `packages/mcp-server` (stdio transport safety)
+- [x] **INFRA-06**: Prettier configured with consistent code style across all packages
+- [x] **INFRA-07**: Root-level npm scripts: `dev`, `build`, `lint`, `type-check`, `test`
 
 ### Figma Plugin — Build & Scaffold (PLUG)
 
@@ -135,13 +135,13 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| INFRA-01 | Phase 1: Foundation | Pending |
-| INFRA-02 | Phase 1: Foundation | Pending |
-| INFRA-03 | Phase 1: Foundation | Pending |
-| INFRA-04 | Phase 1: Foundation | Pending |
-| INFRA-05 | Phase 1: Foundation | Pending |
-| INFRA-06 | Phase 1: Foundation | Pending |
-| INFRA-07 | Phase 1: Foundation | Pending |
+| INFRA-01 | Phase 1: Foundation | Complete |
+| INFRA-02 | Phase 1: Foundation | Complete |
+| INFRA-03 | Phase 1: Foundation | Complete |
+| INFRA-04 | Phase 1: Foundation | Complete |
+| INFRA-05 | Phase 1: Foundation | Complete |
+| INFRA-06 | Phase 1: Foundation | Complete |
+| INFRA-07 | Phase 1: Foundation | Complete |
 | PLUG-01 | Phase 1: Foundation | Pending |
 | PLUG-02 | Phase 1: Foundation | Pending |
 | PLUG-03 | Phase 1: Foundation | Pending |
