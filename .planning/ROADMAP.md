@@ -30,11 +30,12 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. Running `npm run dev` in the plugin package produces a `code.js` and a single-file `ui.html` that Figma can load
   4. A round-trip message (sandbox sends typed message to UI, UI echoes back) completes successfully in the loaded plugin, proving the typed message protocol works
   5. ESLint and Prettier pass across all packages with `npm run lint`, including the `console.log` ban in mcp-server
-**Plans**: TBD
+**Plans**: 3 plans
 
 Plans:
-- [ ] 01-01: TBD
-- [ ] 01-02: TBD
+- [ ] 01-01-PLAN.md -- Monorepo root scaffold, tooling installation, packages/shared types (schemaVersion, AuditReport, AuditIssue, DesignToken, ComponentSpec, AuditMeta, SandboxMessage, UIMessage, chunking constants)
+- [ ] 01-02-PLAN.md -- Plugin package: dual Vite configs (sandbox IIFE + single-file UI), Figma manifest, sandbox/UI tsconfigs, React stub, dev watch mode
+- [ ] 01-03-PLAN.md -- Round-trip message proof: ping button in UI, production build, human Figma verification checkpoint
 
 ### Phase 2: Audit Engine
 **Goal**: The plugin can scan any Figma document and produce a complete, typed AuditReport identifying hardcoded colors, typography, spacing, and disconnected components
@@ -108,7 +109,7 @@ Phases execute in numeric order: 1 --> 2 --> 3 --> 4 --> 5
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation | 0/? | Not started | - |
+| 1. Foundation | 0/3 | Planned | - |
 | 2. Audit Engine | 0/? | Not started | - |
 | 3. Data Injection & Plugin UI | 0/? | Not started | - |
 | 4. MCP Server | 0/? | Not started | - |
