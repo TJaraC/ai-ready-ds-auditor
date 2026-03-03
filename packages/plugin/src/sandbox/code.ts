@@ -1,4 +1,5 @@
 import type { SandboxMessage, UIMessage } from '@shared/messages';
+import { runAudit } from './audit/index';
 
 // Show the plugin UI
 figma.showUI(__html__, { width: 320, height: 480 });
@@ -10,13 +11,16 @@ figma.ui.onmessage = (raw: unknown): void => {
 
   switch (msg.type) {
     case 'START_SCAN': {
-      // Phase 2: trigger audit engine
-      const response: SandboxMessage = {
-        type: 'SCAN_PROGRESS',
-        percent: 0,
-        currentNode: 'stub',
-      };
-      figma.ui.postMessage(response);
+      runAudit()
+        .then((report) => {
+          const msg: SandboxMessage = { type: 'SCAN_COMPLETE', report };
+          figma.ui.postMessage(msg);
+        })
+        .catch((err: unknown) => {
+          const message = err instanceof Error ? err.message : 'Unknown error during scan';
+          const msg: SandboxMessage = { type: 'SCAN_ERROR', message };
+          figma.ui.postMessage(msg);
+        });
       break;
     }
     case 'INJECT_DATA': {
