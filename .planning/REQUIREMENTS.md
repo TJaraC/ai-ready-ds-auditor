@@ -31,10 +31,10 @@
 - [ ] **AUDIT-03**: Typography auditor detects text nodes with hardcoded `fontSize` and `fontWeight` not bound to text styles or variables
 - [ ] **AUDIT-04**: Spacing auditor detects auto-layout nodes with hardcoded `paddingLeft/Right/Top/Bottom` and `itemSpacing` not using spacing variables
 - [ ] **AUDIT-05**: Component auditor detects frame/group layers that match the size/shape of existing components but are not instances
-- [ ] **AUDIT-06**: Each audit result includes: node ID, node name, page name, issue type, offending value, and suggested fix
-- [ ] **AUDIT-07**: Audit engine produces a typed `AuditReport` conforming to shared types schema
+- [x] **AUDIT-06**: Each audit result includes: node ID, node name, page name, issue type, offending value, and suggested fix
+- [x] **AUDIT-07**: Audit engine produces a typed `AuditReport` conforming to shared types schema
 - [ ] **AUDIT-08**: Audit supports progress reporting to the UI during long scans
-- [ ] **AUDIT-09**: Every `AuditReport` includes a `schemaVersion` field for forward compatibility
+- [x] **AUDIT-09**: Every `AuditReport` includes a `schemaVersion` field for forward compatibility
 
 ### Figma Plugin — Data Injection & Sync (DATA)
 
@@ -153,10 +153,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 | AUDIT-03 | Phase 2: Audit Engine | Pending |
 | AUDIT-04 | Phase 2: Audit Engine | Pending |
 | AUDIT-05 | Phase 2: Audit Engine | Pending |
-| AUDIT-06 | Phase 2: Audit Engine | Pending |
-| AUDIT-07 | Phase 2: Audit Engine | Pending |
+| AUDIT-06 | Phase 2: Audit Engine | Complete |
+| AUDIT-07 | Phase 2: Audit Engine | Complete |
 | AUDIT-08 | Phase 2: Audit Engine | Pending |
-| AUDIT-09 | Phase 2: Audit Engine | Pending |
+| AUDIT-09 | Phase 2: Audit Engine | Complete |
 | DATA-01 | Phase 3: Data Injection & Plugin UI | Pending |
 | DATA-02 | Phase 3: Data Injection & Plugin UI | Pending |
 | DATA-03 | Phase 3: Data Injection & Plugin UI | Pending |
