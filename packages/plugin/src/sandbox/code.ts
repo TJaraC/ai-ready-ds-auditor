@@ -47,11 +47,12 @@ figma.ui.onmessage = (raw: unknown): void => {
       break;
     }
     case 'SELECT_NODE': {
-      // Navigate canvas to selected node
-      const node = figma.getNodeById(msg.nodeId);
-      if (node && 'type' in node) {
-        figma.viewport.scrollAndZoomIntoView([node as SceneNode]);
-      }
+      // Navigate canvas to selected node (dynamic-page requires async variant)
+      figma.getNodeByIdAsync(msg.nodeId).then((node) => {
+        if (node && 'type' in node) {
+          figma.viewport.scrollAndZoomIntoView([node as SceneNode]);
+        }
+      });
       break;
     }
     default: {
