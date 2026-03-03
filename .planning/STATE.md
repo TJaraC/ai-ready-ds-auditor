@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-current_plan: 03-02
+current_plan: 03-03
 status: in_progress
-stopped_at: "Completed 03-01-PLAN.md"
-last_updated: "2026-03-03T19:29:50Z"
+stopped_at: "Completed 03-02-PLAN.md"
+last_updated: "2026-03-03T18:30:05Z"
 last_activity: 2026-03-03
 progress:
   total_phases: 5
   completed_phases: 2
   total_plans: 9
-  completed_plans: 7
+  completed_plans: 8
 ---
 
 # Project State
@@ -26,12 +26,12 @@ See: .planning/PROJECT.md (updated 2026-03-02)
 ## Current Position
 
 **Phase:** 3 of 5 (Data Injection & Plugin UI) — IN PROGRESS
-**Current Plan:** 03-02 (next)
+**Current Plan:** 03-03 (next)
 **Total Plans in Phase:** 3
-**Status:** In progress — 03-01 complete
+**Status:** In progress — 03-01 and 03-02 complete
 **Last Activity:** 2026-03-03
 
-Progress: [#######...] 47%
+Progress: [########..] 53%
 
 ## Performance Metrics
 
@@ -93,6 +93,10 @@ Recent decisions affecting current work:
 - [Phase 03-data-injection 03-01]: setPluginData(key, '') is the Figma API deletion pattern — empty string removes the key
 - [Phase 03-data-injection 03-01]: documentchange listener registered at module level (not inside onmessage) — fires for ALL document changes, not just after UI interaction
 
+- [Phase 03-data-injection 03-02]: SCAN_COMPLETE must be emitted from INJECT_DATA handler before INJECT_COMPLETE -- UI listens to SCAN_COMPLETE to get report for dashboard rendering; 03-03 must patch code.ts
+- [Phase 03-data-injection 03-02]: UI phase state machine: scanning -> (SCAN_PROGRESS) -> (SCAN_COMPLETE sets report + injecting) -> (INJECT_COMPLETE sets complete)
+- [Phase 03-data-injection 03-02]: Inline sub-components (IssueGroup, StatCard) in App.tsx single file for minimal bundle surface and predictable size
+
 ### Pending Todos
 
 None yet.
@@ -100,6 +104,7 @@ None yet.
 ### Blockers/Concerns
 
 - [Research]: Confirm pluginData is accessible via Figma REST API on free tier before Phase 4
+- [03-03 required]: code.ts INJECT_DATA handler must emit SCAN_COMPLETE with report before INJECT_COMPLETE -- otherwise UI dashboard shows No report available after injection
 
 ## Session Continuity
 

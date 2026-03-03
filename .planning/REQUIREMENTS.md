@@ -45,19 +45,19 @@
 - [x] **DATA-05**: Chunk sizes are measured using `TextEncoder` for byte-accurate counting (not character counting)
 - [x] **DATA-06**: Plugin listens to `figma.on("documentchange")` with a 2-second debounce
 - [x] **DATA-07**: When relevant changes are detected (component/style/variable modifications), UI receives a sync-outdated message
-- [ ] **DATA-08**: UI displays a visual "Out of Sync" indicator when data is outdated since last injection
+- [x] **DATA-08**: UI displays a visual "Out of Sync" indicator when data is outdated since last injection
 
 ### Figma Plugin — UI (UI)
 
-- [ ] **UI-01**: Plugin has two tabs: "Audit & Inject" and "AI Context"
-- [ ] **UI-02**: "Audit & Inject" tab shows a health dashboard: total components, total tokens, audit issue count by category, overall health score
-- [ ] **UI-03**: "Audit & Inject" tab has a primary "Inject / Update" button that triggers a full scan and data injection
-- [ ] **UI-04**: Each audit issue in the dashboard is clickable and navigates Figma's canvas to the offending node (click-to-select)
-- [ ] **UI-05**: "AI Context" tab has a CSS framework selector: Tailwind CSS, CSS Variables, CSS Modules, Styled Components/Emotion
-- [ ] **UI-06**: "AI Context" tab has a button to export the injected JSON to a local file
-- [ ] **UI-07**: "AI Context" tab displays the Figma File ID and metadata fields needed to configure the MCP server
-- [ ] **UI-08**: All async operations show clear loading states
-- [ ] **UI-09**: All error conditions show clear, actionable error messages (not raw error objects)
+- [x] **UI-01**: Plugin has two tabs: "Audit & Inject" and "AI Context"
+- [x] **UI-02**: "Audit & Inject" tab shows a health dashboard: total components, total tokens, audit issue count by category, overall health score
+- [x] **UI-03**: "Audit & Inject" tab has a primary "Inject / Update" button that triggers a full scan and data injection
+- [x] **UI-04**: Each audit issue in the dashboard is clickable and navigates Figma's canvas to the offending node (click-to-select)
+- [x] **UI-05**: "AI Context" tab has a CSS framework selector: Tailwind CSS, CSS Variables, CSS Modules, Styled Components/Emotion
+- [x] **UI-06**: "AI Context" tab has a button to export the injected JSON to a local file
+- [x] **UI-07**: "AI Context" tab displays the Figma File ID and metadata fields needed to configure the MCP server
+- [x] **UI-08**: All async operations show clear loading states
+- [x] **UI-09**: All error conditions show clear, actionable error messages (not raw error objects)
 - [ ] **UI-10**: Plugin UI bundle size stays under 200kB gzipped
 
 ### MCP Server — Core (MCP)
@@ -164,16 +164,16 @@ Which phases cover which requirements. Updated during roadmap creation.
 | DATA-05 | Phase 3: Data Injection & Plugin UI | Complete |
 | DATA-06 | Phase 3: Data Injection & Plugin UI | Complete |
 | DATA-07 | Phase 3: Data Injection & Plugin UI | Complete |
-| DATA-08 | Phase 3: Data Injection & Plugin UI | Pending |
-| UI-01 | Phase 3: Data Injection & Plugin UI | Pending |
-| UI-02 | Phase 3: Data Injection & Plugin UI | Pending |
-| UI-03 | Phase 3: Data Injection & Plugin UI | Pending |
-| UI-04 | Phase 3: Data Injection & Plugin UI | Pending |
-| UI-05 | Phase 3: Data Injection & Plugin UI | Pending |
-| UI-06 | Phase 3: Data Injection & Plugin UI | Pending |
-| UI-07 | Phase 3: Data Injection & Plugin UI | Pending |
-| UI-08 | Phase 3: Data Injection & Plugin UI | Pending |
-| UI-09 | Phase 3: Data Injection & Plugin UI | Pending |
+| DATA-08 | Phase 3: Data Injection & Plugin UI | Complete |
+| UI-01 | Phase 3: Data Injection & Plugin UI | Complete |
+| UI-02 | Phase 3: Data Injection & Plugin UI | Complete |
+| UI-03 | Phase 3: Data Injection & Plugin UI | Complete |
+| UI-04 | Phase 3: Data Injection & Plugin UI | Complete |
+| UI-05 | Phase 3: Data Injection & Plugin UI | Complete |
+| UI-06 | Phase 3: Data Injection & Plugin UI | Complete |
+| UI-07 | Phase 3: Data Injection & Plugin UI | Complete |
+| UI-08 | Phase 3: Data Injection & Plugin UI | Complete |
+| UI-09 | Phase 3: Data Injection & Plugin UI | Complete |
 | UI-10 | Phase 3: Data Injection & Plugin UI | Pending |
 | MCP-01 | Phase 4: MCP Server | Pending |
 | MCP-02 | Phase 4: MCP Server | Pending |
