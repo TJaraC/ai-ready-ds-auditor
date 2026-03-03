@@ -3,7 +3,7 @@ export interface AuditIssue {
   nodeId: string;
   nodeName: string;
   pageName: string;
-  category: 'color' | 'typography' | 'spacing' | 'component';
+  category: 'color' | 'typography' | 'spacing' | 'border' | 'effects' | 'component';
   issueType: string;
   offendingValue: string;
   suggestedFix: string;

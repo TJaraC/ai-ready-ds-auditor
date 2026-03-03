@@ -4,35 +4,41 @@ import { auditFills, auditStrokes } from './color';
 import { auditTypography } from './typography';
 import { auditSpacing } from './spacing';
 import { auditComponents } from './components';
+import { auditBorderShape } from './border';
+import { auditEffects } from './effects';
 
 /**
- * runAudit() — Main orchestrator for the full scene-graph audit.
+ * runAudit() — Main orchestrator for the design system audit.
+ *
+ * Scope: only nodes that are descendants of COMPONENT definitions.
+ * This targets the design system's component quality rather than arbitrary canvas frames.
  *
  * Two-pass algorithm:
- *   Pass 0: Pre-load all styles/variables and set performance flags.
- *   Pass 1: Collect all component names across all pages (for disconnected-component detection).
- *   Pass 2: Audit each page, run all four auditors per node category, send SCAN_PROGRESS.
- *
- * Returns a fully typed AuditReport with all findings assembled.
+ *   Pass 0: Pre-load all styles and variables.
+ *   Pass 1: Collect all component names across pages (for disconnected-component detection).
+ *   Pass 2: For each page, find all COMPONENT nodes, audit every descendant.
  */
 export async function runAudit(): Promise<AuditReport> {
-  // PASS 0 — Performance flag: skip invisible instance children during traversal
+  // PASS 0 — Performance: skip invisible instance children during traversal
   figma.skipInvisibleInstanceChildren = true;
 
-  // PASS 0 — Pre-load styles and variables (async variants REQUIRED — sync methods throw with dynamic-page manifest)
-  const [paintStyles, textStyles, variables] = await Promise.all([
+  // PASS 0 — Pre-load styles and variables (async variants required for dynamic-page manifests)
+  const [paintStyles, textStyles, effectStyles, variables] = await Promise.all([
     figma.getLocalPaintStylesAsync(),
     figma.getLocalTextStylesAsync(),
+    figma.getLocalEffectStylesAsync(),
     figma.variables.getLocalVariablesAsync(),
   ]);
+
   const styleIds = new Set([
     ...paintStyles.map((s) => s.id),
     ...textStyles.map((s) => s.id),
   ]);
-  const varIds = new Set(variables.map((v) => v.id));
-  void varIds; // varIds reserved for future use — currently unused by auditors
+  const effectStyleIds = new Set(effectStyles.map((s) => s.id));
 
-  // PASS 1 — Collect all component names across all pages (for disconnected-component detection)
+  void variables; // reserved for future token extraction in Phase 4
+
+  // PASS 1 — Collect all component names across all pages (disconnected-component detection)
   const pages = figma.root.children;
   const componentNames = new Set<string>();
   for (const page of pages) {
@@ -42,7 +48,7 @@ export async function runAudit(): Promise<AuditReport> {
       .forEach((n) => componentNames.add(n.name));
   }
 
-  // PASS 2 — Audit each page (pages are already loaded from pass 1)
+  // PASS 2 — Audit each page, scoped to COMPONENT descendants
   const allIssues: AuditIssue[] = [];
   const allComponents: ComponentSpec[] = [];
 
@@ -50,54 +56,55 @@ export async function runAudit(): Promise<AuditReport> {
     const page = pages[i]!;
     const pageName = page.name;
 
-    // Collect minimal ComponentSpec from this page
-    page.findAllWithCriteria({ types: ['COMPONENT'] }).forEach((comp) => {
+    // Collect ComponentSpec for this page
+    const pageComponents = page.findAllWithCriteria({ types: ['COMPONENT'] });
+    pageComponents.forEach((comp) => {
       allComponents.push({
         id: comp.id,
         name: comp.name,
         key: comp.key,
         description: comp.description,
-        variants: [], // variant details are Phase 3/4 concern
+        variants: [],
         props: [],
         usageCount: 0,
       });
     });
 
-    // TEXT nodes: audit fills and typography
-    const textNodes = page.findAllWithCriteria({ types: ['TEXT'] });
-    for (const node of textNodes) {
-      allIssues.push(...auditFills(node, pageName, styleIds));
-      allIssues.push(...auditTypography(node, pageName, styleIds));
+    // Audit only nodes inside COMPONENT definitions (the component itself + all descendants)
+    for (const comp of pageComponents) {
+      const nodes: SceneNode[] = [comp, ...comp.findAll()];
+
+      for (const node of nodes) {
+        // Color: fills and strokes (guards for property existence are inside each auditor)
+        allIssues.push(...auditFills(node, pageName, styleIds));
+        allIssues.push(...auditStrokes(node, pageName, styleIds));
+
+        // Typography: text-specific properties
+        if (node.type === 'TEXT') {
+          allIssues.push(...auditTypography(node, pageName, styleIds));
+        }
+
+        // Spacing: auto-layout padding and gap (FRAME, COMPONENT, INSTANCE only)
+        if (
+          node.type === 'FRAME' ||
+          node.type === 'COMPONENT' ||
+          node.type === 'INSTANCE'
+        ) {
+          allIssues.push(...auditSpacing(node, pageName));
+        }
+
+        // Border: cornerRadius and strokeWeight
+        allIssues.push(...auditBorderShape(node, pageName));
+
+        // Effects: hardcoded shadows without effect style
+        allIssues.push(...auditEffects(node, pageName, effectStyleIds));
+
+        // Component: disconnected frames/groups that should be component instances
+        allIssues.push(...auditComponents(node, pageName, componentNames));
+      }
     }
 
-    // FRAME/COMPONENT/INSTANCE nodes: audit fills, strokes, spacing, and disconnected components
-    const frameNodes = page.findAllWithCriteria({ types: ['FRAME', 'COMPONENT', 'INSTANCE'] });
-    for (const node of frameNodes) {
-      allIssues.push(...auditFills(node, pageName, styleIds));
-      allIssues.push(...auditStrokes(node, pageName, styleIds));
-      allIssues.push(...auditSpacing(node, pageName));
-      allIssues.push(...auditComponents(node, pageName, componentNames));
-    }
-
-    // Shape nodes (rectangles, ellipses, etc.): audit fills and strokes only
-    const shapeNodes = page.findAllWithCriteria({
-      types: ['RECTANGLE', 'ELLIPSE', 'POLYGON', 'STAR', 'VECTOR', 'LINE'],
-    });
-    for (const node of shapeNodes) {
-      allIssues.push(...auditFills(node, pageName, styleIds));
-      allIssues.push(...auditStrokes(node, pageName, styleIds));
-    }
-
-    // GROUP nodes: audit fills, strokes, and disconnected-component detection.
-    // Do NOT pass to auditSpacing — GROUP nodes have no layoutMode property.
-    const groupNodes = page.findAllWithCriteria({ types: ['GROUP'] });
-    for (const node of groupNodes) {
-      allIssues.push(...auditFills(node, pageName, styleIds));
-      allIssues.push(...auditStrokes(node, pageName, styleIds));
-      allIssues.push(...auditComponents(node, pageName, componentNames));
-    }
-
-    // Send SCAN_PROGRESS after each page
+    // Report progress after each page
     const percent = Math.round(((i + 1) / pages.length) * 100);
     const progressMsg: SandboxMessage = {
       type: 'SCAN_PROGRESS',
@@ -107,6 +114,5 @@ export async function runAudit(): Promise<AuditReport> {
     figma.ui.postMessage(progressMsg);
   }
 
-  // Use figma.root.name as fileId — figma.fileKey is undefined for non-private plugins (RESEARCH Pitfall 5)
   return assembleReport(allIssues, allComponents, [], figma.root.name, figma.root.name);
 }

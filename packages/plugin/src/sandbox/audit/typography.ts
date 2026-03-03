@@ -64,5 +64,41 @@ export function auditTypography(
     );
   }
 
+  // Check lineHeight — skip AUTO (intentional default), skip if bound to variable
+  if (!boundVars?.lineHeight && node.lineHeight !== figma.mixed) {
+    const lh = node.lineHeight as LineHeight;
+    if (lh.unit !== 'AUTO') {
+      const value = lh.unit === 'PIXELS' ? `${lh.value}px` : `${lh.value}%`;
+      issues.push(
+        buildIssue(
+          node,
+          pageName,
+          'typography',
+          'hardcoded-lineHeight',
+          value,
+          'Apply a text style or bind lineHeight to a variable',
+        ),
+      );
+    }
+  }
+
+  // Check letterSpacing — skip 0 (normal default), skip if bound to variable
+  if (!boundVars?.letterSpacing && node.letterSpacing !== figma.mixed) {
+    const ls = node.letterSpacing as LetterSpacing;
+    if (ls.value !== 0) {
+      const value = ls.unit === 'PIXELS' ? `${ls.value}px` : `${ls.value}%`;
+      issues.push(
+        buildIssue(
+          node,
+          pageName,
+          'typography',
+          'hardcoded-letterSpacing',
+          value,
+          'Apply a text style or bind letterSpacing to a variable',
+        ),
+      );
+    }
+  }
+
   return issues;
 }

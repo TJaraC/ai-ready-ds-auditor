@@ -283,7 +283,7 @@ export function App(): React.ReactElement {
   // Render helpers
   // -------------------------------------------------------------------------
 
-  const CATEGORY_ORDER: Array<AuditIssue['category']> = ['color', 'typography', 'spacing', 'component'];
+  const CATEGORY_ORDER: Array<AuditIssue['category']> = ['color', 'typography', 'spacing', 'border', 'effects', 'component'];
 
   function renderAuditContent(): React.ReactElement {
     switch (phase) {
