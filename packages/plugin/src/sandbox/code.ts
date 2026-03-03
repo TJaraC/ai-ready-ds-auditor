@@ -25,6 +25,7 @@ figma.ui.onmessage = (raw: unknown): void => {
       break;
     }
     case 'INJECT_DATA': {
+      isInjecting = true;
       runAudit()
         .then((report) => {
           // Send SCAN_COMPLETE first — UI needs the report to render the dashboard
@@ -32,6 +33,15 @@ figma.ui.onmessage = (raw: unknown): void => {
           figma.ui.postMessage(scanMsg);
 
           const result = injectReport(report);
+
+          // Clear any pending SYNC_OUTDATED triggered by setPluginData writes,
+          // then lower the flag so real document changes are tracked again.
+          if (syncDebounceTimer !== null) {
+            clearTimeout(syncDebounceTimer);
+            syncDebounceTimer = null;
+          }
+          isInjecting = false;
+
           const doneMsg: SandboxMessage = {
             type: 'INJECT_COMPLETE',
             bytesWritten: result.bytesWritten,
@@ -40,6 +50,7 @@ figma.ui.onmessage = (raw: unknown): void => {
           figma.ui.postMessage(doneMsg);
         })
         .catch((err: unknown) => {
+          isInjecting = false;
           const message = err instanceof Error ? err.message : 'Injection failed — unknown error';
           const errMsg: SandboxMessage = { type: 'INJECT_ERROR', message };
           figma.ui.postMessage(errMsg);
@@ -67,10 +78,17 @@ figma.ui.onmessage = (raw: unknown): void => {
 
 // Detect document changes and notify UI that injected data is stale (2-second debounce).
 // Figma requires loadAllPagesAsync() before registering a documentchange handler.
+// isInjecting suppresses the handler while setPluginData() writes are in flight
+// (each write triggers PROPERTY_CHANGE which would falsely mark data as stale).
 let syncDebounceTimer: ReturnType<typeof setTimeout> | null = null;
+let isInjecting = false;
 
 figma.loadAllPagesAsync().then(() => {
   figma.on('documentchange', (event) => {
+    // Suppress during injection — setPluginData writes trigger PROPERTY_CHANGE
+    // which would falsely mark just-injected data as stale.
+    if (isInjecting) return;
+
     // NOTE: Figma documentchange does NOT fire for variable changes (known API limitation).
     const relevant = event.documentChanges.some(
       (change) =>
