@@ -38,13 +38,13 @@
 
 ### Figma Plugin — Data Injection & Sync (DATA)
 
-- [ ] **DATA-01**: Audit results are serialized to JSON and injected into the Figma document via `figma.root.setPluginData()`
-- [ ] **DATA-02**: If serialized JSON exceeds 90kB, it is split into chunks stored under keys `ai_data_1`, `ai_data_2`, etc.
-- [ ] **DATA-03**: A metadata key `ai_data_meta` stores chunk count, total byte size, schema version, and last-updated timestamp
-- [ ] **DATA-04**: Before writing new chunks, all existing `ai_data_*` keys are cleared to prevent stale data corruption
-- [ ] **DATA-05**: Chunk sizes are measured using `TextEncoder` for byte-accurate counting (not character counting)
-- [ ] **DATA-06**: Plugin listens to `figma.on("documentchange")` with a 2-second debounce
-- [ ] **DATA-07**: When relevant changes are detected (component/style/variable modifications), UI receives a sync-outdated message
+- [x] **DATA-01**: Audit results are serialized to JSON and injected into the Figma document via `figma.root.setPluginData()`
+- [x] **DATA-02**: If serialized JSON exceeds 90kB, it is split into chunks stored under keys `ai_data_1`, `ai_data_2`, etc.
+- [x] **DATA-03**: A metadata key `ai_data_meta` stores chunk count, total byte size, schema version, and last-updated timestamp
+- [x] **DATA-04**: Before writing new chunks, all existing `ai_data_*` keys are cleared to prevent stale data corruption
+- [x] **DATA-05**: Chunk sizes are measured using `TextEncoder` for byte-accurate counting (not character counting)
+- [x] **DATA-06**: Plugin listens to `figma.on("documentchange")` with a 2-second debounce
+- [x] **DATA-07**: When relevant changes are detected (component/style/variable modifications), UI receives a sync-outdated message
 - [ ] **DATA-08**: UI displays a visual "Out of Sync" indicator when data is outdated since last injection
 
 ### Figma Plugin — UI (UI)
@@ -157,13 +157,13 @@ Which phases cover which requirements. Updated during roadmap creation.
 | AUDIT-07 | Phase 2: Audit Engine | Complete |
 | AUDIT-08 | Phase 2: Audit Engine | Complete |
 | AUDIT-09 | Phase 2: Audit Engine | Complete |
-| DATA-01 | Phase 3: Data Injection & Plugin UI | Pending |
-| DATA-02 | Phase 3: Data Injection & Plugin UI | Pending |
-| DATA-03 | Phase 3: Data Injection & Plugin UI | Pending |
-| DATA-04 | Phase 3: Data Injection & Plugin UI | Pending |
-| DATA-05 | Phase 3: Data Injection & Plugin UI | Pending |
-| DATA-06 | Phase 3: Data Injection & Plugin UI | Pending |
-| DATA-07 | Phase 3: Data Injection & Plugin UI | Pending |
+| DATA-01 | Phase 3: Data Injection & Plugin UI | Complete |
+| DATA-02 | Phase 3: Data Injection & Plugin UI | Complete |
+| DATA-03 | Phase 3: Data Injection & Plugin UI | Complete |
+| DATA-04 | Phase 3: Data Injection & Plugin UI | Complete |
+| DATA-05 | Phase 3: Data Injection & Plugin UI | Complete |
+| DATA-06 | Phase 3: Data Injection & Plugin UI | Complete |
+| DATA-07 | Phase 3: Data Injection & Plugin UI | Complete |
 | DATA-08 | Phase 3: Data Injection & Plugin UI | Pending |
 | UI-01 | Phase 3: Data Injection & Plugin UI | Pending |
 | UI-02 | Phase 3: Data Injection & Plugin UI | Pending |
