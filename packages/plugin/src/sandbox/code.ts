@@ -25,7 +25,6 @@ figma.ui.onmessage = (raw: unknown): void => {
       break;
     }
     case 'INJECT_DATA': {
-      isInjecting = true;
       runAudit()
         .then((report) => {
           // Send SCAN_COMPLETE first — UI needs the report to render the dashboard
