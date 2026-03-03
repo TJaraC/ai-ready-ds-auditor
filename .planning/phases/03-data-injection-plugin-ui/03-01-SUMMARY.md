@@ -76,7 +76,7 @@ Each task was committed atomically:
 1. **Task 1: Create inject.ts — chunked injection function** - `01b3bfc` (feat)
 2. **Task 2: Wire INJECT_DATA handler and documentchange listener in code.ts** - `dd29bd2` (feat)
 
-**Plan metadata:** `[to be added]` (docs: complete plan)
+**Plan metadata:** `5864976` (docs: complete plan)
 
 ## Files Created/Modified
 - `packages/plugin/src/sandbox/inject.ts` - Pure chunked injection function; exports `injectReport` and `InjectionResult`

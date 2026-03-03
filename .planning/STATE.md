@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-current_plan: 03-03
-status: in_progress
-stopped_at: "Completed 03-02-PLAN.md"
-last_updated: "2026-03-03T18:30:05Z"
+current_plan: 04-01
+status: not_started
+stopped_at: "Phase 3 complete — human verified in Figma Desktop"
+last_updated: "2026-03-03T21:30:00Z"
 last_activity: 2026-03-03
 progress:
   total_phases: 5
-  completed_phases: 2
+  completed_phases: 3
   total_plans: 9
-  completed_plans: 8
+  completed_plans: 9
 ---
 
 # Project State
@@ -21,93 +21,78 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-02)
 
 **Core value:** Any Non-Enterprise Figma user can connect their Design System to a local AI IDE in under 5 minutes, get live sync indicators, and give the AI full structured context -- for free.
-**Current focus:** Phase 3: Data Injection & Plugin UI
+**Current focus:** Phase 4: MCP Server
 
 ## Current Position
 
-**Phase:** 3 of 5 (Data Injection & Plugin UI) — IN PROGRESS
-**Current Plan:** 03-03 (next)
-**Total Plans in Phase:** 3
-**Status:** In progress — 03-01 and 03-02 complete
+**Phase:** 4 of 5 (MCP Server) — NOT STARTED
+**Current Plan:** 04-01 (next to plan)
+**Total Plans in Phase:** TBD (ROADMAP says 3 plans)
+**Status:** Phase 3 complete — ready to start Phase 4
 **Last Activity:** 2026-03-03
 
-Progress: [########..] 53%
+Progress: [##########..] 60%
 
 ## Performance Metrics
 
-**Velocity:**
-- Total plans completed: 4
-- Average duration: ~13 min
-- Total execution time: ~50 min
-
 **By Phase:**
 
-| Phase | Plans | Total | Avg/Plan |
-|-------|-------|-------|----------|
+| Phase | Plans | Duration | Avg/Plan |
+|-------|-------|----------|----------|
 | 01-foundation | 3 | ~48 min | ~16 min |
 | 02-audit-engine | 3 | 15 min | 5 min |
-
-**Recent Trend:**
-- Last 5 plans: 15min, 25min, 2min, 5min, 8min
-- Trend: Phase 2 complete — 02-03 slightly longer due to Figma ES2019 target fix
-
-*Updated after each plan completion*
-| Phase 01-foundation P01 | 8min | 2 tasks | 21 files |
-| Phase 01-foundation P02 | 15 | 2 tasks | 11 files |
-| Phase 01-foundation P03 | 25min | 2 tasks | 3 files |
-| Phase 02-audit-engine P01 | 2min | 2 tasks | 3 files |
-| Phase 02-audit-engine P02 | 5min | 2 tasks | 4 files |
-| Phase 02-audit-engine P03 | 8min | 3 tasks | 4 files |
-| Phase 03-data-injection P01 | 2min | 2 tasks | 2 files |
+| 03-data-injection | 3 | ~90 min | ~30 min |
 
 ## Accumulated Context
 
 ### Decisions
 
-Decisions are logged in PROJECT.md Key Decisions table.
-Recent decisions affecting current work:
-
-- [Roadmap]: 5 phases derived from requirement categories: Foundation (INFRA+PLUG), Audit Engine (AUDIT), Data Injection & UI (DATA+UI), MCP Server (MCP+ERR+TOOL+FMT), Integration & Polish
-- [Phase 01-foundation]: Used typescript-eslint unified package v8.56.1 for flat config API
-- [Phase 01-foundation]: jiti required by ESLint 10 for TypeScript config file loading — added as dev dependency
-- [Phase 01-foundation]: moduleResolution: bundler in tsconfig.base.json — correct for Vite consumers; mcp-server adds Node resolution in Phase 4
-- [Phase 01-foundation]: Renamed HTML entry to ui.html — viteSingleFile preserves stem so dist/ui.html matches manifest without renaming config
-- [Phase 01-foundation]: Used npm-run-all2 (maintained fork) instead of archived npm-run-all — identical API
-- [Phase 01-foundation]: vite-plugin-singlefile@2.3.0 works with Vite 7 — no fork needed (RESEARCH open question resolved)
-- [Phase 01-foundation]: tsconfig.json UI: noEmit=true, Vite handles bundling; tsconfig.sandbox.json typeRoots @figma only prevents DOM type collisions
-- [Phase 01-foundation]: dist/manifest.json paths must be relative (code.js / ui.html); source manifest uses dist/-prefixed paths; build:manifest strips prefix when copying
-- [Phase 01-foundation]: Phase 1 complete: typed sandbox/UI round-trip proven in live Figma Desktop — SYNC_OUTDATED on init, START_SCAN button triggers SCAN_PROGRESS echo
-- [Phase 02-audit-engine]: rgbToHex takes inline { r, g, b } type (not @figma/plugin-typings RGB) so pure helpers can be tested without Figma runtime
-- [Phase 02-audit-engine]: Plan had hex typo (#804bbf vs correct #8040bf for 0.251 green channel) — Math.round behavior is correct; test fixed to match
-- [Phase 02-audit-engine]: vitest.config.ts at packages/plugin/ root with @shared alias resolves to ../shared/src
-- [Phase 02-audit-engine]: auditComponents uses FRAME/GROUP type guard — INSTANCE/COMPONENT node types never flagged as disconnected
-- [Phase 02-audit-engine]: auditSpacing skips zero values — zero padding is intentional design choice, not a missing token
-- [Phase 02-audit-engine]: Style binding checked first (fillStyleId/strokeStyleId/textStyleId in styleIds set) before per-property variable checks
-- [Phase 02-audit-engine]: auditTypography gates fontWeight on fontSize also being unbound — avoids noise on partially-bound nodes
-- [Phase 02-audit-engine]: Sandbox build target set to ES2019 — Figma JS engine rejects ?. and ?? operators; esbuild downlevels them when target='es2019'
-- [Phase 02-audit-engine]: Two-pass traversal — pass 1 collects all component names across pages before auditing (disconnected-component detection requires cross-page component knowledge)
-- [Phase 02-audit-engine]: GROUP nodes excluded from auditSpacing — GROUP has no layoutMode property; only audited for fills, strokes, component detection
-- [Phase 03-data-injection 03-01]: TextEncoder accessed via (globalThis as any).TextEncoder — ES2019 lib omits the type but Figma sandbox has it at runtime; json.length fallback if unavailable
-- [Phase 03-data-injection 03-01]: Chunk splitting by character count (81,000 chars = MAX_CHUNK_BYTES * 0.9) — avoids splitting multi-byte UTF-8 sequences mid-character
-- [Phase 03-data-injection 03-01]: ai_data_meta written LAST — MCP reader detects incomplete writes by checking meta existence before reading chunks
-- [Phase 03-data-injection 03-01]: setPluginData(key, '') is the Figma API deletion pattern — empty string removes the key
-- [Phase 03-data-injection 03-01]: documentchange listener registered at module level (not inside onmessage) — fires for ALL document changes, not just after UI interaction
-
-- [Phase 03-data-injection 03-02]: SCAN_COMPLETE must be emitted from INJECT_DATA handler before INJECT_COMPLETE -- UI listens to SCAN_COMPLETE to get report for dashboard rendering; 03-03 must patch code.ts
-- [Phase 03-data-injection 03-02]: UI phase state machine: scanning -> (SCAN_PROGRESS) -> (SCAN_COMPLETE sets report + injecting) -> (INJECT_COMPLETE sets complete)
-- [Phase 03-data-injection 03-02]: Inline sub-components (IssueGroup, StatCard) in App.tsx single file for minimal bundle surface and predictable size
+- [Roadmap]: 5 phases derived from requirement categories
+- [Phase 01-foundation]: typescript-eslint v8.56.1 flat config API
+- [Phase 01-foundation]: jiti required by ESLint 10 for TypeScript config loading
+- [Phase 01-foundation]: moduleResolution: bundler in tsconfig.base.json
+- [Phase 01-foundation]: Renamed HTML entry to ui.html
+- [Phase 01-foundation]: npm-run-all2 (maintained fork) instead of archived npm-run-all
+- [Phase 01-foundation]: vite-plugin-singlefile@2.3.0 works with Vite 7
+- [Phase 01-foundation]: tsconfig.json UI: noEmit=true; tsconfig.sandbox.json typeRoots @figma only
+- [Phase 01-foundation]: dist/manifest.json paths must be relative; build:manifest strips prefix
+- [Phase 02-audit-engine]: rgbToHex takes inline { r, g, b } type (not @figma/plugin-typings RGB)
+- [Phase 02-audit-engine]: vitest.config.ts at packages/plugin/ root with @shared alias
+- [Phase 02-audit-engine]: auditComponents uses FRAME/GROUP type guard
+- [Phase 02-audit-engine]: auditSpacing skips zero values
+- [Phase 02-audit-engine]: Style binding checked first before per-property variable checks
+- [Phase 02-audit-engine]: auditTypography gates fontWeight on fontSize also being unbound
+- [Phase 02-audit-engine]: Sandbox build target ES2019
+- [Phase 02-audit-engine]: Two-pass traversal for component name collection
+- [Phase 02-audit-engine]: GROUP nodes excluded from auditSpacing
+- [Phase 03-data-injection 03-01]: TextEncoder via (globalThis as any).TextEncoder
+- [Phase 03-data-injection 03-01]: Chunk splitting by character count (81,000 chars)
+- [Phase 03-data-injection 03-01]: ai_data_meta written LAST
+- [Phase 03-data-injection 03-01]: setPluginData(key, '') is Figma deletion pattern
+- [Phase 03-data-injection 03-01]: documentchange listener at module level
+- [Phase 03-data-injection 03-02]: SCAN_COMPLETE before INJECT_COMPLETE for UI dashboard
+- [Phase 03-data-injection 03-02]: Inline sub-components in App.tsx
+- [Phase 03-data-injection 03-03]: optional catch binding (catch {}) rejected by Figma parser — use typeof guard
+- [Phase 03-data-injection 03-03]: figma.loadAllPagesAsync() required before documentchange handler
+- [Phase 03-data-injection 03-03]: figma.getNodeByIdAsync() required in dynamic-page mode
+- [Phase 03-data-injection 03-03]: Plugin manifest id field required for setPluginData access
+- [Phase 03-data-injection 03-03]: Time-based grace period (5s) for SYNC_OUTDATED suppression after injection
+- [Phase 03-data-injection 03-03]: Audit scoped to COMPONENT descendants only — reduces noise dramatically
+- [Phase 03-data-injection 03-03]: AuditIssue.category extended with 'border' | 'effects'
+- [Phase 03-data-injection 03-03]: lineHeight AUTO and letterSpacing 0 skipped (intentional defaults)
+- [Phase 03-data-injection 03-03]: cornerRadius figma.mixed skipped (per-corner radii future improvement)
 
 ### Pending Todos
 
-None yet.
+None.
 
 ### Blockers/Concerns
 
-- [Research]: Confirm pluginData is accessible via Figma REST API on free tier before Phase 4
-- [03-03 required]: code.ts INJECT_DATA handler must emit SCAN_COMPLETE with report before INJECT_COMPLETE -- otherwise UI dashboard shows No report available after injection
+- [Phase 4 prerequisite]: Confirm figma.root pluginData is accessible via Figma REST API on free tier (getPluginData equivalent in REST). This was flagged in RESEARCH.md — must verify before building the MCP chunk-reconstruction pipeline.
 
 ## Session Continuity
 
-**Last session:** 2026-03-03T19:29:50Z
-**Stopped at:** Completed 03-01-PLAN.md
-**Resume file:** .planning/phases/03-data-injection-plugin-ui/03-01-SUMMARY.md
+**Last session:** 2026-03-03T21:30:00Z
+**Stopped at:** Phase 3 complete — all 9 plans done, human verified
+**Resume file:** .planning/phases/03-data-injection-plugin-ui/03-03-SUMMARY.md
+**Next action:** /gsd:plan-phase for Phase 4 (MCP Server)

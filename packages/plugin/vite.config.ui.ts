@@ -14,6 +14,11 @@ export default defineConfig({
     outDir: path.resolve(__dirname, 'dist'),
     rollupOptions: {
       input: path.resolve(__dirname, 'src/ui/ui.html'),
+      output: {
+        format: 'iife',
+        name: 'DSAuditorUI',
+        inlineDynamicImports: true,
+      },
     },
   },
   resolve: {
