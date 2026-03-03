@@ -20,7 +20,7 @@
 - [x] **PLUG-01**: Vite configured to produce dual-build output: `code.js` (sandbox) + `ui.html` (single-file inlined iframe)
 - [x] **PLUG-02**: `vite-plugin-singlefile` (or equivalent) inlines all UI assets into a single `ui.html` file
 - [x] **PLUG-03**: `@figma/plugin-typings` installed and applied to `code.ts` (sandbox TypeScript)
-- [ ] **PLUG-04**: Typed message protocol defined via shared discriminated union types between sandbox and UI
+- [x] **PLUG-04**: Typed message protocol defined via shared discriminated union types between sandbox and UI
 - [x] **PLUG-05**: Plugin manifest (`manifest.json`) configured with correct permissions, name, and entry points
 - [x] **PLUG-06**: Hot-reload development workflow functional (`npm run dev` in plugin package)
 
@@ -145,7 +145,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | PLUG-01 | Phase 1: Foundation | Complete |
 | PLUG-02 | Phase 1: Foundation | Complete |
 | PLUG-03 | Phase 1: Foundation | Complete |
-| PLUG-04 | Phase 1: Foundation | Pending |
+| PLUG-04 | Phase 1: Foundation | Complete |
 | PLUG-05 | Phase 1: Foundation | Complete |
 | PLUG-06 | Phase 1: Foundation | Complete |
 | AUDIT-01 | Phase 2: Audit Engine | Pending |

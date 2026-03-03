@@ -12,7 +12,7 @@ This roadmap delivers a production-grade Figma plugin and local MCP server that 
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Foundation** - Monorepo scaffold, shared types with schemaVersion, dual-build Vite plugin, sandbox/UI message protocol
+- [x] **Phase 1: Foundation** - Monorepo scaffold, shared types with schemaVersion, dual-build Vite plugin, sandbox/UI message protocol (completed 2026-03-03)
 - [ ] **Phase 2: Audit Engine** - Four auditors (color, typography, spacing, components) with scene graph traversal and progress reporting
 - [ ] **Phase 3: Data Injection & Plugin UI** - Chunked setPluginData injection, change detection, two-tab React UI with health dashboard
 - [ ] **Phase 4: MCP Server** - Figma REST API client, chunk reconstruction, three tool handlers, four CSS framework formatters, error handling
@@ -109,7 +109,7 @@ Phases execute in numeric order: 1 --> 2 --> 3 --> 4 --> 5
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation | 2/3 | In Progress|  |
+| 1. Foundation | 3/3 | Complete   | 2026-03-03 |
 | 2. Audit Engine | 0/? | Not started | - |
 | 3. Data Injection & Plugin UI | 0/? | Not started | - |
 | 4. MCP Server | 0/? | Not started | - |
