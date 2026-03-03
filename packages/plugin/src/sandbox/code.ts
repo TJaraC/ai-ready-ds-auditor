@@ -3,7 +3,7 @@ import { runAudit } from './audit/index';
 import { injectReport } from './inject';
 
 // Show the plugin UI
-figma.showUI(__html__, { width: 320, height: 480 });
+figma.showUI(__html__, { width: 320, height: 480, themeColors: true });
 
 // Handle messages from the UI iframe
 figma.ui.onmessage = (raw: unknown): void => {
@@ -27,6 +27,10 @@ figma.ui.onmessage = (raw: unknown): void => {
     case 'INJECT_DATA': {
       runAudit()
         .then((report) => {
+          // Send SCAN_COMPLETE first — UI needs the report to render the dashboard
+          const scanMsg: SandboxMessage = { type: 'SCAN_COMPLETE', report };
+          figma.ui.postMessage(scanMsg);
+
           const result = injectReport(report);
           const doneMsg: SandboxMessage = {
             type: 'INJECT_COMPLETE',
