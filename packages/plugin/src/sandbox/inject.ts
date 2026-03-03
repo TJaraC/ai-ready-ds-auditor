@@ -13,21 +13,12 @@ export function injectReport(report: AuditReport): InjectionResult {
   // 2. Measure byte length using TextEncoder (for metadata accuracy only).
   //    TextEncoder is not in ES2019 lib, so access via globalThis to avoid TS2304.
   //    Fall back to character count if TextEncoder is unavailable at runtime.
-  let totalBytes: number;
-  try {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const TextEncoderCtor = (globalThis as any).TextEncoder as (new () => { encode(s: string): Uint8Array }) | undefined;
-    if (TextEncoderCtor) {
-      const encoder = new TextEncoderCtor();
-      const bytes = encoder.encode(json);
-      totalBytes = bytes.length;
-    } else {
-      totalBytes = json.length;
-    }
-  } catch {
-    // Fallback: character count is a reasonable approximation for ASCII-heavy JSON
-    totalBytes = json.length;
-  }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const TextEncoderCtor = (globalThis as any).TextEncoder as (new () => { encode(s: string): Uint8Array }) | undefined;
+  const totalBytes: number =
+    typeof TextEncoderCtor === 'function'
+      ? new TextEncoderCtor().encode(json).length
+      : json.length;
 
   // 3. Clear all existing plugin data keys before writing (DATA-04)
   const existingKeys = figma.root.getPluginDataKeys();
