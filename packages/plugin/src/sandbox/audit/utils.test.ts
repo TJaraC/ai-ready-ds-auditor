@@ -14,16 +14,11 @@ describe('rgbToHex', () => {
     expect(rgbToHex({ r: 1, g: 0, b: 0 })).toBe('#ff0000');
   });
 
-  it('rounds fractional RGB values correctly (0.502, 0.251, 0.749) → #804bbf', () => {
-    // 0.502*255 = 128.01 → 128 = 0x80
-    // 0.251*255 = 64.005 → 64 = 0x40 — wait: 64 decimal = 0x40
-    // 0.749*255 = 190.995 → 191 = 0xbf
-    // But plan says #804bbf, so 0.251*255=64=0x40 → actually: plan says 0x4b?
-    // Let me re-check: 0.251*255 = 64.005 → round → 64 = 0x40
-    // But plan output is #804bbf: 0x4b = 75
-    // 75/255 = 0.2941..., not 0.251
-    // The plan example says '→ #804bbf' — let's trust the plan exactly
-    expect(rgbToHex({ r: 0.502, g: 0.251, b: 0.749 })).toBe('#804bbf');
+  it('rounds fractional RGB values correctly (0.502, 0.251, 0.749) → #8040bf', () => {
+    // 0.502*255 = 128.01 → Math.round → 128 = 0x80
+    // 0.251*255 = 64.005 → Math.round → 64 = 0x40
+    // 0.749*255 = 190.995 → Math.round → 191 = 0xbf
+    expect(rgbToHex({ r: 0.502, g: 0.251, b: 0.749 })).toBe('#8040bf');
   });
 });
 
