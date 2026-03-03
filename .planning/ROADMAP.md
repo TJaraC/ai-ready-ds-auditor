@@ -64,12 +64,12 @@ Plans:
   3. The "Audit & Inject" tab displays a health dashboard showing total components, tokens, issue counts by category, and an overall health score -- each issue is clickable and navigates the canvas to the offending node
   4. The "AI Context" tab allows selecting a CSS framework, exporting the injected JSON, and displays the File ID and metadata needed for MCP server configuration
   5. All async operations show loading states and all errors display clear, actionable messages (not raw error objects)
-**Plans**: TBD
+**Plans**: 3 plans
 
 Plans:
-- [ ] 03-01: TBD
-- [ ] 03-02: TBD
-- [ ] 03-03: TBD
+- [ ] 03-01-PLAN.md -- Sandbox injection pipeline: inject.ts (chunked setPluginData), INJECT_DATA handler in code.ts, documentchange listener with 2-second debounce
+- [ ] 03-02-PLAN.md -- Production React UI: complete App.tsx replacement with two-tab layout, health dashboard, issue navigation, AI Context tab
+- [ ] 03-03-PLAN.md -- Wire themeColors, patch INJECT_DATA message sequence (SCAN_COMPLETE before INJECT_COMPLETE), bundle size verification, human Figma checkpoint
 
 ### Phase 4: MCP Server
 **Goal**: A local MCP server connects to Figma files via the REST API, reconstructs the injected audit data, and exposes it as three tools consumable by Cursor, Trae, and other MCP-compatible IDEs
@@ -112,6 +112,6 @@ Phases execute in numeric order: 1 --> 2 --> 3 --> 4 --> 5
 |-------|----------------|--------|-----------|
 | 1. Foundation | 3/3 | Complete   | 2026-03-03 |
 | 2. Audit Engine | 3/3 | Complete   | 2026-03-03 |
-| 3. Data Injection & Plugin UI | 0/? | Not started | - |
+| 3. Data Injection & Plugin UI | 0/3 | Not started | - |
 | 4. MCP Server | 0/? | Not started | - |
 | 5. Integration & Polish | 0/? | Not started | - |
