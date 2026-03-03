@@ -34,13 +34,14 @@ figma.ui.onmessage = (raw: unknown): void => {
 
           const result = injectReport(report);
 
-          // Clear any pending SYNC_OUTDATED triggered by setPluginData writes,
-          // then lower the flag so real document changes are tracked again.
+          // Record injection time and cancel any pending debounce timer.
+          // documentchange PROPERTY_CHANGE events from setPluginData fire async,
+          // so we use a grace period rather than a flag.
+          lastInjectedAt = Date.now();
           if (syncDebounceTimer !== null) {
             clearTimeout(syncDebounceTimer);
             syncDebounceTimer = null;
           }
-          isInjecting = false;
 
           const doneMsg: SandboxMessage = {
             type: 'INJECT_COMPLETE',
@@ -50,7 +51,6 @@ figma.ui.onmessage = (raw: unknown): void => {
           figma.ui.postMessage(doneMsg);
         })
         .catch((err: unknown) => {
-          isInjecting = false;
           const message = err instanceof Error ? err.message : 'Injection failed — unknown error';
           const errMsg: SandboxMessage = { type: 'INJECT_ERROR', message };
           figma.ui.postMessage(errMsg);
@@ -78,16 +78,18 @@ figma.ui.onmessage = (raw: unknown): void => {
 
 // Detect document changes and notify UI that injected data is stale (2-second debounce).
 // Figma requires loadAllPagesAsync() before registering a documentchange handler.
-// isInjecting suppresses the handler while setPluginData() writes are in flight
-// (each write triggers PROPERTY_CHANGE which would falsely mark data as stale).
+// lastInjectedAt tracks when injection finished; documentchange events fired within
+// POST_INJECTION_GRACE_MS of that time are ignored (setPluginData writes trigger
+// PROPERTY_CHANGE asynchronously, which would falsely mark fresh data as stale).
 let syncDebounceTimer: ReturnType<typeof setTimeout> | null = null;
-let isInjecting = false;
+let lastInjectedAt = 0;
+const POST_INJECTION_GRACE_MS = 5000;
 
 figma.loadAllPagesAsync().then(() => {
   figma.on('documentchange', (event) => {
-    // Suppress during injection — setPluginData writes trigger PROPERTY_CHANGE
-    // which would falsely mark just-injected data as stale.
-    if (isInjecting) return;
+    // Suppress events within the grace period after injection — setPluginData writes
+    // trigger PROPERTY_CHANGE asynchronously, which would falsely mark fresh data as stale.
+    if (Date.now() - lastInjectedAt < POST_INJECTION_GRACE_MS) return;
 
     // NOTE: Figma documentchange does NOT fire for variable changes (known API limitation).
     const relevant = event.documentChanges.some(

@@ -249,6 +249,7 @@ export function App(): React.ReactElement {
     setPhase('scanning');
     setScanProgress(null);
     setErrorMessage(null);
+    setIsOutOfSync(false);
     const msg: UIMessage = { type: 'INJECT_DATA' };
     parent.postMessage({ pluginMessage: msg }, '*');
   };
