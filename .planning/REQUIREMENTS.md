@@ -17,12 +17,12 @@
 
 ### Figma Plugin — Build & Scaffold (PLUG)
 
-- [ ] **PLUG-01**: Vite configured to produce dual-build output: `code.js` (sandbox) + `ui.html` (single-file inlined iframe)
-- [ ] **PLUG-02**: `vite-plugin-singlefile` (or equivalent) inlines all UI assets into a single `ui.html` file
-- [ ] **PLUG-03**: `@figma/plugin-typings` installed and applied to `code.ts` (sandbox TypeScript)
+- [x] **PLUG-01**: Vite configured to produce dual-build output: `code.js` (sandbox) + `ui.html` (single-file inlined iframe)
+- [x] **PLUG-02**: `vite-plugin-singlefile` (or equivalent) inlines all UI assets into a single `ui.html` file
+- [x] **PLUG-03**: `@figma/plugin-typings` installed and applied to `code.ts` (sandbox TypeScript)
 - [ ] **PLUG-04**: Typed message protocol defined via shared discriminated union types between sandbox and UI
-- [ ] **PLUG-05**: Plugin manifest (`manifest.json`) configured with correct permissions, name, and entry points
-- [ ] **PLUG-06**: Hot-reload development workflow functional (`npm run dev` in plugin package)
+- [x] **PLUG-05**: Plugin manifest (`manifest.json`) configured with correct permissions, name, and entry points
+- [x] **PLUG-06**: Hot-reload development workflow functional (`npm run dev` in plugin package)
 
 ### Figma Plugin — Audit Engine (AUDIT)
 
@@ -142,12 +142,12 @@ Which phases cover which requirements. Updated during roadmap creation.
 | INFRA-05 | Phase 1: Foundation | Complete |
 | INFRA-06 | Phase 1: Foundation | Complete |
 | INFRA-07 | Phase 1: Foundation | Complete |
-| PLUG-01 | Phase 1: Foundation | Pending |
-| PLUG-02 | Phase 1: Foundation | Pending |
-| PLUG-03 | Phase 1: Foundation | Pending |
+| PLUG-01 | Phase 1: Foundation | Complete |
+| PLUG-02 | Phase 1: Foundation | Complete |
+| PLUG-03 | Phase 1: Foundation | Complete |
 | PLUG-04 | Phase 1: Foundation | Pending |
-| PLUG-05 | Phase 1: Foundation | Pending |
-| PLUG-06 | Phase 1: Foundation | Pending |
+| PLUG-05 | Phase 1: Foundation | Complete |
+| PLUG-06 | Phase 1: Foundation | Complete |
 | AUDIT-01 | Phase 2: Audit Engine | Pending |
 | AUDIT-02 | Phase 2: Audit Engine | Pending |
 | AUDIT-03 | Phase 2: Audit Engine | Pending |

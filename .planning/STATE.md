@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-current_plan: 2
+current_plan: 3
 status: executing
-stopped_at: Completed 01-01-PLAN.md — monorepo scaffold and shared types; ready for 01-02 (plugin scaffold)
-last_updated: "2026-03-02T23:42:37.821Z"
-last_activity: 2026-03-02
+stopped_at: Completed 01-02-PLAN.md — plugin dual-build scaffold with IIFE sandbox and single-file React UI; ready for 01-03 (round-trip message proof)
+last_updated: "2026-03-03T08:23:01.806Z"
+last_activity: 2026-03-03
 progress:
   total_phases: 1
   completed_phases: 0
   total_plans: 3
-  completed_plans: 1
+  completed_plans: 2
 ---
 
 # Project State
@@ -26,10 +26,10 @@ See: .planning/PROJECT.md (updated 2026-03-02)
 ## Current Position
 
 **Phase:** 1 of 5 (Foundation)
-**Current Plan:** 2
+**Current Plan:** 3
 **Total Plans in Phase:** 3
 **Status:** Ready to execute
-**Last Activity:** 2026-03-02
+**Last Activity:** 2026-03-03
 
 Progress: [#.........] 7%
 
@@ -52,6 +52,7 @@ Progress: [#.........] 7%
 
 *Updated after each plan completion*
 | Phase 01-foundation P01 | 8min | 2 tasks | 21 files |
+| Phase 01-foundation P02 | 15 | 2 tasks | 11 files |
 
 ## Accumulated Context
 
@@ -64,6 +65,10 @@ Recent decisions affecting current work:
 - [Phase 01-foundation]: Used typescript-eslint unified package v8.56.1 for flat config API
 - [Phase 01-foundation]: jiti required by ESLint 10 for TypeScript config file loading — added as dev dependency
 - [Phase 01-foundation]: moduleResolution: bundler in tsconfig.base.json — correct for Vite consumers; mcp-server adds Node resolution in Phase 4
+- [Phase 01-foundation]: Renamed HTML entry to ui.html — viteSingleFile preserves stem so dist/ui.html matches manifest without renaming config
+- [Phase 01-foundation]: Used npm-run-all2 (maintained fork) instead of archived npm-run-all — identical API
+- [Phase 01-foundation]: vite-plugin-singlefile@2.3.0 works with Vite 7 — no fork needed (RESEARCH open question resolved)
+- [Phase 01-foundation]: tsconfig.json UI: noEmit=true, Vite handles bundling; tsconfig.sandbox.json typeRoots @figma only prevents DOM type collisions
 
 ### Pending Todos
 
@@ -75,6 +80,6 @@ None yet.
 
 ## Session Continuity
 
-**Last session:** 2026-03-03
-**Stopped at:** Completed 01-01-PLAN.md — monorepo scaffold and shared types; ready for 01-02 (plugin scaffold)
+**Last session:** 2026-03-03T08:23:01.805Z
+**Stopped at:** Completed 01-02-PLAN.md — plugin dual-build scaffold with IIFE sandbox and single-file React UI; ready for 01-03 (round-trip message proof)
 **Resume file:** None
