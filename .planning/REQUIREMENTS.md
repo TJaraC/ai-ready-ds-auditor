@@ -26,14 +26,14 @@
 
 ### Figma Plugin — Audit Engine (AUDIT)
 
-- [ ] **AUDIT-01**: Audit engine traverses full scene graph of the active Figma document
+- [x] **AUDIT-01**: Audit engine traverses full scene graph of the active Figma document
 - [x] **AUDIT-02**: Color auditor detects fills and strokes using raw hex/rgb values instead of bound Figma variables or color styles
 - [x] **AUDIT-03**: Typography auditor detects text nodes with hardcoded `fontSize` and `fontWeight` not bound to text styles or variables
 - [x] **AUDIT-04**: Spacing auditor detects auto-layout nodes with hardcoded `paddingLeft/Right/Top/Bottom` and `itemSpacing` not using spacing variables
 - [x] **AUDIT-05**: Component auditor detects frame/group layers that match the size/shape of existing components but are not instances
 - [x] **AUDIT-06**: Each audit result includes: node ID, node name, page name, issue type, offending value, and suggested fix
 - [x] **AUDIT-07**: Audit engine produces a typed `AuditReport` conforming to shared types schema
-- [ ] **AUDIT-08**: Audit supports progress reporting to the UI during long scans
+- [x] **AUDIT-08**: Audit supports progress reporting to the UI during long scans
 - [x] **AUDIT-09**: Every `AuditReport` includes a `schemaVersion` field for forward compatibility
 
 ### Figma Plugin — Data Injection & Sync (DATA)
@@ -148,14 +148,14 @@ Which phases cover which requirements. Updated during roadmap creation.
 | PLUG-04 | Phase 1: Foundation | Complete |
 | PLUG-05 | Phase 1: Foundation | Complete |
 | PLUG-06 | Phase 1: Foundation | Complete |
-| AUDIT-01 | Phase 2: Audit Engine | Pending |
+| AUDIT-01 | Phase 2: Audit Engine | Complete |
 | AUDIT-02 | Phase 2: Audit Engine | Complete |
 | AUDIT-03 | Phase 2: Audit Engine | Complete |
 | AUDIT-04 | Phase 2: Audit Engine | Complete |
 | AUDIT-05 | Phase 2: Audit Engine | Complete |
 | AUDIT-06 | Phase 2: Audit Engine | Complete |
 | AUDIT-07 | Phase 2: Audit Engine | Complete |
-| AUDIT-08 | Phase 2: Audit Engine | Pending |
+| AUDIT-08 | Phase 2: Audit Engine | Complete |
 | AUDIT-09 | Phase 2: Audit Engine | Complete |
 | DATA-01 | Phase 3: Data Injection & Plugin UI | Pending |
 | DATA-02 | Phase 3: Data Injection & Plugin UI | Pending |
