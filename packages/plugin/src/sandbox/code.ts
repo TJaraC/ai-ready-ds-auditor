@@ -64,35 +64,37 @@ figma.ui.onmessage = (raw: unknown): void => {
   }
 };
 
-// Detect document changes and notify UI that injected data is stale (2-second debounce)
+// Detect document changes and notify UI that injected data is stale (2-second debounce).
+// Figma requires loadAllPagesAsync() before registering a documentchange handler.
 let syncDebounceTimer: ReturnType<typeof setTimeout> | null = null;
 
-figma.on('documentchange', (event) => {
-  // NOTE: Figma documentchange does NOT fire for variable changes (known API limitation).
-  // Only the 6 documented change types are available. Variable changes will not trigger this.
-  const relevant = event.documentChanges.some(
-    (change) =>
-      change.type === 'CREATE' ||
-      change.type === 'DELETE' ||
-      change.type === 'PROPERTY_CHANGE' ||
-      change.type === 'STYLE_CREATE' ||
-      change.type === 'STYLE_DELETE' ||
-      change.type === 'STYLE_PROPERTY_CHANGE'
-  );
+figma.loadAllPagesAsync().then(() => {
+  figma.on('documentchange', (event) => {
+    // NOTE: Figma documentchange does NOT fire for variable changes (known API limitation).
+    const relevant = event.documentChanges.some(
+      (change) =>
+        change.type === 'CREATE' ||
+        change.type === 'DELETE' ||
+        change.type === 'PROPERTY_CHANGE' ||
+        change.type === 'STYLE_CREATE' ||
+        change.type === 'STYLE_DELETE' ||
+        change.type === 'STYLE_PROPERTY_CHANGE'
+    );
 
-  if (!relevant) return;
+    if (!relevant) return;
 
-  if (syncDebounceTimer !== null) {
-    clearTimeout(syncDebounceTimer);
-  }
-  syncDebounceTimer = setTimeout(() => {
-    const outdatedMsg: SandboxMessage = {
-      type: 'SYNC_OUTDATED',
-      lastScannedAt: new Date().toISOString(),
-    };
-    figma.ui.postMessage(outdatedMsg);
-    syncDebounceTimer = null;
-  }, 2000);
+    if (syncDebounceTimer !== null) {
+      clearTimeout(syncDebounceTimer);
+    }
+    syncDebounceTimer = setTimeout(() => {
+      const outdatedMsg: SandboxMessage = {
+        type: 'SYNC_OUTDATED',
+        lastScannedAt: new Date().toISOString(),
+      };
+      figma.ui.postMessage(outdatedMsg);
+      syncDebounceTimer = null;
+    }, 2000);
+  });
 });
 
 // Send initial message to UI to confirm sandbox is alive
