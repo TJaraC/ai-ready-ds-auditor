@@ -47,11 +47,12 @@ Plans:
   3. Plugin detects auto-layout nodes with hardcoded padding/itemSpacing not using spacing variables
   4. Plugin detects frame/group layers that match existing components but are not instances
   5. Each audit issue includes node ID, node name, page name, issue type, offending value, and suggested fix -- assembled into a typed AuditReport with schemaVersion
-**Plans**: TBD
+**Plans**: 3 plans
 
 Plans:
-- [ ] 02-01: TBD
-- [ ] 02-02: TBD
+- [ ] 02-01-PLAN.md -- Pure function foundation (TDD): rgbToHex, buildIssueId, buildIssue, assembleReport in audit/utils.ts + Vitest unit tests
+- [ ] 02-02-PLAN.md -- Four category auditors: color (fills/strokes), typography, spacing, components — each as a typed pure function
+- [ ] 02-03-PLAN.md -- Scene graph orchestrator (runAudit), START_SCAN wiring in code.ts, production build, human Figma verification
 
 ### Phase 3: Data Injection & Plugin UI
 **Goal**: Plugin injects audit data into the Figma file with chunking, detects when data goes stale, and presents a production-quality two-tab UI with health dashboard and AI context controls
@@ -110,7 +111,7 @@ Phases execute in numeric order: 1 --> 2 --> 3 --> 4 --> 5
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation | 3/3 | Complete   | 2026-03-03 |
-| 2. Audit Engine | 0/? | Not started | - |
+| 2. Audit Engine | 0/3 | Not started | - |
 | 3. Data Injection & Plugin UI | 0/? | Not started | - |
 | 4. MCP Server | 0/? | Not started | - |
 | 5. Integration & Polish | 0/? | Not started | - |
