@@ -6,6 +6,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
   build: {
+    target: 'es2019',
     emptyOutDir: false,
     outDir: 'dist',
     lib: {
