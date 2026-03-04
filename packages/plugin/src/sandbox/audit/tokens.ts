@@ -67,6 +67,75 @@ function formatVariableValue(value: VariableValue, resolvedType: VariableResolve
 }
 
 /**
+ * Extracts local Figma Text Styles as typography DesignToken[].
+ *
+ * Each text style becomes one token per property (fontFamily, fontSize,
+ * fontWeight, lineHeight) so formatters can address them individually.
+ * Token name pattern: "<style-name>/<property>" e.g. "Heading/xl/fontFamily".
+ */
+export function extractTextStyleTokens(textStyles: TextStyle[]): DesignToken[] {
+  const tokens: DesignToken[] = [];
+
+  for (const style of textStyles) {
+    const base = style.name; // e.g. "Heading/xl" or "Body/md"
+    const groupPath = base.split('/');
+
+    tokens.push({
+      id: `${style.id}:fontFamily`,
+      name: `${base}/fontFamily`,
+      type: 'typography',
+      value: style.fontName.family,
+      rawValue: style.fontName.family,
+      variableName: undefined,
+      collectionName: 'Text Styles',
+      groupPath: [...groupPath, 'fontFamily'],
+    });
+
+    tokens.push({
+      id: `${style.id}:fontSize`,
+      name: `${base}/fontSize`,
+      type: 'typography',
+      value: `${style.fontSize}px`,
+      rawValue: String(style.fontSize),
+      variableName: undefined,
+      collectionName: 'Text Styles',
+      groupPath: [...groupPath, 'fontSize'],
+    });
+
+    tokens.push({
+      id: `${style.id}:fontWeight`,
+      name: `${base}/fontWeight`,
+      type: 'typography',
+      value: style.fontName.style,
+      rawValue: style.fontName.style,
+      variableName: undefined,
+      collectionName: 'Text Styles',
+      groupPath: [...groupPath, 'fontWeight'],
+    });
+
+    // lineHeight: 'AUTO' → omit; numeric → include as px
+    if (style.lineHeight.unit !== 'AUTO') {
+      const lhValue =
+        style.lineHeight.unit === 'PERCENT'
+          ? `${style.lineHeight.value}%`
+          : `${style.lineHeight.value}px`;
+      tokens.push({
+        id: `${style.id}:lineHeight`,
+        name: `${base}/lineHeight`,
+        type: 'typography',
+        value: lhValue,
+        rawValue: String(style.lineHeight.value),
+        variableName: undefined,
+        collectionName: 'Text Styles',
+        groupPath: [...groupPath, 'lineHeight'],
+      });
+    }
+  }
+
+  return tokens;
+}
+
+/**
  * Extracts all local Figma Variables as DesignToken[].
  *
  * Async because documentAccess: dynamic-page requires getVariableCollectionByIdAsync.
