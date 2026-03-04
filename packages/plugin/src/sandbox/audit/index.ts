@@ -37,7 +37,7 @@ export async function runAudit(): Promise<AuditReport> {
   ]);
   const effectStyleIds = new Set(effectStyles.map((s) => s.id));
 
-  const tokens = extractVariableTokens(variables);
+  const tokens = await extractVariableTokens(variables);
 
   // PASS 1 — Collect all component names across all pages (disconnected-component detection)
   const pages = figma.root.children;

@@ -69,19 +69,21 @@ function formatVariableValue(value: VariableValue, resolvedType: VariableResolve
 /**
  * Extracts all local Figma Variables as DesignToken[].
  *
+ * Async because documentAccess: dynamic-page requires getVariableCollectionByIdAsync.
+ *
  * Skips:
  * - BOOLEAN variables
  * - VariableAlias values (cross-collection references)
  * - Variables whose collection cannot be resolved
  */
-export function extractVariableTokens(variables: Variable[]): DesignToken[] {
+export async function extractVariableTokens(variables: Variable[]): Promise<DesignToken[]> {
   const tokens: DesignToken[] = [];
 
   for (const variable of variables) {
     const type = resolveTokenType(variable.resolvedType, variable.scopes);
     if (type === null) continue;
 
-    const collection = figma.variables.getVariableCollectionById(variable.variableCollectionId);
+    const collection = await figma.variables.getVariableCollectionByIdAsync(variable.variableCollectionId);
     if (!collection) continue;
 
     const rawValue = variable.valuesByMode[collection.defaultModeId];
