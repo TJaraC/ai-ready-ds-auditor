@@ -65,7 +65,15 @@ export function assembleReport(
   }
 
   const totalIssues = issues.length;
-  const healthScore = Math.max(0, 100 - totalIssues);
+
+  // Health score = 100 - (issues / max(1, components * 5)) * 100, clamped 0–100.
+  // Scales issue penalty relative to the size of the design system so a large file
+  // with 200 issues across 100 components isn't penalised more than a small file.
+  // Minimum score floor: 10 if there are any tokens (design system exists but has issues).
+  const expectedIssues = Math.max(1, components.length * 5);
+  const rawScore = Math.max(0, 100 - Math.round((totalIssues / expectedIssues) * 100));
+  const hasTokens = tokens.length > 0;
+  const healthScore = hasTokens ? Math.max(10, rawScore) : rawScore;
 
   return {
     schemaVersion,

@@ -6,6 +6,7 @@ import { auditSpacing } from './spacing';
 import { auditComponents } from './components';
 import { auditBorderShape } from './border';
 import { auditEffects } from './effects';
+import { extractVariableTokens } from './tokens';
 
 /**
  * runAudit() — Main orchestrator for the design system audit.
@@ -36,7 +37,7 @@ export async function runAudit(): Promise<AuditReport> {
   ]);
   const effectStyleIds = new Set(effectStyles.map((s) => s.id));
 
-  void variables; // reserved for future token extraction in Phase 4
+  const tokens = extractVariableTokens(variables);
 
   // PASS 1 — Collect all component names across all pages (disconnected-component detection)
   const pages = figma.root.children;
@@ -114,5 +115,5 @@ export async function runAudit(): Promise<AuditReport> {
     figma.ui.postMessage(progressMsg);
   }
 
-  return assembleReport(allIssues, allComponents, [], figma.root.name, figma.root.name);
+  return assembleReport(allIssues, allComponents, tokens, figma.root.name, figma.root.name);
 }
