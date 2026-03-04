@@ -62,22 +62,22 @@
 
 ### MCP Server — Core (MCP)
 
-- [ ] **MCP-01**: MCP server runs as a local Node.js process using `@modelcontextprotocol/sdk` with `StdioServerTransport`
-- [ ] **MCP-02**: On session start, server makes exactly one `GET /v1/files/:file_key` API call per configured Figma file
-- [ ] **MCP-03**: Server reconstructs chunked JSON from `ai_data_meta` + `ai_data_1`, `ai_data_2`, etc. keys
-- [ ] **MCP-04**: Reconstructed Design System data is stored in an in-memory cache (`Map<fileKey, CachedData>`)
-- [ ] **MCP-05**: Server supports multiple Figma files loaded simultaneously (multi-file cache)
-- [ ] **MCP-06**: Server does not make redundant Figma API calls while cached data is valid
-- [ ] **MCP-07**: All `console.log()` calls in server code are replaced with `console.error()` to prevent stdio transport corruption
-- [ ] **MCP-08**: Figma API responses are fully typed (no `any` in API client code)
-- [ ] **MCP-09**: Internal data structures (cache entries, tool responses) are fully typed
+- [x] **MCP-01**: MCP server runs as a local Node.js process using `@modelcontextprotocol/sdk` with `StdioServerTransport`
+- [x] **MCP-02**: On session start, server makes exactly one `GET /v1/files/:file_key` API call per configured Figma file
+- [x] **MCP-03**: Server reconstructs chunked JSON from `ai_data_meta` + `ai_data_1`, `ai_data_2`, etc. keys
+- [x] **MCP-04**: Reconstructed Design System data is stored in an in-memory cache (`Map<fileKey, CachedData>`)
+- [x] **MCP-05**: Server supports multiple Figma files loaded simultaneously (multi-file cache)
+- [x] **MCP-06**: Server does not make redundant Figma API calls while cached data is valid
+- [x] **MCP-07**: All `console.log()` calls in server code are replaced with `console.error()` to prevent stdio transport corruption
+- [x] **MCP-08**: Figma API responses are fully typed (no `any` in API client code)
+- [x] **MCP-09**: Internal data structures (cache entries, tool responses) are fully typed
 
 ### MCP Server — Error Handling (ERR)
 
-- [ ] **ERR-01**: If Figma API returns 403, server returns a structured error with: error type, file key, and step-by-step instructions to set file sharing to "Anyone with the link can view"
-- [ ] **ERR-02**: If Figma API returns 429 (rate limit), server implements exponential backoff and retries
-- [ ] **ERR-03**: If chunk reconstruction fails (missing keys, corrupted data), server returns a structured error with recovery instructions (re-run injection from plugin)
-- [ ] **ERR-04**: If `schemaVersion` is unknown/unsupported, server returns a structured error with version mismatch details
+- [x] **ERR-01**: If Figma API returns 403, server returns a structured error with: error type, file key, and step-by-step instructions to set file sharing to "Anyone with the link can view"
+- [x] **ERR-02**: If Figma API returns 429 (rate limit), server implements exponential backoff and retries
+- [x] **ERR-03**: If chunk reconstruction fails (missing keys, corrupted data), server returns a structured error with recovery instructions (re-run injection from plugin)
+- [x] **ERR-04**: If `schemaVersion` is unknown/unsupported, server returns a structured error with version mismatch details
 
 ### MCP Server — Tools (TOOL)
 
@@ -175,19 +175,19 @@ Which phases cover which requirements. Updated during roadmap creation.
 | UI-08 | Phase 3: Data Injection & Plugin UI | Complete |
 | UI-09 | Phase 3: Data Injection & Plugin UI | Complete |
 | UI-10 | Phase 3: Data Injection & Plugin UI | Pending |
-| MCP-01 | Phase 4: MCP Server | Pending |
-| MCP-02 | Phase 4: MCP Server | Pending |
-| MCP-03 | Phase 4: MCP Server | Pending |
-| MCP-04 | Phase 4: MCP Server | Pending |
-| MCP-05 | Phase 4: MCP Server | Pending |
-| MCP-06 | Phase 4: MCP Server | Pending |
-| MCP-07 | Phase 4: MCP Server | Pending |
-| MCP-08 | Phase 4: MCP Server | Pending |
-| MCP-09 | Phase 4: MCP Server | Pending |
-| ERR-01 | Phase 4: MCP Server | Pending |
-| ERR-02 | Phase 4: MCP Server | Pending |
-| ERR-03 | Phase 4: MCP Server | Pending |
-| ERR-04 | Phase 4: MCP Server | Pending |
+| MCP-01 | Phase 4: MCP Server | Complete |
+| MCP-02 | Phase 4: MCP Server | Complete |
+| MCP-03 | Phase 4: MCP Server | Complete |
+| MCP-04 | Phase 4: MCP Server | Complete |
+| MCP-05 | Phase 4: MCP Server | Complete |
+| MCP-06 | Phase 4: MCP Server | Complete |
+| MCP-07 | Phase 4: MCP Server | Complete |
+| MCP-08 | Phase 4: MCP Server | Complete |
+| MCP-09 | Phase 4: MCP Server | Complete |
+| ERR-01 | Phase 4: MCP Server | Complete |
+| ERR-02 | Phase 4: MCP Server | Complete |
+| ERR-03 | Phase 4: MCP Server | Complete |
+| ERR-04 | Phase 4: MCP Server | Complete |
 | TOOL-01 | Phase 4: MCP Server | Pending |
 | TOOL-02 | Phase 4: MCP Server | Pending |
 | TOOL-03 | Phase 4: MCP Server | Pending |

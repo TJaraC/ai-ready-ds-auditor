@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-current_plan: 04-01
-status: planned
-stopped_at: "Phase 4 planned — 3 plans ready for execution"
-last_updated: "2026-03-04T00:00:00Z"
+current_plan: 04-01 (next to execute)
+status: verifying
+stopped_at: Completed 04-01-PLAN.md
+last_updated: "2026-03-04T09:39:13.351Z"
 last_activity: 2026-03-04
 progress:
-  total_phases: 5
+  total_phases: 4
   completed_phases: 3
-  total_plans: 9
-  completed_plans: 9
+  total_plans: 12
+  completed_plans: 10
 ---
 
 # Project State
@@ -28,7 +28,7 @@ See: .planning/PROJECT.md (updated 2026-03-02)
 **Phase:** 4 of 5 (MCP Server) — PLANNED, READY TO EXECUTE
 **Current Plan:** 04-01 (next to execute)
 **Total Plans in Phase:** 3 (Wave 1: 04-01, Wave 2: 04-02, Wave 3: 04-03)
-**Status:** Phase 4 planned — research + 3 plans created, verified (0 blockers)
+**Status:** Phase complete — ready for verification
 **Last Activity:** 2026-03-04
 
 Progress: [##########..] 60% (planning 80%)
@@ -42,6 +42,7 @@ Progress: [##########..] 60% (planning 80%)
 | 01-foundation | 3 | ~48 min | ~16 min |
 | 02-audit-engine | 3 | 15 min | 5 min |
 | 03-data-injection | 3 | ~90 min | ~30 min |
+| Phase 04-mcp-server P01 | 2 | 3 tasks | 6 files |
 
 ## Accumulated Context
 
@@ -88,6 +89,10 @@ Progress: [##########..] 60% (planning 80%)
 - [Phase 04-mcp-server]: MCP SDK v1.27.1 — server.tool(name, zodSchema, asyncHandler)
 - [Phase 04-mcp-server]: Tailwind format = v3 JS config object (not v4 @theme CSS syntax)
 - [Phase 04-mcp-server]: All logging via process.stderr.write (ESLint bans console.* entirely)
+- [Phase 04-mcp-server]: PLUGIN_ID '1610802699324330019' hardcoded in client.ts — matches packages/plugin/manifest.json id field
+- [Phase 04-mcp-server]: Retry-After >3600s throws FigmaMonthlyLimitError immediately — no retry for monthly quota exhaustion
+- [Phase 04-mcp-server]: checksum '' skips validation in chunk-reader — plugin writes empty checksum; validated when non-empty (future)
+- [Phase 04-mcp-server]: pluginData accessed via fileResponse.document.pluginData ?? {} fallback — absent data handled by ChunkReconstructionError
 
 ### Pending Todos
 
@@ -99,7 +104,7 @@ None.
 
 ## Session Continuity
 
-**Last session:** 2026-03-04T00:00:00Z
-**Stopped at:** Phase 4 planned — research complete, 3 plans created and verified
-**Resume file:** .planning/phases/04-mcp-server/04-RESEARCH.md
+**Last session:** 2026-03-04T09:39:13.349Z
+**Stopped at:** Completed 04-01-PLAN.md
+**Resume file:** None
 **Next action:** /gsd:execute-phase 4
