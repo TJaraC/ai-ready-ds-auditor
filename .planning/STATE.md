@@ -3,10 +3,10 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 current_plan: 04-01
-status: not_started
-stopped_at: "Phase 3 complete — human verified in Figma Desktop"
-last_updated: "2026-03-03T21:30:00Z"
-last_activity: 2026-03-03
+status: planned
+stopped_at: "Phase 4 planned — 3 plans ready for execution"
+last_updated: "2026-03-04T00:00:00Z"
+last_activity: 2026-03-04
 progress:
   total_phases: 5
   completed_phases: 3
@@ -25,13 +25,13 @@ See: .planning/PROJECT.md (updated 2026-03-02)
 
 ## Current Position
 
-**Phase:** 4 of 5 (MCP Server) — NOT STARTED
-**Current Plan:** 04-01 (next to plan)
-**Total Plans in Phase:** TBD (ROADMAP says 3 plans)
-**Status:** Phase 3 complete — ready to start Phase 4
-**Last Activity:** 2026-03-03
+**Phase:** 4 of 5 (MCP Server) — PLANNED, READY TO EXECUTE
+**Current Plan:** 04-01 (next to execute)
+**Total Plans in Phase:** 3 (Wave 1: 04-01, Wave 2: 04-02, Wave 3: 04-03)
+**Status:** Phase 4 planned — research + 3 plans created, verified (0 blockers)
+**Last Activity:** 2026-03-04
 
-Progress: [##########..] 60%
+Progress: [##########..] 60% (planning 80%)
 
 ## Performance Metrics
 
@@ -81,6 +81,13 @@ Progress: [##########..] 60%
 - [Phase 03-data-injection 03-03]: AuditIssue.category extended with 'border' | 'effects'
 - [Phase 03-data-injection 03-03]: lineHeight AUTO and letterSpacing 0 skipped (intentional defaults)
 - [Phase 03-data-injection 03-03]: cornerRadius figma.mixed skipped (per-corner radii future improvement)
+- [Phase 04-mcp-server]: Figma REST GET /v1/files = 6 req/month on free Starter plan — session cache is mandatory
+- [Phase 04-mcp-server]: pluginData accessible via ?plugin_data=1610802699324330019 query param
+- [Phase 04-mcp-server]: Retry-After >3600s = monthly limit (FigmaMonthlyLimitError, no retry loop)
+- [Phase 04-mcp-server]: checksum is '' in plugin output — chunk reader skips validation when empty
+- [Phase 04-mcp-server]: MCP SDK v1.27.1 — server.tool(name, zodSchema, asyncHandler)
+- [Phase 04-mcp-server]: Tailwind format = v3 JS config object (not v4 @theme CSS syntax)
+- [Phase 04-mcp-server]: All logging via process.stderr.write (ESLint bans console.* entirely)
 
 ### Pending Todos
 
@@ -92,7 +99,7 @@ None.
 
 ## Session Continuity
 
-**Last session:** 2026-03-03T21:30:00Z
-**Stopped at:** Phase 3 complete — all 9 plans done, human verified
-**Resume file:** .planning/phases/03-data-injection-plugin-ui/03-03-SUMMARY.md
-**Next action:** /gsd:plan-phase for Phase 4 (MCP Server)
+**Last session:** 2026-03-04T00:00:00Z
+**Stopped at:** Phase 4 planned — research complete, 3 plans created and verified
+**Resume file:** .planning/phases/04-mcp-server/04-RESEARCH.md
+**Next action:** /gsd:execute-phase 4
