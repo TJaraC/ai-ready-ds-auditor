@@ -2,14 +2,14 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-current_plan: 04-03 (human-verify pending, then Phase 5)
-status: human_verify
-stopped_at: Completed 04-03-PLAN.md automated tasks — awaiting IDE verification
-last_updated: "2026-03-04T12:00:00.000Z"
+current_plan: Phase 5 next
+status: ready
+stopped_at: Phase 4 fully verified — typography tokens confirmed in IDE
+last_updated: "2026-03-04T22:00:00.000Z"
 last_activity: 2026-03-04
 progress:
-  total_phases: 4
-  completed_phases: 3
+  total_phases: 5
+  completed_phases: 4
   total_plans: 12
   completed_plans: 12
 ---
@@ -21,17 +21,17 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-02)
 
 **Core value:** Any Non-Enterprise Figma user can connect their Design System to a local AI IDE in under 5 minutes, get live sync indicators, and give the AI full structured context -- for free.
-**Current focus:** Phase 4: MCP Server
+**Current focus:** Phase 5: Integration & Polish
 
 ## Current Position
 
-**Phase:** 4 of 5 (MCP Server) — ALL PLANS COMPLETE, HUMAN VERIFY PENDING
-**Current Plan:** 04-03 DONE (human IDE verification remaining)
+**Phase:** 4 of 5 (MCP Server) — COMPLETE ✓
+**Current Plan:** Phase 5: Integration & Polish — NEXT
 **Total Plans in Phase:** 3 (Wave 1: 04-01 ✓, Wave 2: 04-02 ✓, Wave 3: 04-03 ✓)
-**Status:** Build passes; server starts; IDE verification needed before Phase 5
+**Status:** get_design_tokens verified in IDE — colors, spacing, typography (fontFamily, fontSize, fontWeight, lineHeight) all returning correctly
 **Last Activity:** 2026-03-04
 
-Progress: [##############] 90%
+Progress: [################] 80% (4/5 phases)
 
 ## Performance Metrics
 
@@ -97,6 +97,8 @@ Progress: [##############] 90%
 - [Phase 04-mcp-server 04-02]: errorResponse return type must be explicit for @typescript-eslint/explicit-function-return-type
 - [Phase 04-mcp-server 04-03]: mcp-server compiled as CommonJS — shared dist had ESM re-exports without .js, CJS avoids Node.js resolution failure
 - [Phase 04-mcp-server 04-03]: shared package also recompiled as CJS + require condition added to exports; plugin unaffected (uses TS source via Vite)
+- [Phase 04-mcp-server post-03]: extractTextStyleTokens() wired in index.ts — textStyles already in PASS 0, merged with variableTokens before assembleReport
+- [Phase 04-mcp-server post-03]: Tailwind formatter splits typography tokens by name suffix (fontFamily/fontSize/fontWeight/lineHeight) into separate Tailwind theme buckets
 
 ### Pending Todos
 
@@ -104,11 +106,11 @@ None.
 
 ### Blockers/Concerns
 
-- [Phase 4 prerequisite]: Confirm figma.root pluginData is accessible via Figma REST API on free tier (getPluginData equivalent in REST). This was flagged in RESEARCH.md — must verify before building the MCP chunk-reconstruction pipeline.
+None.
 
 ## Session Continuity
 
-**Last session:** 2026-03-04T12:00:00.000Z
-**Stopped at:** 04-03 automated tasks complete — MCP server builds and starts
+**Last session:** 2026-03-04T22:00:00.000Z
+**Stopped at:** Phase 4 complete — typography tokens verified in Cursor/Trae
 **Resume file:** None
-**Next action:** Human IDE verification (see 04-03-PLAN.md Task 3), then Phase 5
+**Next action:** /gsd:discuss-phase 5 or /gsd:plan-phase 5
