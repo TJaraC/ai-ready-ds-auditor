@@ -5,7 +5,7 @@ export interface FigmaNode {
   id: string;
   type: string;
   name?: string;
-  pluginData?: Record<string, string>;
+  pluginData?: Record<string, Record<string, string>>; // { [pluginId]: { [key]: value } }
   sharedPluginData?: Record<string, Record<string, string>>;
   children?: FigmaNode[];
 }

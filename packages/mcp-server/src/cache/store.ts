@@ -49,9 +49,10 @@ export class DesignSystemCache {
 
     const fileResponse = await fetchFigmaFile(fileKey, this.token);
 
-    // pluginData is on the DOCUMENT root node
-    // If undefined, reconstructReport will throw ChunkReconstructionError with instructions
-    const pluginData = fileResponse.document.pluginData ?? {};
+    // pluginData is on the DOCUMENT root node, nested by plugin ID:
+    // REST API returns { [pluginId]: { [key]: value } } — extract our plugin's map
+    const PLUGIN_ID = '1610802699324330019';
+    const pluginData = fileResponse.document.pluginData?.[PLUGIN_ID] ?? {};
 
     const { report, meta } = reconstructReport(pluginData, fileKey);
 
