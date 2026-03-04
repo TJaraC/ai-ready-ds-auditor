@@ -81,12 +81,12 @@ Plans:
   3. `get_component_specs` tool returns full component specification by name or ID, including props, variants, and usage notes
   4. `get_audit_summary` tool returns structured audit issues with node IDs, issue types, and suggested fixes, filterable by file and category
   5. Server returns structured, actionable errors for 403 (permission instructions), 429 (retries with backoff), corrupted chunks (re-injection instructions), and schema version mismatches
-**Plans**: TBD
+**Plans**: 3 plans
 
 Plans:
-- [ ] 04-01: TBD
-- [ ] 04-02: TBD
-- [ ] 04-03: TBD
+- [ ] 04-01-PLAN.md -- Install @modelcontextprotocol/sdk + zod; Figma API types and typed error classes; authenticated client with 429 retry; chunk reconstruction; in-memory DesignSystemCache
+- [ ] 04-02-PLAN.md -- Four CSS framework formatters (tailwind, css-variables, css-modules, styled-components); get_design_tokens and get_component_specs tool handlers
+- [ ] 04-03-PLAN.md -- get_audit_summary tool; server.ts wiring; index.ts entry point with env validation and StdioServerTransport; build verification; IDE human checkpoint
 
 ### Phase 5: Integration & Polish
 **Goal**: The full pipeline works end-to-end (plugin audit, inject, REST API read, MCP tool response) with production quality suitable for Figma Community publication and daily designer use
@@ -113,5 +113,5 @@ Phases execute in numeric order: 1 --> 2 --> 3 --> 4 --> 5
 | 1. Foundation | 3/3 | Complete   | 2026-03-03 |
 | 2. Audit Engine | 3/3 | Complete   | 2026-03-03 |
 | 3. Data Injection & Plugin UI | 3/3 | Complete    | 2026-03-03 |
-| 4. MCP Server | 0/? | Not started | - |
+| 4. MCP Server | 0/3 | Not started | - |
 | 5. Integration & Polish | 0/? | Not started | - |
