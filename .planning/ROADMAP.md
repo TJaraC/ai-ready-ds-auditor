@@ -97,11 +97,12 @@ Plans:
   2. Plugin UI bundle size is under 200kB gzipped
   3. Plugin manifest and UI meet Figma Community submission criteria
   4. No `any` types exist in the codebase; `npm run type-check` passes with zero errors across all packages
-**Plans**: TBD
+**Plans**: 3 plans
 
 Plans:
-- [ ] 05-01: TBD
-- [ ] 05-02: TBD
+- [ ] 05-01-PLAN.md -- TypeScript cleanup (remove `any` from inject.ts, add sandbox tsconfig to root type-check) + full verification suite (type-check, lint, tests, bundle gzip size)
+- [ ] 05-02-PLAN.md -- MCP server README: complete setup guide for plugin install, Figma token, Cursor/Trae config, all three tools
+- [ ] 05-03-PLAN.md -- Plugin Community icon (128x128 PNG), manifest icon field, end-to-end smoke test checkpoint
 
 ## Progress
 
@@ -114,4 +115,4 @@ Phases execute in numeric order: 1 --> 2 --> 3 --> 4 --> 5
 | 2. Audit Engine | 3/3 | Complete   | 2026-03-03 |
 | 3. Data Injection & Plugin UI | 3/3 | Complete    | 2026-03-03 |
 | 4. MCP Server | 1/3 | In Progress|  |
-| 5. Integration & Polish | 0/? | Not started | - |
+| 5. Integration & Polish | 0/3 | Not started | - |
