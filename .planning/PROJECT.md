@@ -2,7 +2,9 @@
 
 ## What This Is
 
-A production-grade DesignOps tool for Non-Enterprise Figma users that bridges the gap between Design Systems and AI-powered local IDEs. It consists of two tightly integrated components: a **Figma Plugin** that audits design systems and injects structured data into the file, and a **Local MCP Server** that exposes that data as tools consumable by Trae, Cursor, and other MCP-compatible IDEs — all at zero cost.
+A production-grade DesignOps tool for Non-Enterprise Figma users that bridges Design Systems and AI-powered local IDEs. It consists of two components: a **Figma Plugin** that audits design systems and injects structured data into the file, and a **Local MCP Server** that exposes that data as three tools (`get_design_tokens`, `get_component_specs`, `get_audit_summary`) consumable by Trae, Cursor, and other MCP-compatible IDEs — all at zero cost.
+
+Shipped v1.0 with 2,179 LOC TypeScript across three packages (shared, plugin, mcp-server).
 
 ## Core Value
 
@@ -12,49 +14,22 @@ Any designer using a Non-Enterprise Figma account can connect their Design Syste
 
 ### Validated
 
-(None yet — ship to validate)
+- ✓ Monorepo scaffold with shared types, strict TypeScript, ESLint, Prettier — v1.0
+- ✓ Dual-build Vite plugin (sandbox + single-file UI) with manifest — v1.0
+- ✓ Four auditors: color, typography, spacing, disconnected components — v1.0
+- ✓ Chunked setPluginData injection with documentchange debounce — v1.0
+- ✓ Two-tab React UI: health dashboard + AI Context tab — v1.0
+- ✓ MCP server: Figma REST client, chunk reconstruction, in-memory cache — v1.0
+- ✓ Three MCP tools with Zod validation and shared types — v1.0
+- ✓ Four CSS framework formatters: Tailwind, CSS Variables, CSS Modules, Styled Components — v1.0
+- ✓ Structured error handling: 403, 429 backoff, corrupted chunks, schema mismatch — v1.0
+- ✓ Plugin Community assets (128×128 icon, 1920×1080 cover) — v1.0
+- ✓ Complete README setup guide (plugin + MCP + Cursor/Trae) — v1.0
+- ✓ Zero `any` types, 22/22 tests, 62 kB bundle — v1.0
 
 ### Active
 
-#### Figma Plugin — Core Engine
-- [ ] Plugin scans Figma file for components, variables, text styles, and color styles
-- [ ] Plugin detects hardcoded colors (fills/strokes with hex/rgb instead of variable references)
-- [ ] Plugin detects hardcoded typography (font sizes/weights outside text styles or variables)
-- [ ] Plugin detects hardcoded spacing (auto-layout gaps/padding with arbitrary values)
-- [ ] Plugin detects disconnected components (layers that should be instances but aren't)
-- [ ] Plugin injects scan results as structured JSON via setPluginData()
-- [ ] Plugin implements chunking when JSON > 95kB (keys: ai_data_1, ai_data_2, etc.)
-- [ ] Plugin uses figma.on("documentchange") with 2s debounce to detect relevant changes
-- [ ] Plugin shows 🔴 Out of Sync indicator when design changes detected since last injection
-
-#### Figma Plugin — UI
-- [ ] Tab "Audit & Inject": health dashboard + inject/update button
-- [ ] Tab "AI Context": CSS framework selector, export JSON button, File ID + metadata field
-- [ ] CSS framework selector supports: Tailwind, CSS Variables, CSS Modules, Styled Components/Emotion
-- [ ] Clear loading states and error handling throughout UI
-- [ ] Production-quality UI suitable for daily designer use
-
-#### MCP Server — Core
-- [ ] Connects to Figma REST API (GET /v1/files/:file_key) using free tier token
-- [ ] On session start: single API call, reconstructs chunks, caches Design System in memory
-- [ ] Avoids redundant API calls while cache is valid
-- [ ] Supports multiple Figma files loaded simultaneously
-- [ ] Returns clear error with instructions when Figma API returns 403 (permission issue)
-
-#### MCP Server — Tools
-- [ ] Tool: get_component_specs — returns specs for a component by name/ID
-- [ ] Tool: get_design_tokens — returns color, typography, spacing tokens
-- [ ] Tool: get_audit_summary — returns hardcoding issues and inconsistencies detected
-
-#### Quality & DX
-- [ ] TypeScript strict mode throughout (plugin + MCP server)
-- [ ] Figma API response types fully typed
-- [ ] Internal data structures fully typed
-- [ ] Vite bundler configured for plugin
-- [ ] ESLint + Prettier configured with production-grade rules
-- [ ] npm scripts: dev, build, lint, type-check
-- [ ] Modular folder structure for maintainability and scalability
-- [ ] Ready for publication on Figma Community
+*(Next milestone — to be defined with /gsd:new-milestone)*
 
 ### Out of Scope
 
@@ -67,31 +42,36 @@ Any designer using a Non-Enterprise Figma account can connect their Design Syste
 
 ## Context
 
-- The user has the `everything-claude-code` package installed in the project for quality assurance workflows (code review, TypeScript quality, architecture review, testing). These should be leveraged at key phases.
-- Target IDEs: Trae and Cursor (both support MCP protocol)
-- Figma free API rate limits require conservative calling strategy
-- The 100kB setPluginData limit is a hard constraint requiring a chunking strategy
-- Plugin will be distributed via Figma Community — must meet their quality bar
+**v1.0 shipped 2026-03-05.** Built in 3 days across 5 phases, 15 plans.
+
+- Tech stack: TypeScript strict, React, Vite (plugin) + Node.js, MCP SDK, Zod (server)
+- Distribution: Figma Community (plugin) + local npm install (MCP server)
+- Figma free API: 6 GET /v1/files requests/month — session cache is mandatory
+- Plugin UI: 62.2 kB gzip (well under 200 kB limit)
+- Known: icon/cover images uploaded via Figma publish UI (not manifest)
 
 ## Constraints
 
-- **Figma API**: Free tier only — rate limits apply, no write access
-- **Figma Plugin**: setPluginData() per-key limit of 100kB — chunking required above 95kB threshold
-- **Auth**: Files must have "Anyone with link can view" permissions for MCP Server to access via API
+- **Figma API**: Free tier only — 6 GET requests/month, no write access
+- **Figma Plugin**: setPluginData() per-key limit of 100kB — chunking threshold at 90kB
+- **Auth**: Files must be "Anyone with link can view" for MCP Server to access via API
 - **Tech Stack**: TypeScript strict mode, Vite for plugin bundling, Node.js for MCP server
 - **Distribution**: Must pass Figma Community review criteria
-- **AI Workflow**: Claude Opus for architecture/planning; Claude Sonnet for implementation/refactoring
 
 ## Key Decisions
 
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
-| Vite as plugin bundler | Modern, fast HMR, excellent TS support, standard for Figma plugin tooling | — Pending |
-| React for Plugin UI | Ecosystem maturity, component reuse, familiar for contributors | — Pending |
-| In-memory cache in MCP Server | Avoids rate limit exhaustion; chunks reconstructed once per session | — Pending |
-| Multiple files in MCP Server | User confirmed multi-brand/multi-file use case needed in v1 | — Pending |
-| All 4 CSS frameworks in v1 | User confirmed all 4 required; affects MCP output formatting logic | — Pending |
-| Chunking threshold at 95kB | Safety margin below 100kB Figma hard limit | — Pending |
+| Vite as plugin bundler | Modern, fast HMR, excellent TS support | ✓ Good — builds in <1s, 62 kB output |
+| React for Plugin UI | Ecosystem maturity, component reuse | ✓ Good — clean two-tab UI |
+| In-memory cache in MCP Server | Avoids rate limit exhaustion (6 req/month) | ✓ Good — single call per session |
+| Multiple files in MCP Server | Multi-brand/multi-file use case | ✓ Good — FIGMA_FILE_KEYS env var |
+| All 4 CSS frameworks in v1 | User confirmed all 4 required | ✓ Good — all formatters shipped |
+| Chunking threshold at 90kB | Safety margin below 100kB hard limit | ✓ Good — no limit errors hit |
+| CJS for MCP server | ESM resolution issues with shared package | ✓ Good — stable Node.js execution |
+| `unknown` cast over `any` | Type-safe globalThis access, no eslint-disable | ✓ Good — zero any in codebase |
+| icon field NOT in manifest.json | Figma rejects unknown manifest properties | ✓ Good — uploaded via publish UI |
+| Tailwind formatter as v3 JS config | v4 @theme CSS syntax not widely supported yet | ✓ Good — works with Cursor/Trae |
 
 ---
-*Last updated: 2026-03-02 after initialization*
+*Last updated: 2026-03-05 after v1.0 milestone*
