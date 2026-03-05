@@ -25,7 +25,7 @@ Connect your Figma Design System to any MCP-compatible AI IDE for free. The plug
 
 Open Figma Desktop, then go to **Resources → Plugins** and search for **"AI-Ready DS Auditor"**.
 
-Alternatively, find it on the Figma Community page by searching "AI-Ready DS Auditor".
+Alternatively, find it on the Figma Community page by searching "AI-Ready DS Auditor" (pending).
 
 ---
 
