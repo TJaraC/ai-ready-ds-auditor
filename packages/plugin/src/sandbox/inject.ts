@@ -11,10 +11,12 @@ export function injectReport(report: AuditReport): InjectionResult {
   const json = JSON.stringify(report);
 
   // 2. Measure byte length using TextEncoder (for metadata accuracy only).
-  //    TextEncoder is not in ES2019 lib, so access via globalThis to avoid TS2304.
-  //    Fall back to character count if TextEncoder is unavailable at runtime.
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const TextEncoderCtor = (globalThis as any).TextEncoder as (new () => { encode(s: string): Uint8Array }) | undefined;
+  //    TextEncoder is not in ES2019 lib — access via unknown cast (type-safe, no any).
+  //    Falls back to character count if TextEncoder is unavailable at runtime.
+  type TextEncoderLike = { encode(s: string): Uint8Array };
+  const TextEncoderCtor = (
+    globalThis as unknown as { TextEncoder?: new () => TextEncoderLike }
+  ).TextEncoder;
   const totalBytes: number =
     typeof TextEncoderCtor === 'function'
       ? new TextEncoderCtor().encode(json).length

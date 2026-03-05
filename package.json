@@ -9,7 +9,7 @@
     "build": "npm run build -w packages/shared && npm run build --workspaces --if-present",
     "dev": "npm run dev --workspaces --if-present",
     "lint": "eslint .",
-    "type-check": "tsc --build",
+    "type-check": "tsc --build && tsc --noEmit -p packages/plugin/tsconfig.sandbox.json",
     "test": "vitest run"
   },
   "devDependencies": {
