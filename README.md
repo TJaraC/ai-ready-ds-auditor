@@ -1,6 +1,6 @@
 # AI-Ready Design System Auditor
 
-Connect your Figma Design System to Cursor or Trae for free. The plugin audits your Figma file for hardcoded values and disconnected components, injects structured data, and exposes it to your AI IDE as three MCP tools — all without a cloud subscription.
+Connect your Figma Design System to any MCP-compatible AI IDE for free. The plugin audits your Figma file for hardcoded values and disconnected components, injects structured data, and exposes it as three MCP tools — all without a cloud subscription.
 
 **For:** Non-Enterprise Figma users who want AI-assisted design system work without paying for Figma's Dev Mode API.
 
@@ -8,7 +8,7 @@ Connect your Figma Design System to Cursor or Trae for free. The plugin audits y
 
 - Audits your Figma file for hardcoded colors, typography, spacing, and disconnected components
 - Injects structured token + component data into the Figma file via pluginData
-- Exposes that data to AI IDEs (Cursor, Trae) as three local MCP tools
+- Exposes that data to any MCP-compatible AI IDE as three local MCP tools
 - No cloud, no subscription — works on the free Figma Starter plan
 
 ---
@@ -17,7 +17,7 @@ Connect your Figma Design System to Cursor or Trae for free. The plugin audits y
 
 - Figma Desktop (free Starter plan works)
 - Node.js 18 or later
-- Cursor IDE or Trae IDE
+- Any MCP-compatible AI IDE (Cursor, Trae, Claude Desktop, Windsurf, etc.)
 
 ---
 
@@ -93,6 +93,8 @@ You will reference this file with an **absolute path** in your IDE configuration
 ---
 
 ## Step 6 — Configure your IDE
+
+Works with any IDE that supports the MCP protocol. Below are examples for Cursor and Trae — for other IDEs, refer to their MCP configuration docs and use the same `command`, `args`, and `env` values.
 
 ### Cursor
 
