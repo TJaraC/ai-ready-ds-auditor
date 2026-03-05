@@ -205,7 +205,7 @@ Returns audit issues filtered by category.
 
 **Parameters:**
 - `fileKey` (optional) — which file to query
-- `category` (optional) — filter by issue type: `"color"` | `"typography"` | `"spacing"` | `"components"`
+- `category` (optional) — filter by issue type: `"color"` | `"typography"` | `"spacing"` | `"component"`
 
 **Example prompt:**
 > "What are the hardcoded color issues in this design system?"
