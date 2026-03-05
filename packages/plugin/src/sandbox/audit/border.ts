@@ -16,8 +16,15 @@ export function auditBorderShape(node: SceneNode, pageName: string): AuditIssue[
   if ('cornerRadius' in node) {
     const n = node as FrameNode; // FrameNode covers the common superset of properties
     const cr = n.cornerRadius;
+    // Figma binds individual corners (topLeftRadius etc.) — check any corner binding as proxy.
     // Skip figma.mixed (individual per-corner radii — future improvement)
-    if (cr !== figma.mixed && cr !== 0 && !n.boundVariables?.cornerRadius) {
+    const bv = n.boundVariables;
+    const hasCornerBinding =
+      bv?.topLeftRadius !== undefined ||
+      bv?.topRightRadius !== undefined ||
+      bv?.bottomLeftRadius !== undefined ||
+      bv?.bottomRightRadius !== undefined;
+    if (cr !== figma.mixed && cr !== 0 && !hasCornerBinding) {
       issues.push(
         buildIssue(
           node,

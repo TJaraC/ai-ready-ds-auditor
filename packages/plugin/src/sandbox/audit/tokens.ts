@@ -86,7 +86,6 @@ export function extractTextStyleTokens(textStyles: TextStyle[]): DesignToken[] {
       type: 'typography',
       value: style.fontName.family,
       rawValue: style.fontName.family,
-      variableName: undefined,
       collectionName: 'Text Styles',
       groupPath: [...groupPath, 'fontFamily'],
     });
@@ -97,7 +96,6 @@ export function extractTextStyleTokens(textStyles: TextStyle[]): DesignToken[] {
       type: 'typography',
       value: `${style.fontSize}px`,
       rawValue: String(style.fontSize),
-      variableName: undefined,
       collectionName: 'Text Styles',
       groupPath: [...groupPath, 'fontSize'],
     });
@@ -108,7 +106,6 @@ export function extractTextStyleTokens(textStyles: TextStyle[]): DesignToken[] {
       type: 'typography',
       value: style.fontName.style,
       rawValue: style.fontName.style,
-      variableName: undefined,
       collectionName: 'Text Styles',
       groupPath: [...groupPath, 'fontWeight'],
     });
@@ -125,7 +122,6 @@ export function extractTextStyleTokens(textStyles: TextStyle[]): DesignToken[] {
         type: 'typography',
         value: lhValue,
         rawValue: String(style.lineHeight.value),
-        variableName: undefined,
         collectionName: 'Text Styles',
         groupPath: [...groupPath, 'lineHeight'],
       });

@@ -7,11 +7,10 @@
       "../../node_modules/@figma"
     ],
     "jsx": "preserve",
-    "outDir": "./dist",
-    "rootDir": "./src/sandbox",
+    "noEmit": true,
     "paths": {
       "@shared/*": ["../../packages/shared/src/*"]
     }
   },
-  "include": ["src/sandbox/**/*"]
+  "include": ["src/sandbox/**/*", "../../packages/shared/src/**/*"]
 }

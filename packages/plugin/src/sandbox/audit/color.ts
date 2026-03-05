@@ -28,7 +28,7 @@ export function auditFills(
   // If node is bound to a named fill style, all fills are intentional
   if ('fillStyleId' in node) {
     const id = node.fillStyleId;
-    if (id !== figma.mixed && id !== '' && styleIds.has(id as string)) {
+    if (typeof id === 'string' && id !== '' && styleIds.has(id)) {
       return issues;
     }
   }
@@ -75,7 +75,7 @@ export function auditStrokes(
   // If node is bound to a named stroke style, all strokes are intentional
   if ('strokeStyleId' in node) {
     const id = node.strokeStyleId;
-    if (id !== figma.mixed && id !== '' && styleIds.has(id as string)) {
+    if (typeof id === 'string' && id !== '' && styleIds.has(id)) {
       return issues;
     }
   }
