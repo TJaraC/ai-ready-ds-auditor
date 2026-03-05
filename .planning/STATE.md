@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 current_plan: 05-03 (Community Submission Assets + Final Smoke Test) — NEXT
-status: completed
-stopped_at: 05-02 complete — README.md written at repo root (308 lines, full setup guide)
-last_updated: "2026-03-05T08:15:53.104Z"
+status: verifying
+stopped_at: 05-01-PLAN complete — zero any, sandbox type-check green, all 22 tests pass, bundle 62.2kB
+last_updated: "2026-03-05T08:17:10.445Z"
 last_activity: 2026-03-05
 progress:
   total_phases: 5
   completed_phases: 4
   total_plans: 15
-  completed_plans: 13
+  completed_plans: 14
 ---
 
 # Project State
@@ -28,7 +28,7 @@ See: .planning/PROJECT.md (updated 2026-03-02)
 **Phase:** 5 of 5 (Integration & Polish) — IN PROGRESS
 **Current Plan:** 05-03 (Community Submission Assets + Final Smoke Test) — NEXT
 **Total Plans in Phase:** 3 (05-01 ✓, 05-02 ✓, 05-03 pending)
-**Status:** 05-02 complete — README.md written covering complete plugin-to-IDE setup pipeline
+**Status:** Phase complete — ready for verification
 **Last Activity:** 2026-03-05
 
 Progress: [##################] 90% (4.5/5 phases)
@@ -44,6 +44,7 @@ Progress: [##################] 90% (4.5/5 phases)
 | 03-data-injection | 3 | ~90 min | ~30 min |
 | Phase 04-mcp-server P01 | 2 | 3 tasks | 6 files |
 | Phase 05-integration-polish P05-02 | 8 | 1 tasks | 1 files |
+| Phase 05-integration-polish P01 | 5 | 2 tasks | 8 files |
 
 ## Accumulated Context
 
@@ -105,6 +106,10 @@ Progress: [##################] 90% (4.5/5 phases)
 - [Phase 05-integration-polish 05-02]: Rate limit (6 GET/month) and session-cache behavior documented in README to prevent quota exhaustion confusion
 - [Phase 05-integration-polish]: README uses 6 sequential steps mirroring exact user journey: install plugin → get token → get file key → audit+inject → build server → configure IDE
 - [Phase 05-integration-polish]: Cursor uses object-style mcpServers; Trae uses array-style with command-as-array — format differences explicitly documented in README to prevent copy-paste errors
+- [Phase 05-01]: unknown cast (globalThis as unknown as { TextEncoder?: ... }) replaces any — safer, no eslint-disable
+- [Phase 05-01]: tsconfig.sandbox.json rootDir removed for noEmit-only type checking; shared src added to includes
+- [Phase 05-01]: healthScore simplified to max(0, 100 - totalIssues) to match test contract
+- [Phase 05-01]: Figma VariableBindableNodeField has no cornerRadius — check topLeftRadius/topRightRadius etc. instead
 
 ### Pending Todos
 
@@ -116,7 +121,7 @@ None.
 
 ## Session Continuity
 
-**Last session:** 2026-03-05T08:15:53.102Z
-**Stopped at:** 05-02 complete — README.md written at repo root (308 lines, full setup guide)
+**Last session:** 2026-03-05T08:17:10.444Z
+**Stopped at:** 05-01-PLAN complete — zero any, sandbox type-check green, all 22 tests pass, bundle 62.2kB
 **Resume file:** None
 **Next action:** Execute plan 05-03 (Community Submission Assets + Final Smoke Test)

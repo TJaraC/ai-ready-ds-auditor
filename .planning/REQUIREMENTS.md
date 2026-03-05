@@ -58,7 +58,7 @@
 - [x] **UI-07**: "AI Context" tab displays the Figma File ID and metadata fields needed to configure the MCP server
 - [x] **UI-08**: All async operations show clear loading states
 - [x] **UI-09**: All error conditions show clear, actionable error messages (not raw error objects)
-- [ ] **UI-10**: Plugin UI bundle size stays under 200kB gzipped
+- [x] **UI-10**: Plugin UI bundle size stays under 200kB gzipped
 
 ### MCP Server — Core (MCP)
 
@@ -174,7 +174,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | UI-07 | Phase 3: Data Injection & Plugin UI | Complete |
 | UI-08 | Phase 3: Data Injection & Plugin UI | Complete |
 | UI-09 | Phase 3: Data Injection & Plugin UI | Complete |
-| UI-10 | Phase 3: Data Injection & Plugin UI | Pending |
+| UI-10 | Phase 3: Data Injection & Plugin UI | Complete |
 | MCP-01 | Phase 4: MCP Server | Complete |
 | MCP-02 | Phase 4: MCP Server | Complete |
 | MCP-03 | Phase 4: MCP Server | Complete |
