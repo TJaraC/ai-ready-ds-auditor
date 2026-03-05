@@ -81,9 +81,9 @@
 
 ### MCP Server — Tools (TOOL)
 
-- [ ] **TOOL-01**: Tool `get_design_tokens` accepts optional `fileKey` and `framework` parameters; returns color, typography, and spacing tokens formatted for the selected CSS framework
-- [ ] **TOOL-02**: Tool `get_component_specs` accepts `componentName` or `componentId` parameter; returns full component specification including props, variants, and usage notes
-- [ ] **TOOL-03**: Tool `get_audit_summary` accepts optional `fileKey` and `category` filter; returns structured audit issues with node IDs, issue types, and suggested fixes
+- [x] **TOOL-01**: Tool `get_design_tokens` accepts optional `fileKey` and `framework` parameters; returns color, typography, and spacing tokens formatted for the selected CSS framework
+- [x] **TOOL-02**: Tool `get_component_specs` accepts `componentName` or `componentId` parameter; returns full component specification including props, variants, and usage notes
+- [x] **TOOL-03**: Tool `get_audit_summary` accepts optional `fileKey` and `category` filter; returns structured audit issues with node IDs, issue types, and suggested fixes
 - [ ] **TOOL-04**: All tool input schemas are validated with `zod` before processing
 - [ ] **TOOL-05**: All tool responses conform to typed interfaces exported from `packages/shared`
 
@@ -188,9 +188,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | ERR-02 | Phase 4: MCP Server | Complete |
 | ERR-03 | Phase 4: MCP Server | Complete |
 | ERR-04 | Phase 4: MCP Server | Complete |
-| TOOL-01 | Phase 4: MCP Server | Pending |
-| TOOL-02 | Phase 4: MCP Server | Pending |
-| TOOL-03 | Phase 4: MCP Server | Pending |
+| TOOL-01 | Phase 4: MCP Server | Complete |
+| TOOL-02 | Phase 4: MCP Server | Complete |
+| TOOL-03 | Phase 4: MCP Server | Complete |
 | TOOL-04 | Phase 4: MCP Server | Pending |
 | TOOL-05 | Phase 4: MCP Server | Pending |
 | FMT-01 | Phase 4: MCP Server | Pending |

@@ -15,8 +15,8 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 1: Foundation** - Monorepo scaffold, shared types with schemaVersion, dual-build Vite plugin, sandbox/UI message protocol (completed 2026-03-03)
 - [x] **Phase 2: Audit Engine** - Four auditors (color, typography, spacing, components) with scene graph traversal and progress reporting (completed 2026-03-03)
 - [x] **Phase 3: Data Injection & Plugin UI** - Chunked setPluginData injection, change detection, two-tab React UI with health dashboard (completed 2026-03-03)
-- [ ] **Phase 4: MCP Server** - Figma REST API client, chunk reconstruction, three tool handlers, four CSS framework formatters, error handling
-- [ ] **Phase 5: Integration & Polish** - End-to-end pipeline validation, error boundaries, bundle size verification, Figma Community readiness
+- [x] **Phase 4: MCP Server** - Figma REST API client, chunk reconstruction, three tool handlers, four CSS framework formatters, error handling (completed 2026-03-04)
+- [ ] **Phase 5: Integration & Polish** - End-to-end pipeline validation, error boundaries, bundle size verification, Figma Community readiness (in progress: 2/3 plans complete)
 
 ## Phase Details
 
@@ -100,8 +100,8 @@ Plans:
 **Plans**: 3 plans
 
 Plans:
-- [ ] 05-01-PLAN.md -- TypeScript cleanup (remove `any` from inject.ts, add sandbox tsconfig to root type-check) + full verification suite (type-check, lint, tests, bundle gzip size)
-- [ ] 05-02-PLAN.md -- MCP server README: complete setup guide for plugin install, Figma token, Cursor/Trae config, all three tools
+- [x] 05-01-PLAN.md -- TypeScript cleanup (remove `any` from inject.ts, add sandbox tsconfig to root type-check) + full verification suite (type-check, lint, tests, bundle gzip size)
+- [x] 05-02-PLAN.md -- MCP server README: complete setup guide for plugin install, Figma token, Cursor/Trae config, all three tools
 - [ ] 05-03-PLAN.md -- Plugin Community icon (128x128 PNG), manifest icon field, end-to-end smoke test checkpoint
 
 ## Progress
@@ -114,5 +114,5 @@ Phases execute in numeric order: 1 --> 2 --> 3 --> 4 --> 5
 | 1. Foundation | 3/3 | Complete   | 2026-03-03 |
 | 2. Audit Engine | 3/3 | Complete   | 2026-03-03 |
 | 3. Data Injection & Plugin UI | 3/3 | Complete    | 2026-03-03 |
-| 4. MCP Server | 1/3 | In Progress|  |
-| 5. Integration & Polish | 0/3 | Not started | - |
+| 4. MCP Server | 3/3 | Complete   | 2026-03-04 |
+| 5. Integration & Polish | 1/3 | In Progress|  |

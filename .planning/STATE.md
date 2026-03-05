@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-current_plan: Phase 5 next
-status: ready
-stopped_at: Phase 4 fully verified — typography tokens confirmed in IDE
-last_updated: "2026-03-04T22:00:00.000Z"
-last_activity: 2026-03-04
+current_plan: 05-03 (Community Submission Assets + Final Smoke Test) — NEXT
+status: completed
+stopped_at: 05-02 complete — README.md written at repo root (308 lines, full setup guide)
+last_updated: "2026-03-05T08:15:53.104Z"
+last_activity: 2026-03-05
 progress:
   total_phases: 5
   completed_phases: 4
-  total_plans: 12
-  completed_plans: 12
+  total_plans: 15
+  completed_plans: 13
 ---
 
 # Project State
@@ -25,13 +25,13 @@ See: .planning/PROJECT.md (updated 2026-03-02)
 
 ## Current Position
 
-**Phase:** 4 of 5 (MCP Server) — COMPLETE ✓
-**Current Plan:** Phase 5: Integration & Polish — NEXT
-**Total Plans in Phase:** 3 (Wave 1: 04-01 ✓, Wave 2: 04-02 ✓, Wave 3: 04-03 ✓)
-**Status:** get_design_tokens verified in IDE — colors, spacing, typography (fontFamily, fontSize, fontWeight, lineHeight) all returning correctly
-**Last Activity:** 2026-03-04
+**Phase:** 5 of 5 (Integration & Polish) — IN PROGRESS
+**Current Plan:** 05-03 (Community Submission Assets + Final Smoke Test) — NEXT
+**Total Plans in Phase:** 3 (05-01 ✓, 05-02 ✓, 05-03 pending)
+**Status:** 05-02 complete — README.md written covering complete plugin-to-IDE setup pipeline
+**Last Activity:** 2026-03-05
 
-Progress: [################] 80% (4/5 phases)
+Progress: [##################] 90% (4.5/5 phases)
 
 ## Performance Metrics
 
@@ -43,6 +43,7 @@ Progress: [################] 80% (4/5 phases)
 | 02-audit-engine | 3 | 15 min | 5 min |
 | 03-data-injection | 3 | ~90 min | ~30 min |
 | Phase 04-mcp-server P01 | 2 | 3 tasks | 6 files |
+| Phase 05-integration-polish P05-02 | 8 | 1 tasks | 1 files |
 
 ## Accumulated Context
 
@@ -99,6 +100,11 @@ Progress: [################] 80% (4/5 phases)
 - [Phase 04-mcp-server 04-03]: shared package also recompiled as CJS + require condition added to exports; plugin unaffected (uses TS source via Vite)
 - [Phase 04-mcp-server post-03]: extractTextStyleTokens() wired in index.ts — textStyles already in PASS 0, merged with variableTokens before assembleReport
 - [Phase 04-mcp-server post-03]: Tailwind formatter splits typography tokens by name suffix (fontFamily/fontSize/fontWeight/lineHeight) into separate Tailwind theme buckets
+- [Phase 05-integration-polish 05-02]: README uses 6 sequential steps mirroring exact user journey (install → token → file key → audit → build → configure IDE)
+- [Phase 05-integration-polish 05-02]: Cursor uses object-style mcpServers; Trae uses array-style with command-as-array — both documented with explicit format difference callout
+- [Phase 05-integration-polish 05-02]: Rate limit (6 GET/month) and session-cache behavior documented in README to prevent quota exhaustion confusion
+- [Phase 05-integration-polish]: README uses 6 sequential steps mirroring exact user journey: install plugin → get token → get file key → audit+inject → build server → configure IDE
+- [Phase 05-integration-polish]: Cursor uses object-style mcpServers; Trae uses array-style with command-as-array — format differences explicitly documented in README to prevent copy-paste errors
 
 ### Pending Todos
 
@@ -110,7 +116,7 @@ None.
 
 ## Session Continuity
 
-**Last session:** 2026-03-04T22:00:00.000Z
-**Stopped at:** Phase 4 complete — typography tokens verified in Cursor/Trae
+**Last session:** 2026-03-05T08:15:53.102Z
+**Stopped at:** 05-02 complete — README.md written at repo root (308 lines, full setup guide)
 **Resume file:** None
-**Next action:** /gsd:discuss-phase 5 or /gsd:plan-phase 5
+**Next action:** Execute plan 05-03 (Community Submission Assets + Final Smoke Test)
