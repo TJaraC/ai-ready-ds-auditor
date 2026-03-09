@@ -28,7 +28,7 @@ Full phase details: `.planning/milestones/v1.0-ROADMAP.md`
 
 #### Phases
 
-- [ ] **Phase 6: Discovery & Architecture Decisions** - Audit the v1.0 codebase, access Figma source frames, and produce concrete decisions for all v2.0 work
+- [x] **Phase 6: Discovery & Architecture Decisions** - Audit the v1.0 codebase, access Figma source frames, and produce concrete decisions for all v2.0 work — completed 2026-03-09
 - [ ] **Phase 7: Architecture Refactor** - Separate audit, inject, MCP, parsing, and UI state into discrete, testable modules with stable contracts
 - [ ] **Phase 8: UI v2 Base** - Implement the three Figma-faithful core screens (Audit-1, Audit-2, Config-1) with shared state management and all global UI states
 - [ ] **Phase 9: Audit Flow v2** - Add streaming active state, unpublished detection, AI Context status, and wire streaming events through MCP and UI
@@ -60,7 +60,13 @@ Full phase details: `.planning/milestones/v1.0-ROADMAP.md`
   3. The MCP server adaptation layer is separated from shared audit types — MCP tool changes do not propagate into the plugin
   4. Parsing and serialization are separated into their own module — chunk reconstruction and schema validation are independently testable
   5. UI state management is a standalone layer — React components receive state as props and dispatch actions through typed handlers, not by reading plugin globals directly
-**Plans**: TBD
+**Plans**: 4 plans
+
+Plans:
+- [ ] 07-01-PLAN.md — AuditNode* interfaces + update 6 auditors (ARCH-01 core)
+- [ ] 07-02-PLAN.md — Auditor tests + serialize.ts extraction + shared types (ARCH-01 tests + ARCH-02)
+- [ ] 07-03-PLAN.md — MCP adapter layer + chunk-reader split + tests (ARCH-03 + ARCH-04)
+- [ ] 07-04-PLAN.md — UI state.ts + useAppMessages.ts + App.tsx refactor (ARCH-05)
 
 ### Phase 8: UI v2 Base
 **Goal**: The plugin renders three screens that are pixel-faithful to the Figma Audit-1, Audit-2, and Config-1 frames, using a shared state layer and covering all global UI states
@@ -134,7 +140,7 @@ Full phase details: `.planning/milestones/v1.0-ROADMAP.md`
 | 4. MCP Server | v1.0 | 3/3 | Complete | 2026-03-04 |
 | 5. Integration & Polish | v1.0 | 3/3 | Complete | 2026-03-05 |
 | 6. Discovery & Architecture Decisions | v2.0 | 0/TBD | Not started | - |
-| 7. Architecture Refactor | v2.0 | 0/TBD | Not started | - |
+| 7. Architecture Refactor | v2.0 | 0/4 | Not started | - |
 | 8. UI v2 Base | v2.0 | 0/TBD | Not started | - |
 | 9. Audit Flow v2 | v2.0 | 0/TBD | Not started | - |
 | 10. Configuration Flow v2 | v2.0 | 0/TBD | Not started | - |
