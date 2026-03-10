@@ -140,7 +140,7 @@ Plans:
 | 4. MCP Server | v1.0 | 3/3 | Complete | 2026-03-04 |
 | 5. Integration & Polish | v1.0 | 3/3 | Complete | 2026-03-05 |
 | 6. Discovery & Architecture Decisions | v2.0 | 0/TBD | Not started | - |
-| 7. Architecture Refactor | 1/4 | In Progress|  | - |
+| 7. Architecture Refactor | 3/4 | In Progress|  | - |
 | 8. UI v2 Base | v2.0 | 0/TBD | Not started | - |
 | 9. Audit Flow v2 | v2.0 | 0/TBD | Not started | - |
 | 10. Configuration Flow v2 | v2.0 | 0/TBD | Not started | - |
