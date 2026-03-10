@@ -29,19 +29,19 @@ describe('auditComponents', () => {
     const node: AuditNode = { id: '4', name: 'Button', type: 'FRAME' };
     const issues = auditComponents(node, 'Page 1', componentNames);
     expect(issues).toHaveLength(1);
-    expect(issues[0].issueType).toBe('disconnected-component');
-    expect(issues[0].category).toBe('component');
-    expect(issues[0].offendingValue).toBe('Button');
-    expect(issues[0].nodeId).toBe('4');
-    expect(issues[0].pageName).toBe('Page 1');
+    expect(issues[0]!.issueType).toBe('disconnected-component');
+    expect(issues[0]!.category).toBe('component');
+    expect(issues[0]!.offendingValue).toBe('Button');
+    expect(issues[0]!.nodeId).toBe('4');
+    expect(issues[0]!.pageName).toBe('Page 1');
   });
 
   it('returns [issue] for GROUP node whose name matches a component name', () => {
     const node: AuditNode = { id: '5', name: 'Card', type: 'GROUP' };
     const issues = auditComponents(node, 'Page', componentNames);
     expect(issues).toHaveLength(1);
-    expect(issues[0].issueType).toBe('disconnected-component');
-    expect(issues[0].offendingValue).toBe('Card');
+    expect(issues[0]!.issueType).toBe('disconnected-component');
+    expect(issues[0]!.offendingValue).toBe('Card');
   });
 
   it('returns [] for RECTANGLE node — only FRAME and GROUP are checked', () => {
@@ -57,7 +57,7 @@ describe('auditComponents', () => {
   it('suggested fix mentions node type and component name', () => {
     const node: AuditNode = { id: '8', name: 'Modal', type: 'FRAME' };
     const issues = auditComponents(node, 'Page', componentNames);
-    expect(issues[0].suggestedFix).toContain('FRAME');
-    expect(issues[0].suggestedFix).toContain('Modal');
+    expect(issues[0]!.suggestedFix).toContain('FRAME');
+    expect(issues[0]!.suggestedFix).toContain('Modal');
   });
 });

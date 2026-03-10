@@ -39,10 +39,10 @@ describe('auditSpacing', () => {
     const node: AuditNodeLayout = { ...baseNode, layoutMode: 'VERTICAL', paddingLeft: 16 };
     const issues = auditSpacing(node, 'Page 1');
     expect(issues).toHaveLength(1);
-    expect(issues[0].issueType).toBe('hardcoded-paddingLeft');
-    expect(issues[0].offendingValue).toBe('16');
-    expect(issues[0].category).toBe('spacing');
-    expect(issues[0].pageName).toBe('Page 1');
+    expect(issues[0]!.issueType).toBe('hardcoded-paddingLeft');
+    expect(issues[0]!.offendingValue).toBe('16');
+    expect(issues[0]!.category).toBe('spacing');
+    expect(issues[0]!.pageName).toBe('Page 1');
   });
 
   it('returns [] for paddingLeft when boundVariables.paddingLeft is present', () => {
@@ -92,14 +92,14 @@ describe('auditSpacing', () => {
     // paddingTop=0 and paddingBottom=0 are skipped (zero), bound fields skipped
     // only itemSpacing=8 is unbound non-zero
     expect(issues).toHaveLength(1);
-    expect(issues[0].issueType).toBe('hardcoded-itemSpacing');
+    expect(issues[0]!.issueType).toBe('hardcoded-itemSpacing');
   });
 
   it('reports hardcoded-itemSpacing for non-zero unbound gap in HORIZONTAL layout', () => {
     const node: AuditNodeLayout = { ...baseNode, layoutMode: 'HORIZONTAL', itemSpacing: 12 };
     const issues = auditSpacing(node, 'Page');
     expect(issues).toHaveLength(1);
-    expect(issues[0].issueType).toBe('hardcoded-itemSpacing');
-    expect(issues[0].offendingValue).toBe('12');
+    expect(issues[0]!.issueType).toBe('hardcoded-itemSpacing');
+    expect(issues[0]!.offendingValue).toBe('12');
   });
 });

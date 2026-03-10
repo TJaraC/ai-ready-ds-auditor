@@ -56,3 +56,14 @@ export interface AuditReport {
   components: ComponentSpec[];
   tokens: DesignToken[];
 }
+
+export interface InjectionResult {
+  chunkCount: number;
+  bytesWritten: number;
+}
+
+export interface ChunkPayload {
+  chunks: string[];
+  totalBytes: number;
+  chunkCount: number;
+}

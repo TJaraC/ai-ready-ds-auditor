@@ -55,11 +55,11 @@ describe('auditFills', () => {
     };
     const issues = auditFills(node, 'Page 1', styleIds);
     expect(issues).toHaveLength(1);
-    expect(issues[0].category).toBe('color');
-    expect(issues[0].issueType).toBe('hardcoded-fill');
-    expect(issues[0].offendingValue).toBe('#ff0000');
-    expect(issues[0].nodeId).toBe('5');
-    expect(issues[0].pageName).toBe('Page 1');
+    expect(issues[0]!.category).toBe('color');
+    expect(issues[0]!.issueType).toBe('hardcoded-fill');
+    expect(issues[0]!.offendingValue).toBe('#ff0000');
+    expect(issues[0]!.nodeId).toBe('5');
+    expect(issues[0]!.pageName).toBe('Page 1');
   });
 
   it('returns [] for non-SOLID fill (GRADIENT_LINEAR) — gradients are skipped', () => {
@@ -129,10 +129,10 @@ describe('auditStrokes', () => {
     };
     const issues = auditStrokes(node, 'Page 2', styleIds);
     expect(issues).toHaveLength(1);
-    expect(issues[0].category).toBe('color');
-    expect(issues[0].issueType).toBe('hardcoded-stroke');
-    expect(issues[0].offendingValue).toBe('#0000ff');
-    expect(issues[0].nodeId).toBe('3');
+    expect(issues[0]!.category).toBe('color');
+    expect(issues[0]!.issueType).toBe('hardcoded-stroke');
+    expect(issues[0]!.offendingValue).toBe('#0000ff');
+    expect(issues[0]!.nodeId).toBe('3');
   });
 
   it('returns [] for non-SOLID stroke (GRADIENT_LINEAR) — gradients are skipped', () => {
