@@ -1,4 +1,5 @@
 import type { AuditIssue } from '@shared/index';
+import type { AuditNodeLayout } from './inputs';
 import { buildIssue } from './utils';
 
 /**
@@ -11,7 +12,7 @@ import { buildIssue } from './utils';
  * - Skips zero values — zero padding/gap is intentional, not a missing token
  */
 export function auditSpacing(
-  node: FrameNode | ComponentNode | InstanceNode,
+  node: AuditNodeLayout,
   pageName: string,
 ): AuditIssue[] {
   const issues: AuditIssue[] = [];

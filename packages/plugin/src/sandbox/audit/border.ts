@@ -1,4 +1,5 @@
 import type { AuditIssue } from '@shared/index';
+import type { AuditNode } from './inputs';
 import { buildIssue } from './utils';
 
 /**
@@ -9,12 +10,23 @@ import { buildIssue } from './utils';
  * Skips cornerRadius when figma.mixed (individual corners set separately — future improvement).
  * Skips strokeWeight when figma.mixed or when the node has no strokes defined.
  */
-export function auditBorderShape(node: SceneNode, pageName: string): AuditIssue[] {
+export function auditBorderShape(node: AuditNode, pageName: string): AuditIssue[] {
   const issues: AuditIssue[] = [];
 
   // cornerRadius — available on frames, components, instances, rectangles, etc.
   if ('cornerRadius' in node) {
-    const n = node as FrameNode; // FrameNode covers the common superset of properties
+    const n = node as AuditNode & {
+      cornerRadius: number | symbol;
+      boundVariables?: {
+        topLeftRadius?: unknown;
+        topRightRadius?: unknown;
+        bottomLeftRadius?: unknown;
+        bottomRightRadius?: unknown;
+        strokeWeight?: unknown;
+      };
+      strokes: ReadonlyArray<unknown>;
+      strokeWeight: number | symbol;
+    };
     const cr = n.cornerRadius;
     // Figma binds individual corners (topLeftRadius etc.) — check any corner binding as proxy.
     // Skip figma.mixed (individual per-corner radii — future improvement)
@@ -31,7 +43,7 @@ export function auditBorderShape(node: SceneNode, pageName: string): AuditIssue[
           pageName,
           'border',
           'hardcoded-cornerRadius',
-          `${cr}px`,
+          `${String(cr)}px`,
           'Bind cornerRadius to a border-radius variable',
         ),
       );
@@ -40,7 +52,18 @@ export function auditBorderShape(node: SceneNode, pageName: string): AuditIssue[
 
   // strokeWeight — only flag when the node actually has strokes
   if ('strokeWeight' in node && 'strokes' in node) {
-    const n = node as FrameNode;
+    const n = node as AuditNode & {
+      cornerRadius: number | symbol;
+      boundVariables?: {
+        topLeftRadius?: unknown;
+        topRightRadius?: unknown;
+        bottomLeftRadius?: unknown;
+        bottomRightRadius?: unknown;
+        strokeWeight?: unknown;
+      };
+      strokes: ReadonlyArray<unknown>;
+      strokeWeight: number | symbol;
+    };
     if (n.strokes.length > 0) {
       const sw = n.strokeWeight;
       // Skip figma.mixed (mixed stroke weights on text segments)
@@ -51,7 +74,7 @@ export function auditBorderShape(node: SceneNode, pageName: string): AuditIssue[
             pageName,
             'border',
             'hardcoded-strokeWeight',
-            `${sw}px`,
+            `${String(sw)}px`,
             'Bind strokeWeight to a border-width variable',
           ),
         );

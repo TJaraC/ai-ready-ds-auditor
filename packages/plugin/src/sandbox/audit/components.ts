@@ -1,4 +1,5 @@
 import type { AuditIssue } from '@shared/index';
+import type { AuditNode } from './inputs';
 import { buildIssue } from './utils';
 
 /**
@@ -12,7 +13,7 @@ import { buildIssue } from './utils';
  * - Uses an exact name match against the provided componentNames set
  */
 export function auditComponents(
-  node: SceneNode,
+  node: AuditNode,
   pageName: string,
   componentNames: Set<string>,
 ): AuditIssue[] {

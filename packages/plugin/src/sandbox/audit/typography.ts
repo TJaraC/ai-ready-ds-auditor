@@ -1,4 +1,5 @@
 import type { AuditIssue } from '@shared/index';
+import type { AuditNodeText } from './inputs';
 import { buildIssue } from './utils';
 
 /**
@@ -13,7 +14,7 @@ import { buildIssue } from './utils';
  *   (only when fontSize is also unbound, to avoid duplicate noise on partially-bound nodes)
  */
 export function auditTypography(
-  node: TextNode,
+  node: AuditNodeText,
   pageName: string,
   styleIds: Set<string>,
 ): AuditIssue[] {
@@ -24,7 +25,8 @@ export function auditTypography(
   if (
     textStyleId !== figma.mixed &&
     textStyleId !== '' &&
-    styleIds.has(textStyleId as string)
+    typeof textStyleId === 'string' &&
+    styleIds.has(textStyleId)
   ) {
     return issues;
   }
@@ -66,7 +68,7 @@ export function auditTypography(
 
   // Check lineHeight — skip AUTO (intentional default), skip if bound to variable
   if (!boundVars?.lineHeight && node.lineHeight !== figma.mixed) {
-    const lh = node.lineHeight as LineHeight;
+    const lh = node.lineHeight as { unit: string; value?: number };
     if (lh.unit !== 'AUTO') {
       const value = lh.unit === 'PIXELS' ? `${lh.value}px` : `${lh.value}%`;
       issues.push(
@@ -84,7 +86,7 @@ export function auditTypography(
 
   // Check letterSpacing — skip 0 (normal default), skip if bound to variable
   if (!boundVars?.letterSpacing && node.letterSpacing !== figma.mixed) {
-    const ls = node.letterSpacing as LetterSpacing;
+    const ls = node.letterSpacing as { unit: string; value: number };
     if (ls.value !== 0) {
       const value = ls.unit === 'PIXELS' ? `${ls.value}px` : `${ls.value}%`;
       issues.push(

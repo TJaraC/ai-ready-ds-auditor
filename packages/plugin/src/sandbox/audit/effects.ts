@@ -1,4 +1,5 @@
 import type { AuditIssue } from '@shared/index';
+import type { AuditNode } from './inputs';
 import { buildIssue } from './utils';
 
 /**
@@ -11,7 +12,7 @@ import { buildIssue } from './utils';
  * - Nodes whose effectStyleId is bound to a named effect style
  */
 export function auditEffects(
-  node: SceneNode,
+  node: AuditNode,
   pageName: string,
   effectStyleIds: Set<string>,
 ): AuditIssue[] {
@@ -19,13 +20,13 @@ export function auditEffects(
 
   if (!('effects' in node)) return issues;
 
-  const effects = node.effects as Effect[];
+  const effects = (node as AuditNode & { effects: ReadonlyArray<{ type: string }> }).effects;
   if (effects.length === 0) return issues;
 
   // If an effect style is applied, all effects are intentional
   if ('effectStyleId' in node) {
-    const id = node.effectStyleId as string;
-    if (id !== '' && effectStyleIds.has(id)) return issues;
+    const id = (node as AuditNode & { effectStyleId?: string }).effectStyleId;
+    if (typeof id === 'string' && id !== '' && effectStyleIds.has(id)) return issues;
   }
 
   // Flag if any shadow effect exists without a bound effect style

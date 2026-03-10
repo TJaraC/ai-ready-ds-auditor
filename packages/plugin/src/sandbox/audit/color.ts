@@ -1,4 +1,5 @@
 import type { AuditIssue } from '@shared/index';
+import type { AuditNodeFills } from './inputs';
 import { buildIssue, rgbToHex } from './utils';
 
 /**
@@ -12,13 +13,13 @@ import { buildIssue, rgbToHex } from './utils';
  * - SOLID fills that already have a boundVariables.color alias
  */
 export function auditFills(
-  node: SceneNode,
+  node: AuditNodeFills,
   pageName: string,
   styleIds: Set<string>,
 ): AuditIssue[] {
   const issues: AuditIssue[] = [];
 
-  if (!('fills' in node)) return issues;
+  if (node.fills === undefined) return issues;
 
   const fills = node.fills;
 
@@ -26,20 +27,19 @@ export function auditFills(
   if (fills === figma.mixed) return issues;
 
   // If node is bound to a named fill style, all fills are intentional
-  if ('fillStyleId' in node) {
+  if (node.fillStyleId !== undefined) {
     const id = node.fillStyleId;
     if (typeof id === 'string' && id !== '' && styleIds.has(id)) {
       return issues;
     }
   }
 
-  for (const fill of fills) {
+  for (const fill of fills as ReadonlyArray<{ type: string; color?: { r: number; g: number; b: number }; boundVariables?: { color?: unknown } }>) {
     // Only SOLID paints can be variable-bound via boundVariables.color
     if (fill.type !== 'SOLID') continue;
 
-    const solidFill = fill as SolidPaint;
-    if (!solidFill.boundVariables?.color) {
-      const hex = rgbToHex(solidFill.color);
+    if (!fill.boundVariables?.color && fill.color) {
+      const hex = rgbToHex(fill.color);
       issues.push(
         buildIssue(
           node,
@@ -62,18 +62,18 @@ export function auditFills(
  * Follows the same logic as auditFills but checks strokes and strokeStyleId.
  */
 export function auditStrokes(
-  node: SceneNode,
+  node: AuditNodeFills,
   pageName: string,
   styleIds: Set<string>,
 ): AuditIssue[] {
   const issues: AuditIssue[] = [];
 
-  if (!('strokes' in node)) return issues;
+  if (node.strokes === undefined) return issues;
 
   const strokes = node.strokes;
 
   // If node is bound to a named stroke style, all strokes are intentional
-  if ('strokeStyleId' in node) {
+  if (node.strokeStyleId !== undefined) {
     const id = node.strokeStyleId;
     if (typeof id === 'string' && id !== '' && styleIds.has(id)) {
       return issues;
@@ -84,9 +84,8 @@ export function auditStrokes(
     // Only SOLID paints can be variable-bound via boundVariables.color
     if (stroke.type !== 'SOLID') continue;
 
-    const solidStroke = stroke as SolidPaint;
-    if (!solidStroke.boundVariables?.color) {
-      const hex = rgbToHex(solidStroke.color);
+    if (!stroke.boundVariables?.color && stroke.color) {
+      const hex = rgbToHex(stroke.color);
       issues.push(
         buildIssue(
           node,
