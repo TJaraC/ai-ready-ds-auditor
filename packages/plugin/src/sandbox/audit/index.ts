@@ -1,4 +1,5 @@
 import type { AuditIssue, AuditReport, ComponentSpec, SandboxMessage } from '@shared/index';
+import type { AuditNode, AuditNodeFills, AuditNodeText, AuditNodeLayout } from './inputs';
 import { assembleReport } from './utils';
 import { auditFills, auditStrokes } from './color';
 import { auditTypography } from './typography';
@@ -79,12 +80,12 @@ export async function runAudit(): Promise<AuditReport> {
 
       for (const node of nodes) {
         // Color: fills and strokes (guards for property existence are inside each auditor)
-        allIssues.push(...auditFills(node, pageName, styleIds));
-        allIssues.push(...auditStrokes(node, pageName, styleIds));
+        allIssues.push(...auditFills(node as unknown as AuditNodeFills, pageName, styleIds));
+        allIssues.push(...auditStrokes(node as unknown as AuditNodeFills, pageName, styleIds));
 
         // Typography: text-specific properties
         if (node.type === 'TEXT') {
-          allIssues.push(...auditTypography(node, pageName, styleIds));
+          allIssues.push(...auditTypography(node as unknown as AuditNodeText, pageName, styleIds));
         }
 
         // Spacing: auto-layout padding and gap (FRAME, COMPONENT, INSTANCE only)
@@ -93,17 +94,17 @@ export async function runAudit(): Promise<AuditReport> {
           node.type === 'COMPONENT' ||
           node.type === 'INSTANCE'
         ) {
-          allIssues.push(...auditSpacing(node, pageName));
+          allIssues.push(...auditSpacing(node as unknown as AuditNodeLayout, pageName));
         }
 
         // Border: cornerRadius and strokeWeight
-        allIssues.push(...auditBorderShape(node, pageName));
+        allIssues.push(...auditBorderShape(node as unknown as AuditNode, pageName));
 
         // Effects: hardcoded shadows without effect style
-        allIssues.push(...auditEffects(node, pageName, effectStyleIds));
+        allIssues.push(...auditEffects(node as unknown as AuditNode, pageName, effectStyleIds));
 
         // Component: disconnected frames/groups that should be component instances
-        allIssues.push(...auditComponents(node, pageName, componentNames));
+        allIssues.push(...auditComponents(node as unknown as AuditNode, pageName, componentNames));
       }
     }
 
