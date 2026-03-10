@@ -57,7 +57,7 @@ Requirements for v2.0 release. Each maps to a roadmap phase.
 - [ ] **ARCH-02**: Export/inject logic is separated from audit logic with a stable, typed interface
 - [ ] **ARCH-03**: MCP adaptation layer is separated from core audit data structures
 - [ ] **ARCH-04**: Parsing/serialization logic is separated and independently testable
-- [ ] **ARCH-05**: UI state management is separated from rendering components
+- [x] **ARCH-05**: UI state management is separated from rendering components
 
 ### Corrections & Hardening (FIX)
 
@@ -130,7 +130,7 @@ Requirements for v2.0 release. Each maps to a roadmap phase.
 | ARCH-02 | Phase 7 | Pending |
 | ARCH-03 | Phase 7 | Pending |
 | ARCH-04 | Phase 7 | Pending |
-| ARCH-05 | Phase 7 | Pending |
+| ARCH-05 | Phase 7 | Complete |
 | FIX-01 | Phase 12 | Pending |
 | FIX-02 | Phase 12 | Pending |
 | FIX-03 | Phase 12 | Pending |
