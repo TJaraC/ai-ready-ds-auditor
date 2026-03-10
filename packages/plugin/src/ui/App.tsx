@@ -1,14 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useReducer } from 'react';
 import type { AuditReport, AuditIssue } from '@shared/types';
-import type { SandboxMessage, UIMessage } from '@shared/messages';
-
-// ---------------------------------------------------------------------------
-// Type aliases
-// ---------------------------------------------------------------------------
-
-type Tab = 'audit' | 'ai-context';
-type Phase = 'idle' | 'scanning' | 'injecting' | 'complete' | 'error';
-type CssFramework = 'tailwind' | 'css-variables' | 'css-modules' | 'styled-components';
+import type { UIMessage } from '@shared/messages';
+import { appReducer, initialState } from './state';
+import type { AppState, CssFramework, Tab } from './state';
+import { useAppMessages } from './useAppMessages';
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -90,7 +85,7 @@ interface IssueGroupProps {
 }
 
 function IssueGroup({ category, issues, onSelectNode }: IssueGroupProps): React.ReactElement {
-  const [open, setOpen] = useState<boolean>(true);
+  const [open, setOpen] = React.useState<boolean>(true);
 
   return (
     <div style={{ marginBottom: '4px' }}>
@@ -183,73 +178,21 @@ const primaryBtnStyle: React.CSSProperties = {
 // ---------------------------------------------------------------------------
 
 export function App(): React.ReactElement {
-  const [tab, setTab] = useState<Tab>('audit');
-  const [phase, setPhase] = useState<Phase>('idle');
-  const [report, setReport] = useState<AuditReport | null>(null);
-  const [isOutOfSync, setIsOutOfSync] = useState<boolean>(false);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [cssFramework, setCssFramework] = useState<CssFramework>('tailwind');
-  const [scanProgress, setScanProgress] = useState<{ percent: number; currentNode: string } | null>(null);
-  const [copied, setCopied] = useState<boolean>(false);
+  const [state, dispatch] = useReducer(appReducer, initialState);
+  const { tab, phase, report, isOutOfSync, errorMessage, cssFramework, scanProgress, copied } = state;
 
   // -------------------------------------------------------------------------
   // Message listener
   // -------------------------------------------------------------------------
 
-  useEffect(() => {
-    const handleMessage = (event: MessageEvent): void => {
-      const msg = event.data.pluginMessage as SandboxMessage | undefined;
-      if (!msg) return;
-
-      switch (msg.type) {
-        case 'SCAN_PROGRESS':
-          setScanProgress({ percent: msg.percent, currentNode: msg.currentNode });
-          break;
-        case 'SCAN_COMPLETE':
-          // Received from INJECT_DATA handler (simpler approach): update report,
-          // transition to injecting phase while we wait for INJECT_COMPLETE
-          setReport(msg.report);
-          setPhase('injecting');
-          setScanProgress(null);
-          break;
-        case 'SCAN_ERROR':
-          setPhase('error');
-          setErrorMessage(msg.message);
-          setScanProgress(null);
-          break;
-        case 'INJECT_COMPLETE':
-          setPhase('complete');
-          setIsOutOfSync(false);
-          setScanProgress(null);
-          break;
-        case 'INJECT_ERROR':
-          setPhase('error');
-          setErrorMessage(msg.message);
-          setScanProgress(null);
-          break;
-        case 'SYNC_OUTDATED':
-          setIsOutOfSync(true);
-          break;
-        default: {
-          const _exhaustive: never = msg;
-          void _exhaustive;
-        }
-      }
-    };
-
-    window.addEventListener('message', handleMessage);
-    return () => window.removeEventListener('message', handleMessage);
-  }, []);
+  useAppMessages(dispatch);
 
   // -------------------------------------------------------------------------
   // Actions
   // -------------------------------------------------------------------------
 
   const handleAuditAndInject = (): void => {
-    setPhase('scanning');
-    setScanProgress(null);
-    setErrorMessage(null);
-    setIsOutOfSync(false);
+    dispatch({ type: 'START_AUDIT' });
     const msg: UIMessage = { type: 'INJECT_DATA' };
     parent.postMessage({ pluginMessage: msg }, '*');
   };
@@ -270,8 +213,8 @@ export function App(): React.ReactElement {
     );
     navigator.clipboard.writeText(snippet).then(
       () => {
-        setCopied(true);
-        setTimeout(() => setCopied(false), 2000);
+        dispatch({ type: 'SET_COPIED', copied: true });
+        setTimeout(() => dispatch({ type: 'SET_COPIED', copied: false }), 2000);
       },
       () => {
         // clipboard write failed silently
@@ -397,8 +340,7 @@ export function App(): React.ReactElement {
             </span>
             <button
               onClick={() => {
-                setPhase('idle');
-                setErrorMessage(null);
+                dispatch({ type: 'RESET_ERROR' });
               }}
               style={primaryBtnStyle}
             >
@@ -513,7 +455,7 @@ export function App(): React.ReactElement {
           </label>
           <select
             value={cssFramework}
-            onChange={(e) => setCssFramework(e.target.value as CssFramework)}
+            onChange={(e) => dispatch({ type: 'SET_CSS_FRAMEWORK', cssFramework: e.target.value as CssFramework })}
             style={{
               width: '100%',
               background: 'var(--figma-color-bg-secondary)',
@@ -660,7 +602,7 @@ export function App(): React.ReactElement {
         {(['audit', 'ai-context'] as Tab[]).map((t) => (
           <button
             key={t}
-            onClick={() => setTab(t)}
+            onClick={() => dispatch({ type: 'SET_TAB', tab: t })}
             style={{
               width: '50%',
               border: 'none',
