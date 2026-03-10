@@ -41,7 +41,7 @@ describe('adaptAuditSummary', () => {
     expect(result.filteredIssues).toBe(1);
     expect(result.category).toBe('color');
     expect(result.issues).toHaveLength(1);
-    expect(result.issues[0].category).toBe('color');
+    expect(result.issues[0]!.category).toBe('color');
   });
 
   it('returns empty issues array when category has no matches', () => {

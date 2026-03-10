@@ -23,10 +23,15 @@ export class SchemaVersionError extends Error {
   }
 }
 
-export function reconstructReport(
+/**
+ * assembleChunks — reads meta, concatenates chunks into raw JSON string.
+ * Does NOT parse JSON or validate schema version.
+ * Independently testable with plain Record<string, string>.
+ */
+export function assembleChunks(
   pluginData: Record<string, string>,
   fileKey: string
-): { report: AuditReport; meta: AuditMeta } {
+): { json: string; meta: AuditMeta } {
   const rawMeta = pluginData[META_KEY];
 
   if (rawMeta === undefined || rawMeta === '') {
@@ -43,12 +48,6 @@ export function reconstructReport(
 
   const meta = JSON.parse(rawMeta) as AuditMeta;
 
-  // Schema version check — skip if versions match
-  if (meta.schemaVersion !== currentSchemaVersion) {
-    throw new SchemaVersionError(meta.schemaVersion, currentSchemaVersion, fileKey);
-  }
-
-  // Concatenate all chunks — chunks are 1-indexed (ai_data_1, ai_data_2, ...)
   let json = '';
   for (let i = 1; i <= meta.chunkCount; i++) {
     const chunkKey = `${CHUNK_KEY_PREFIX}${i}`;
@@ -65,13 +64,40 @@ export function reconstructReport(
     json += chunk;
   }
 
-  // Checksum is currently '' in plugin output — skip validation when empty
-  // TODO: Implement checksum verification when plugin starts writing non-empty checksums
+  return { json, meta };
+}
+
+/**
+ * parseReport — validates schema version and parses JSON into AuditReport.
+ * Independently testable: accepts pre-assembled JSON string and meta object.
+ */
+export function parseReport(
+  json: string,
+  meta: AuditMeta,
+  fileKey: string
+): { report: AuditReport; meta: AuditMeta } {
+  if (meta.schemaVersion !== currentSchemaVersion) {
+    throw new SchemaVersionError(meta.schemaVersion, currentSchemaVersion, fileKey);
+  }
+
+  // Checksum skip: empty checksum is current plugin behavior
   if (meta.checksum !== '' && meta.checksum !== undefined) {
-    // Future: verify checksum against json string
     process.stderr.write(`[chunk-reader] Non-empty checksum found but validation not yet implemented\n`);
   }
 
   const report = JSON.parse(json) as AuditReport;
   return { report, meta };
+}
+
+/**
+ * reconstructReport — backward-compatible wrapper.
+ * Primary API for existing callers. Calls assembleChunks then parseReport.
+ * Exported signature is unchanged from v1.0.
+ */
+export function reconstructReport(
+  pluginData: Record<string, string>,
+  fileKey: string
+): { report: AuditReport; meta: AuditMeta } {
+  const { json, meta } = assembleChunks(pluginData, fileKey);
+  return parseReport(json, meta, fileKey);
 }
