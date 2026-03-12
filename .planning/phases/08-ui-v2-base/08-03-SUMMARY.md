@@ -113,6 +113,15 @@ None — no external service configuration required.
 - Phase 8 Plan 04 (human verification checkpoint) is the final plan: visual verification of Audit-1, Audit-2, Config-1 screens in Figma plugin sandbox
 - Phase 9 can add streaming progress, dynamic issue counts, and unpublished component detection on top of the established view pattern
 
+## Self-Check: PASSED
+
+- AuditView.tsx: FOUND at packages/plugin/src/ui/views/AuditView.tsx
+- ConfigView.tsx: FOUND at packages/plugin/src/ui/views/ConfigView.tsx
+- App.tsx: FOUND at packages/plugin/src/ui/App.tsx
+- SUMMARY.md: FOUND at .planning/phases/08-ui-v2-base/08-03-SUMMARY.md
+- Commit 23ff3f1: FOUND (Task 1 — AuditView)
+- Commit 35c5db4: FOUND (Task 2 — ConfigView + App.tsx)
+
 ---
 *Phase: 08-ui-v2-base*
 *Completed: 2026-03-12*
