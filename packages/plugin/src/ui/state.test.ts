@@ -142,16 +142,16 @@ describe('appReducer', () => {
   });
 
   describe('SET_TAB', () => {
-    it('updates tab to ai-context', () => {
-      const action: AppAction = { type: 'SET_TAB', tab: 'ai-context' };
+    it('updates tab to config', () => {
+      const action: AppAction = { type: 'SET_TAB', tab: 'config' };
       const next = appReducer(initialState, action);
-      expect(next.tab).toBe('ai-context');
+      expect(next.tab).toBe('config');
     });
 
     it('updates tab back to audit', () => {
-      const stateWithAiTab = { ...initialState, tab: 'ai-context' as const };
+      const stateWithConfigTab = { ...initialState, tab: 'config' as const };
       const action: AppAction = { type: 'SET_TAB', tab: 'audit' };
-      const next = appReducer(stateWithAiTab, action);
+      const next = appReducer(stateWithConfigTab, action);
       expect(next.tab).toBe('audit');
     });
   });
@@ -195,9 +195,9 @@ describe('appReducer', () => {
 
   it('does not mutate the previous state', () => {
     const frozen = Object.freeze({ ...initialState });
-    const action: AppAction = { type: 'SET_TAB', tab: 'ai-context' };
+    const action: AppAction = { type: 'SET_TAB', tab: 'config' };
     // Should not throw even with frozen state, because reducer uses spread
     const next = appReducer(frozen as typeof initialState, action);
-    expect(next.tab).toBe('ai-context');
+    expect(next.tab).toBe('config');
   });
 });

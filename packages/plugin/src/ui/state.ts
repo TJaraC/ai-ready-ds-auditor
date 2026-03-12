@@ -4,7 +4,7 @@ import type { AuditReport } from '@shared/types';
 // State shape
 // ---------------------------------------------------------------------------
 
-export type Tab = 'audit' | 'ai-context';
+export type Tab = 'audit' | 'config';
 export type Phase = 'idle' | 'scanning' | 'injecting' | 'complete' | 'error';
 export type CssFramework = 'tailwind' | 'css-variables' | 'css-modules' | 'styled-components';
 

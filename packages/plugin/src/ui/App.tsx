@@ -599,7 +599,7 @@ export function App(): React.ReactElement {
           flexShrink: 0,
         }}
       >
-        {(['audit', 'ai-context'] as Tab[]).map((t) => (
+        {(['audit', 'config'] as Tab[]).map((t) => (
           <button
             key={t}
             onClick={() => dispatch({ type: 'SET_TAB', tab: t })}
@@ -615,7 +615,7 @@ export function App(): React.ReactElement {
               padding: 0,
             }}
           >
-            {t === 'audit' ? 'Audit' : 'AI Context'}
+            {t === 'audit' ? 'Audit' : 'Config'}
           </button>
         ))}
       </div>
