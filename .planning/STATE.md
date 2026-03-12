@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v2.0
 milestone_name: Figma-Faithful UI + Enhanced MCP
 status: executing
-stopped_at: Completed 08-01-PLAN.md — tokens.ts, Tab type rename, 592x600 window
-last_updated: "2026-03-12T18:53:44.494Z"
+stopped_at: Completed 08-03-PLAN.md — AuditView + ConfigView + App.tsx thin routing shell
+last_updated: "2026-03-12T18:59:00Z"
 last_activity: 2026-03-12
 progress:
   total_phases: 7
   completed_phases: 1
   total_plans: 8
-  completed_plans: 7
-  percent: 25
+  completed_plans: 8
+  percent: 88
 ---
 
 # Project State
@@ -26,11 +26,11 @@ See: .planning/PROJECT.md (updated 2026-03-06)
 ## Current Position
 
 **Phase:** 8 of 12 — UI v2 Base (IN PROGRESS)
-**Plan:** 2/4 plans complete
+**Plan:** 3/4 plans complete
 **Status:** Executing
 **Last Activity:** 2026-03-12
 
-Progress: [█████████░] 88%
+Progress: [██████████] 100%
 
 ## Performance Metrics
 
@@ -84,6 +84,13 @@ Progress: [█████████░] 88%
 - UI-COMP-02: AccordionItem uses Unicode em-dash (\u2014) for "nodeName — offendingValue" format matching locked copy
 - UI-COMP-03: Accordion defaults to `useState(true)` (open) — matches Figma Audit-2 design state
 
+### Decisions (from Phase 8 — executed 08-03)
+
+- UI-VIEW-01: AuditView props are state slices + handlers — no dispatch or postMessage inside view files
+- UI-VIEW-02: Accordion list uses `margin: '0 11px'` wrapper (not SPACING_CONTENT) to achieve 570px accordion width in 592px frame
+- UI-VIEW-03: Summary sentence 'We've detected 287 elements...' uses locked copy; dynamic substitution deferred to Phase 9
+- UI-VIEW-04: ConfigView GitHub repo links use `href="#"` — URL confirmed in Phase 12
+
 ### Key v2.0 Technical Notes (Phase 7)
 
 - Figma global mock for tests: `(globalThis as Record<string, unknown>).figma = { mixed: Symbol('figma.mixed') }` — before auditor imports
@@ -100,6 +107,6 @@ None.
 
 ## Session Continuity
 
-**Last session:** 2026-03-12T18:52:44Z
-**Stopped at:** Completed 08-02-PLAN.md — 6 UI components (Tabs, Button, StatusBanner, MetricCard, Accordion, AccordionItem)
-**Next action:** Execute 08-03-PLAN.md — AuditView + ConfigView (compose atomic components into full-screen views)
+**Last session:** 2026-03-12T18:55:40Z
+**Stopped at:** Completed 08-03-PLAN.md — AuditView + ConfigView + App.tsx thin routing shell
+**Next action:** Execute 08-04-PLAN.md — human verification checkpoint (visual audit of Figma plugin UI)
