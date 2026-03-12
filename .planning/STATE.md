@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v2.0
 milestone_name: Figma-Faithful UI + Enhanced MCP
 status: executing
-stopped_at: "Completed 08-01-PLAN.md — tokens.ts, Tab rename, 592x600 window"
-last_updated: "2026-03-12T18:47:00.000Z"
+stopped_at: Completed 08-01-PLAN.md — tokens.ts, Tab type rename, 592x600 window
+last_updated: "2026-03-12T18:53:44.494Z"
 last_activity: 2026-03-12
 progress:
-  total_phases: 12
+  total_phases: 7
   completed_phases: 1
-  total_plans: 4
-  completed_plans: 1
+  total_plans: 8
+  completed_plans: 7
   percent: 25
 ---
 
@@ -26,11 +26,11 @@ See: .planning/PROJECT.md (updated 2026-03-06)
 ## Current Position
 
 **Phase:** 8 of 12 — UI v2 Base (IN PROGRESS)
-**Plan:** 1/4 plans complete
+**Plan:** 2/4 plans complete
 **Status:** Executing
 **Last Activity:** 2026-03-12
 
-Progress: [██░░░░░░░░] 25%
+Progress: [█████████░] 88%
 
 ## Performance Metrics
 
@@ -78,6 +78,12 @@ Progress: [██░░░░░░░░] 25%
 - UI-TAB-01: Tab type `'audit' | 'config'` (was `'ai-context'`) — all references updated, tsc clean
 - UI-WINDOW-01: Plugin window 592x600px set in `code.ts` `figma.showUI` — matches Figma frame exactly
 
+### Decisions (from Phase 8 — executed 08-02)
+
+- UI-COMP-01: `COLOR_SURFACE` (#FFFFFF) used for white text in Button/StatusBanner — avoids hardcoded '#FFFFFF', token-only rule
+- UI-COMP-02: AccordionItem uses Unicode em-dash (\u2014) for "nodeName — offendingValue" format matching locked copy
+- UI-COMP-03: Accordion defaults to `useState(true)` (open) — matches Figma Audit-2 design state
+
 ### Key v2.0 Technical Notes (Phase 7)
 
 - Figma global mock for tests: `(globalThis as Record<string, unknown>).figma = { mixed: Symbol('figma.mixed') }` — before auditor imports
@@ -94,6 +100,6 @@ None.
 
 ## Session Continuity
 
-**Last session:** 2026-03-12T18:47:00.000Z
-**Stopped at:** Completed 08-01-PLAN.md — tokens.ts, Tab type rename, 592x600 window
-**Next action:** Execute 08-02-PLAN.md — 6 UI components (Tabs, Button, StatusBanner, MetricCard, Accordion, AccordionItem)
+**Last session:** 2026-03-12T18:52:44Z
+**Stopped at:** Completed 08-02-PLAN.md — 6 UI components (Tabs, Button, StatusBanner, MetricCard, Accordion, AccordionItem)
+**Next action:** Execute 08-03-PLAN.md — AuditView + ConfigView (compose atomic components into full-screen views)

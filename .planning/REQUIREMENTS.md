@@ -12,9 +12,9 @@ Requirements for v2.0 release. Each maps to a roadmap phase.
 
 ### UI — Core Structure (UIS)
 
-- [ ] **UIS-01**: User sees Audit tab empty state (welcome message, subtitle, primary CTA) matching Figma Audit-1 frame exactly
-- [ ] **UIS-02**: User sees Audit tab results state (status banners, metric cards, finding text, accordion categories, primary CTA) matching Figma Audit-2 frame exactly
-- [ ] **UIS-03**: User sees Configuration tab (numbered MCP setup steps, code block, repo link, tools list, primary CTA) matching Figma Config-1 frame exactly
+- [x] **UIS-01**: User sees Audit tab empty state (welcome message, subtitle, primary CTA) matching Figma Audit-1 frame exactly
+- [x] **UIS-02**: User sees Audit tab results state (status banners, metric cards, finding text, accordion categories, primary CTA) matching Figma Audit-2 frame exactly
+- [x] **UIS-03**: User sees Configuration tab (numbered MCP setup steps, code block, repo link, tools list, primary CTA) matching Figma Config-1 frame exactly
 - [x] **UIS-04**: User sees consistent visual language throughout: tabs on top, primary CTA bottom, monospaced font, minimal style, generous whitespace
 
 ### UI — v2 Extensions (UIX)
@@ -103,9 +103,9 @@ Requirements for v2.0 release. Each maps to a roadmap phase.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| UIS-01 | Phase 8 | Pending |
-| UIS-02 | Phase 8 | Pending |
-| UIS-03 | Phase 8 | Pending |
+| UIS-01 | Phase 8 | Complete |
+| UIS-02 | Phase 8 | Complete |
+| UIS-03 | Phase 8 | Complete |
 | UIS-04 | Phase 8 | Complete |
 | UIX-01 | Phase 9 | Pending |
 | UIX-02 | Phase 9 | Pending |
