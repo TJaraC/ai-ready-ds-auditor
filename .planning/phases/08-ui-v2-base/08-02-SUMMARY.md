@@ -84,7 +84,7 @@ Each task was committed atomically:
 1. **Task 1: Tabs + Button + StatusBanner** - `1d2556b` (feat)
 2. **Task 2: MetricCard + Accordion + AccordionItem** - `d707712` (feat)
 
-**Plan metadata:** (pending — created after self-check)
+**Plan metadata:** `6ddae91` (docs: complete 6 atomic UI components plan)
 
 ## Files Created/Modified
 - `packages/plugin/src/ui/components/Tabs.tsx` - 592px tab navigation bar, two 50%-width tab buttons for audit/config
@@ -126,6 +126,10 @@ None — no external service configuration required.
 - All 6 atomic components ready for composition in AuditView and ConfigView (Plan 03)
 - All components type-check cleanly with strict TypeScript
 - Token dependency established: components/ → tokens.ts pattern proven for Plan 03+ to follow
+
+## Self-Check: PASSED
+
+All 6 component files exist on disk. Both task commits verified in git log (1d2556b, d707712). SUMMARY.md created at `.planning/phases/08-ui-v2-base/08-02-SUMMARY.md`.
 
 ---
 *Phase: 08-ui-v2-base*
