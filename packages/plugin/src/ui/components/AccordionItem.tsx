@@ -1,5 +1,5 @@
 import React from 'react';
-import { SPACING_CONTENT } from '../tokens';
+import { COLOR_BG_SECONDARY, COLOR_TEXT_SECONDARY, SPACING_CONTENT } from '../tokens';
 
 interface AccordionItemProps {
   nodeId: string;
@@ -31,11 +31,11 @@ export function AccordionItem({
         textAlign: 'left',
         padding: `0 ${SPACING_CONTENT}px`,
         border: 'none',
-        background: hovered ? 'var(--figma-color-bg-secondary)' : 'transparent',
+        background: hovered ? COLOR_BG_SECONDARY : 'transparent',
         cursor: 'pointer',
         fontSize: 11,
         fontFamily: 'monospace',
-        color: 'var(--figma-color-text-secondary)',
+        color: COLOR_TEXT_SECONDARY,
         overflow: 'hidden',
         textOverflow: 'ellipsis',
         whiteSpace: 'nowrap',

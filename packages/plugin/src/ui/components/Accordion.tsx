@@ -1,6 +1,9 @@
 import React from 'react';
 import {
+  COLOR_BG_SECONDARY,
   COLOR_SURFACE,
+  COLOR_TEXT,
+  COLOR_TEXT_SECONDARY,
   RADIUS_COMPONENT,
   SPACING_CONTENT,
 } from '../tokens';
@@ -17,10 +20,11 @@ export function Accordion({ label, count, children }: AccordionProps): React.Rea
   return (
     <div
       style={{
-        width: 570,
+        width: '100%',
         borderRadius: RADIUS_COMPONENT,
         background: COLOR_SURFACE,
         overflow: 'hidden',
+        marginBottom: 8,
       }}
     >
       <button
@@ -29,7 +33,7 @@ export function Accordion({ label, count, children }: AccordionProps): React.Rea
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          height: 88,
+          height: 48,
           padding: `0 ${SPACING_CONTENT}px`,
           background: COLOR_SURFACE,
           border: 'none',
@@ -43,7 +47,7 @@ export function Accordion({ label, count, children }: AccordionProps): React.Rea
               fontSize: 13,
               fontWeight: 700,
               fontFamily: 'monospace',
-              color: 'var(--figma-color-text)',
+              color: COLOR_TEXT,
             }}
           >
             {label}
@@ -51,17 +55,17 @@ export function Accordion({ label, count, children }: AccordionProps): React.Rea
           <span
             style={{
               marginLeft: 8,
-              background: 'var(--figma-color-bg-secondary)',
+              background: COLOR_BG_SECONDARY,
               borderRadius: 10,
               padding: '2px 8px',
               fontSize: 11,
-              color: 'var(--figma-color-text-secondary)',
+              color: COLOR_TEXT_SECONDARY,
             }}
           >
             {count}
           </span>
         </span>
-        <span style={{ fontSize: 11, color: 'var(--figma-color-text-secondary)' }}>
+        <span style={{ fontSize: 11, color: COLOR_TEXT_SECONDARY }}>
           {open ? '▼' : '▶'}
         </span>
       </button>

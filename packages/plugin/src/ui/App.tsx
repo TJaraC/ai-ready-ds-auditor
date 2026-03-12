@@ -52,8 +52,8 @@ export function App(): React.ReactElement {
   return (
     <div
       style={{
-        width: 592,
-        height: 600,
+        width: '100%',
+        height: '100vh',
         display: 'flex',
         flexDirection: 'column',
         fontFamily: 'monospace',

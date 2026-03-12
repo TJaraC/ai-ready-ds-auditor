@@ -2,6 +2,8 @@ import React from 'react';
 import type { Tab } from '../state';
 import {
   COLOR_SURFACE,
+  COLOR_TEXT,
+  COLOR_TEXT_SECONDARY,
   RADIUS_TABS,
   SPACING_GAP_HEADER,
 } from '../tokens';
@@ -21,7 +23,7 @@ export function Tabs({ activeTab, onTabChange }: TabsProps): React.ReactElement 
   return (
     <div
       style={{
-        width: 592,
+        width: '100%',
         height: 74,
         display: 'flex',
         flexDirection: 'column',
@@ -42,7 +44,7 @@ export function Tabs({ activeTab, onTabChange }: TabsProps): React.ReactElement 
                 borderRadius: RADIUS_TABS,
                 background: isActive ? COLOR_SURFACE : 'transparent',
                 fontWeight: isActive ? 700 : 400,
-                color: isActive ? 'var(--figma-color-text)' : 'var(--figma-color-text-secondary)',
+                color: isActive ? COLOR_TEXT : COLOR_TEXT_SECONDARY,
                 border: 'none',
                 cursor: 'pointer',
                 fontSize: 13,

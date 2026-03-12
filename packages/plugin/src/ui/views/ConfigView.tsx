@@ -2,7 +2,10 @@ import React from 'react';
 import type { AuditReport } from '@shared/types';
 import { Button } from '../components/Button';
 import {
+  COLOR_BG_SECONDARY,
   COLOR_PRIMARY,
+  COLOR_TEXT,
+  COLOR_TEXT_SECONDARY,
   RADIUS_COMPONENT,
   SPACING_CONTENT,
   SPACING_GAP_BODY,
@@ -57,7 +60,7 @@ export function ConfigView({ report, onExportJson }: ConfigViewProps): React.Rea
           fontWeight: 700,
           fontFamily: 'monospace',
           margin: 0,
-          color: 'var(--figma-color-text)',
+          color: COLOR_TEXT,
         }}
       >
         MCP Server Setup
@@ -73,22 +76,22 @@ export function ConfigView({ report, onExportJson }: ConfigViewProps): React.Rea
           margin: 0,
         }}
       >
-        <li style={{ fontSize: 13, fontFamily: 'monospace', color: 'var(--figma-color-text-secondary)', lineHeight: 1.5 }}>
+        <li style={{ fontSize: 13, fontFamily: 'monospace', color: COLOR_TEXT_SECONDARY, lineHeight: 1.5 }}>
           Get a Figma Personal Access Token
         </li>
-        <li style={{ fontSize: 13, fontFamily: 'monospace', color: 'var(--figma-color-text-secondary)', lineHeight: 1.5 }}>
+        <li style={{ fontSize: 13, fontFamily: 'monospace', color: COLOR_TEXT_SECONDARY, lineHeight: 1.5 }}>
           Get your Figma file key
         </li>
-        <li style={{ fontSize: 13, fontFamily: 'monospace', color: 'var(--figma-color-text-secondary)', lineHeight: 1.5 }}>
+        <li style={{ fontSize: 13, fontFamily: 'monospace', color: COLOR_TEXT_SECONDARY, lineHeight: 1.5 }}>
           Run the plugin, audit &amp; inject
         </li>
-        <li style={{ fontSize: 13, fontFamily: 'monospace', color: 'var(--figma-color-text-secondary)', lineHeight: 1.5 }}>
+        <li style={{ fontSize: 13, fontFamily: 'monospace', color: COLOR_TEXT_SECONDARY, lineHeight: 1.5 }}>
           Build and configure the MCP server{' '}
           <a href="#" style={{ color: COLOR_PRIMARY }}>
             GitHub repo
           </a>
         </li>
-        <li style={{ fontSize: 13, fontFamily: 'monospace', color: 'var(--figma-color-text-secondary)', lineHeight: 1.5 }}>
+        <li style={{ fontSize: 13, fontFamily: 'monospace', color: COLOR_TEXT_SECONDARY, lineHeight: 1.5 }}>
           Add to mcp.json (Replace /ABSOLUTE/PATH/TO/ with the full path to your cloned repository.)
         </li>
       </ol>
@@ -96,7 +99,7 @@ export function ConfigView({ report, onExportJson }: ConfigViewProps): React.Rea
       {/* Code block */}
       <pre
         style={{
-          background: 'var(--figma-color-bg-secondary)',
+          background: COLOR_BG_SECONDARY,
           borderRadius: RADIUS_COMPONENT,
           padding: SPACING_CONTENT,
           fontSize: 11,
@@ -104,7 +107,7 @@ export function ConfigView({ report, onExportJson }: ConfigViewProps): React.Rea
           overflowX: 'auto',
           whiteSpace: 'pre',
           margin: 0,
-          color: 'var(--figma-color-text)',
+          color: COLOR_TEXT,
         }}
       >
         {MCP_CONFIG_SNIPPET}
@@ -117,12 +120,12 @@ export function ConfigView({ report, onExportJson }: ConfigViewProps): React.Rea
             fontSize: 13,
             fontWeight: 700,
             margin: 0,
-            color: 'var(--figma-color-text)',
+            color: COLOR_TEXT,
           }}
         >
           Available MCP tools
         </h3>
-        <p style={{ fontSize: 13, margin: 0, color: 'var(--figma-color-text-secondary)' }}>
+        <p style={{ fontSize: 13, margin: 0, color: COLOR_TEXT_SECONDARY }}>
           Check the{' '}
           <a href="#" style={{ color: COLOR_PRIMARY }}>
             GitHub repo
