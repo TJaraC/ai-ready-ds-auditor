@@ -30,7 +30,7 @@ Full phase details: `.planning/milestones/v1.0-ROADMAP.md`
 
 - [x] **Phase 6: Discovery & Architecture Decisions** - Audit the v1.0 codebase, access Figma source frames, and produce concrete decisions for all v2.0 work — completed 2026-03-09
 - [x] **Phase 7: Architecture Refactor** - Separate audit, inject, MCP, parsing, and UI state into discrete, testable modules with stable contracts (completed 2026-03-10)
-- [ ] **Phase 8: UI v2 Base** - Implement the three Figma-faithful core screens (Audit-1, Audit-2, Config-1) with shared state management and all global UI states
+- [x] **Phase 8: UI v2 Base** - Implement the three Figma-faithful core screens (Audit-1, Audit-2, Config-1) with shared state management and all global UI states (completed 2026-03-12)
 - [ ] **Phase 9: Audit Flow v2** - Add streaming active state, unpublished detection, AI Context status, and wire streaming events through MCP and UI
 - [ ] **Phase 10: Configuration Flow v2** - Add CSS framework selection, connection status, export status, re-injection guidance, and MCP capability summary to Configuration tab
 - [ ] **Phase 11: MCP Component Tools** - Implement `get_component_specs` v2 with computed properties and states, and `get_component_svg` with metadata and error handling
@@ -81,10 +81,10 @@ Plans:
 **Plans**: 4 plans
 
 Plans:
-- [ ] 08-01-PLAN.md — tokens.ts + Tab rename to 'config' + code.ts window resize (UIS-04, UIX-07 foundation)
-- [ ] 08-02-PLAN.md — 6 atomic components: Tabs, Button, StatusBanner, MetricCard, Accordion, AccordionItem
-- [ ] 08-03-PLAN.md — AuditView (all 5 states) + ConfigView + App.tsx rewrite
-- [ ] 08-04-PLAN.md — Plugin build + human visual verification checkpoint
+- [x] 08-01-PLAN.md — tokens.ts + Tab rename to 'config' + code.ts window resize (UIS-04, UIX-07 foundation)
+- [x] 08-02-PLAN.md — 6 atomic components: Tabs, Button, StatusBanner, MetricCard, Accordion, AccordionItem
+- [x] 08-03-PLAN.md — AuditView (all 5 states) + ConfigView + App.tsx rewrite
+- [x] 08-04-PLAN.md — Plugin build + human visual verification checkpoint
 
 ### Phase 9: Audit Flow v2
 **Goal**: The audit flow shows streaming progress in real time, detects and classifies unpublished/private components, and displays AI Context sync status — with streaming events flowing from MCP through the plugin
@@ -147,7 +147,7 @@ Plans:
 | 5. Integration & Polish | v1.0 | 3/3 | Complete | 2026-03-05 |
 | 6. Discovery & Architecture Decisions | v2.0 | 0/TBD | Not started | - |
 | 7. Architecture Refactor | v2.0 | 4/4 | Complete | 2026-03-10 |
-| 8. UI v2 Base | 3/4 | In Progress|  | - |
+| 8. UI v2 Base | v2.0 | 4/4 | Complete | 2026-03-12 |
 | 9. Audit Flow v2 | v2.0 | 0/TBD | Not started | - |
 | 10. Configuration Flow v2 | v2.0 | 0/TBD | Not started | - |
 | 11. MCP Component Tools | v2.0 | 0/TBD | Not started | - |

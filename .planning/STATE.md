@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v2.0
 milestone_name: Figma-Faithful UI + Enhanced MCP
 status: executing
-stopped_at: Completed 08-03-PLAN.md — AuditView + ConfigView + App.tsx thin routing shell
-last_updated: "2026-03-12T18:59:00Z"
+stopped_at: Completed 08-04-PLAN.md — Plugin build + human visual verification (Phase 8 COMPLETE)
+last_updated: "2026-03-12T21:00:00Z"
 last_activity: 2026-03-12
 progress:
   total_phases: 7
-  completed_phases: 1
+  completed_phases: 2
   total_plans: 8
-  completed_plans: 8
-  percent: 88
+  completed_plans: 9
+  percent: 100
 ---
 
 # Project State
@@ -21,12 +21,12 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-06)
 
 **Core value:** Any Non-Enterprise Figma user can connect their Design System to a local AI IDE in under 5 minutes, get live sync indicators, and give the AI full structured context — for free.
-**Current focus:** Milestone v2.0 — execute Phase 8
+**Current focus:** Milestone v2.0 — Phase 8 COMPLETE, ready for Phase 9
 
 ## Current Position
 
-**Phase:** 8 of 12 — UI v2 Base (IN PROGRESS)
-**Plan:** 3/4 plans complete
+**Phase:** 8 of 12 — UI v2 Base (COMPLETE)
+**Plan:** 4/4 plans complete
 **Status:** Executing
 **Last Activity:** 2026-03-12
 
@@ -91,15 +91,34 @@ Progress: [██████████] 100%
 - UI-VIEW-03: Summary sentence 'We've detected 287 elements...' uses locked copy; dynamic substitution deferred to Phase 9
 - UI-VIEW-04: ConfigView GitHub repo links use `href="#"` — URL confirmed in Phase 12
 
+### Decisions (from Phase 8 — executed 08-04)
+
+- UI-BUILD-01: Figma CSS vars (var(--figma-color-*)) replaced with hardcoded token constants — plugin renders predictably regardless of Figma theme mode
+- UI-BUILD-02: Window width adjusted 592→380px after Figma visual check revealed 592px was too wide on screen
+- UI-BUILD-03: App.tsx uses 100%/100vh, components use 100% widths — sandbox code.ts owns pixel dimensions via figma.ui.resize()
+- UI-BUILD-04: Tabs active state: 2px bottom border COLOR_PRIMARY, no background fill — matches Figma design
+- UI-BUILD-05: Accordion categories default to closed (open=false) — shows category labels without overwhelming results view
+- UI-BUILD-06: Accordion accepts accent prop for 3px colored left border per category (color, typography, spacing, border, effects, components)
+- UI-BUILD-07: ConfigView code block gets Copy button showing checkmark for 2s on click
+- UI-BUILD-08: Issue count uses report.issues.length (real count) replacing hardcoded 287
+- UI-BUILD-09: App.tsx root div uses borderRadius 0 0 20px 20px (bottom corners only)
+- UI-BUILD-10: MetricCard uses flex:1 so two cards fit side by side
+
 ### Key v2.0 Technical Notes (Phase 7)
 
 - Figma global mock for tests: `(globalThis as Record<string, unknown>).figma = { mixed: Symbol('figma.mixed') }` — before auditor imports
 - noUncheckedIndexedAccess: use `arr[i]!` after `expect(arr).toHaveLength(n)` in tests
 - auditTypography: guard `undefined` explicitly on optional fields before checking `!== figma.mixed`
 
+### Key v2.0 Technical Notes (Phase 8)
+
+- Figma CSS vars (var(--figma-color-text/bg)) render as invisible in plugin webview — always use hardcoded token constants
+- Plugin window: sandbox code.ts sets pixel dimensions; UI uses 100%/100vh to fill the window
+- Accordion category accent colors: color=#F55442, typography=#7B61FF, spacing=#1E9B6B, border=#F9A825, effects=#FF9500, component=#2B9FE0
+
 ### Blockers/Concerns
 
-None — Phase 6 resolved both blockers.
+None — Phase 8 complete, Phase 9 ready to start.
 
 ### Pending Todos
 
@@ -107,6 +126,6 @@ None.
 
 ## Session Continuity
 
-**Last session:** 2026-03-12T18:55:40Z
-**Stopped at:** Completed 08-03-PLAN.md — AuditView + ConfigView + App.tsx thin routing shell
-**Next action:** Execute 08-04-PLAN.md — human verification checkpoint (visual audit of Figma plugin UI)
+**Last session:** 2026-03-12T21:00:00Z
+**Stopped at:** Completed 08-04-PLAN.md — Plugin build + human visual verification (Phase 8 COMPLETE)
+**Next action:** Execute Phase 9 — Audit Flow v2 (streaming, unpublished detection, AI Context status)

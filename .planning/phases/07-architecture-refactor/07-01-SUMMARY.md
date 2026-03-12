@@ -132,6 +132,16 @@ None - no external service configuration required.
 - Ready for Plan 07-02: extracting `serializeReport()` to `serialize.ts` following the same zero-Figma-import pattern
 - `audit/inputs.ts` provides the stable interface layer that test files will import
 
+## Self-Check: PASSED
+
+- FOUND: packages/plugin/src/sandbox/audit/inputs.ts
+- FOUND: packages/plugin/src/sandbox/audit/index.ts (updated)
+- FOUND: all 6 auditor files (color, typography, spacing, components, border, effects)
+- FOUND: .planning/phases/07-architecture-refactor/07-01-SUMMARY.md
+- FOUND: commit 1d71ba2 (Task 1)
+- FOUND: commit 9a9dfb8 (Task 2)
+- FOUND: packages/plugin/dist/code.js (build artifact)
+
 ---
 *Phase: 07-architecture-refactor*
 *Completed: 2026-03-10*
