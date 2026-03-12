@@ -24,7 +24,7 @@ export function Tabs({ activeTab, onTabChange }: TabsProps): React.ReactElement 
       style={{
         width: '100%',
         display: 'flex',
-        padding: `${SPACING_GAP_HEADER}px ${SPACING_GAP_HEADER}px 0`,
+        padding: 0,
       }}
     >
       {tabs.map((tab) => {

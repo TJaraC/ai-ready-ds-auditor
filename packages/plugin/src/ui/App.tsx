@@ -58,7 +58,7 @@ export function App(): React.ReactElement {
         flexDirection: 'column',
         fontFamily: 'monospace',
         background: COLOR_SURFACE,
-        borderRadius: RADIUS_FRAME,
+        borderRadius: `0 0 ${RADIUS_FRAME}px ${RADIUS_FRAME}px`,
         overflow: 'hidden',
         boxSizing: 'border-box',
       }}

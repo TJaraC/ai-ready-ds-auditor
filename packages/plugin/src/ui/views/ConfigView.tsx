@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import type { AuditReport } from '@shared/types';
 import { Button } from '../components/Button';
 import {
@@ -43,6 +43,15 @@ interface ConfigViewProps {
 // ---------------------------------------------------------------------------
 
 export function ConfigView({ report, onExportJson }: ConfigViewProps): React.ReactElement {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = (): void => {
+    void navigator.clipboard.writeText(MCP_CONFIG_SNIPPET).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    });
+  };
+
   return (
     <div
       style={{
@@ -99,21 +108,42 @@ export function ConfigView({ report, onExportJson }: ConfigViewProps): React.Rea
       </ol>
 
       {/* Code block */}
-      <pre
-        style={{
-          background: COLOR_BG_SECONDARY,
-          borderRadius: RADIUS_COMPONENT,
-          padding: SPACING_CONTENT,
-          fontSize: 11,
-          fontFamily: 'monospace',
-          overflowX: 'auto',
-          whiteSpace: 'pre',
-          margin: 0,
-          color: COLOR_TEXT,
-        }}
-      >
-        {MCP_CONFIG_SNIPPET}
-      </pre>
+      <div style={{ position: 'relative' }}>
+        <pre
+          style={{
+            background: COLOR_BG_SECONDARY,
+            borderRadius: RADIUS_COMPONENT,
+            padding: SPACING_CONTENT,
+            paddingTop: 36,
+            fontSize: 11,
+            fontFamily: 'monospace',
+            overflowX: 'auto',
+            whiteSpace: 'pre',
+            margin: 0,
+            color: COLOR_TEXT,
+          }}
+        >
+          {MCP_CONFIG_SNIPPET}
+        </pre>
+        <button
+          onClick={handleCopy}
+          style={{
+            position: 'absolute',
+            top: 8,
+            right: 8,
+            background: copied ? '#2B3C35' : COLOR_BG_SECONDARY,
+            color: copied ? '#FFFFFF' : COLOR_TEXT_SECONDARY,
+            border: '1px solid #D0D0D0',
+            borderRadius: 4,
+            padding: '2px 8px',
+            fontSize: 10,
+            fontFamily: 'monospace',
+            cursor: 'pointer',
+          }}
+        >
+          {copied ? '✓ Copied' : 'Copy'}
+        </button>
+      </div>
 
       {/* Available tools section */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: SPACING_GAP_HEADER }}>

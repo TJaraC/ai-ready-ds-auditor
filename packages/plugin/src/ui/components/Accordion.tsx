@@ -16,7 +16,7 @@ interface AccordionProps {
 }
 
 export function Accordion({ label, count, accent, children }: AccordionProps): React.ReactElement {
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
 
   return (
     <div
