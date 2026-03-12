@@ -24,9 +24,18 @@ const CATEGORY_LABELS: Record<string, string> = {
   color: 'Color',
   typography: 'Typography',
   spacing: 'Spacing',
-  border: 'Border. Radius',
+  border: 'Border Radius',
   effects: 'Effects',
   component: 'Components',
+};
+
+const CATEGORY_COLORS: Record<string, string> = {
+  color: '#F55442',
+  typography: '#7B61FF',
+  spacing: '#1E9B6B',
+  border: '#F9A825',
+  effects: '#FF9500',
+  component: '#2B9FE0',
 };
 
 // ---------------------------------------------------------------------------
@@ -192,61 +201,64 @@ export function AuditView({
           style={{
             display: 'flex',
             flexDirection: 'column',
-            gap: SPACING_GAP_BODY,
-            padding: `${SPACING_CONTENT}px`,
-            boxSizing: 'border-box',
+            flex: 1,
+            overflow: 'hidden',
           }}
         >
-          {/* Status banner */}
+          {/* Status banner — full width, no side padding */}
           <StatusBanner variant={bannerVariant} message={bannerMessage} />
 
-          {/* Metric cards row */}
+          {/* Scrollable content area */}
           <div
             style={{
+              flex: 1,
+              overflowY: 'auto',
+              padding: SPACING_CONTENT,
               display: 'flex',
-              flexDirection: 'row',
-              gap: 16,
+              flexDirection: 'column',
+              gap: SPACING_GAP_BODY,
+              boxSizing: 'border-box',
             }}
           >
-            <MetricCard value={report.summary.totalTokens} label="Variables" />
-            <MetricCard value={report.summary.totalComponents} label="Components" />
+            {/* Metric cards row */}
+            <div style={{ display: 'flex', flexDirection: 'row', gap: 16 }}>
+              <MetricCard value={report.summary.totalTokens} label="Variables" />
+              <MetricCard value={report.summary.totalComponents} label="Components" />
+            </div>
+
+            {/* Summary sentence — real count */}
+            <p style={{ fontSize: 13, color: COLOR_TEXT_SECONDARY, margin: 0 }}>
+              {`We've detected ${report.issues.length} elements without variables applied.`}
+            </p>
+
+            {/* Accordion list */}
+            <div>
+              {CATEGORY_ORDER.map((cat) => {
+                const catIssues = report.issues.filter((i) => i.category === cat);
+                if (catIssues.length === 0) return null;
+                const label = CATEGORY_LABELS[cat] ?? cat;
+                const accent = CATEGORY_COLORS[cat];
+                return (
+                  <Accordion key={cat} label={label} count={catIssues.length} accent={accent}>
+                    {catIssues.map((issue) => (
+                      <AccordionItem
+                        key={issue.id}
+                        nodeId={issue.nodeId}
+                        nodeName={issue.nodeName}
+                        offendingValue={issue.offendingValue}
+                        onClick={onSelectNode}
+                      />
+                    ))}
+                  </Accordion>
+                );
+              })}
+            </div>
           </div>
 
-          {/* Summary sentence */}
-          <p
-            style={{
-              fontSize: 13,
-              color: COLOR_TEXT_SECONDARY,
-              margin: 0,
-            }}
-          >
-            {"We've detected 287 elements without variables applied."}
-          </p>
-
-          {/* Accordion list */}
-          <div>
-            {CATEGORY_ORDER.map((cat) => {
-              const catIssues = report.issues.filter((i) => i.category === cat);
-              if (catIssues.length === 0) return null;
-              const label = CATEGORY_LABELS[cat] ?? cat;
-              return (
-                <Accordion key={cat} label={label} count={catIssues.length}>
-                  {catIssues.map((issue) => (
-                    <AccordionItem
-                      key={issue.id}
-                      nodeId={issue.nodeId}
-                      nodeName={issue.nodeName}
-                      offendingValue={issue.offendingValue}
-                      onClick={onSelectNode}
-                    />
-                  ))}
-                </Accordion>
-              );
-            })}
+          {/* Button always pinned to bottom */}
+          <div style={{ padding: SPACING_CONTENT, paddingTop: 12 }}>
+            <Button label="Re-audit & Inject" onClick={onAuditAndInject} />
           </div>
-
-          {/* CTA button */}
-          <Button label="Re-audit & Inject" onClick={onAuditAndInject} />
         </div>
       );
     }

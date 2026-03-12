@@ -67,7 +67,7 @@ export function App(): React.ReactElement {
         activeTab={state.tab}
         onTabChange={(tab) => dispatch({ type: 'SET_TAB', tab })}
       />
-      <div style={{ flex: 1, overflowY: 'auto', display: 'flex', flexDirection: 'column' }}>
+      <div style={{ flex: 1, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
         {state.tab === 'audit' ? (
           <AuditView
             phase={state.phase}

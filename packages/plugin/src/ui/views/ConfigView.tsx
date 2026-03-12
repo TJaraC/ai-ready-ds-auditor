@@ -48,6 +48,8 @@ export function ConfigView({ report, onExportJson }: ConfigViewProps): React.Rea
       style={{
         display: 'flex',
         flexDirection: 'column',
+        flex: 1,
+        overflowY: 'auto',
         padding: SPACING_CONTENT,
         gap: SPACING_GAP_BODY,
         boxSizing: 'border-box',

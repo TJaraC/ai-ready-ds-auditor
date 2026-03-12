@@ -1,10 +1,9 @@
 import React from 'react';
 import type { Tab } from '../state';
 import {
-  COLOR_SURFACE,
+  COLOR_PRIMARY,
   COLOR_TEXT,
   COLOR_TEXT_SECONDARY,
-  RADIUS_TABS,
   SPACING_GAP_HEADER,
 } from '../tokens';
 
@@ -24,38 +23,36 @@ export function Tabs({ activeTab, onTabChange }: TabsProps): React.ReactElement 
     <div
       style={{
         width: '100%',
-        height: 74,
         display: 'flex',
-        flexDirection: 'column',
-        gap: SPACING_GAP_HEADER,
-        padding: SPACING_GAP_HEADER,
+        padding: `${SPACING_GAP_HEADER}px ${SPACING_GAP_HEADER}px 0`,
       }}
     >
-      <div style={{ display: 'flex', width: '100%' }}>
-        {tabs.map((tab) => {
-          const isActive = tab === activeTab;
-          return (
-            <button
-              key={tab}
-              onClick={() => onTabChange(tab)}
-              style={{
-                width: '50%',
-                height: 50,
-                borderRadius: RADIUS_TABS,
-                background: isActive ? COLOR_SURFACE : 'transparent',
-                fontWeight: isActive ? 700 : 400,
-                color: isActive ? COLOR_TEXT : COLOR_TEXT_SECONDARY,
-                border: 'none',
-                cursor: 'pointer',
-                fontSize: 13,
-                fontFamily: 'monospace',
-              }}
-            >
-              {labels[tab]}
-            </button>
-          );
-        })}
-      </div>
+      {tabs.map((tab) => {
+        const isActive = tab === activeTab;
+        return (
+          <button
+            key={tab}
+            onClick={() => onTabChange(tab)}
+            style={{
+              flex: 1,
+              height: 44,
+              background: 'transparent',
+              border: 'none',
+              borderBottom: isActive
+                ? `2px solid ${COLOR_PRIMARY}`
+                : '2px solid transparent',
+              fontWeight: isActive ? 700 : 400,
+              color: isActive ? COLOR_TEXT : COLOR_TEXT_SECONDARY,
+              cursor: 'pointer',
+              fontSize: 13,
+              fontFamily: 'monospace',
+              paddingBottom: 2,
+            }}
+          >
+            {labels[tab]}
+          </button>
+        );
+      })}
     </div>
   );
 }

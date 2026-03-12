@@ -3,7 +3,7 @@ import { runAudit } from './audit/index';
 import { injectReport } from './inject';
 
 // Show the plugin UI
-figma.showUI(__html__, { width: 592, height: 600, themeColors: true });
+figma.showUI(__html__, { width: 380, height: 600, themeColors: true });
 
 // Handle messages from the UI iframe
 figma.ui.onmessage = (raw: unknown): void => {

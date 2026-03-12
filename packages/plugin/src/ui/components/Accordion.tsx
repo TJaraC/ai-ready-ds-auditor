@@ -11,10 +11,11 @@ import {
 interface AccordionProps {
   label: string;
   count: number;
+  accent?: string | undefined;
   children: React.ReactNode;
 }
 
-export function Accordion({ label, count, children }: AccordionProps): React.ReactElement {
+export function Accordion({ label, count, accent, children }: AccordionProps): React.ReactElement {
   const [open, setOpen] = React.useState(true);
 
   return (
@@ -23,6 +24,8 @@ export function Accordion({ label, count, children }: AccordionProps): React.Rea
         width: '100%',
         borderRadius: RADIUS_COMPONENT,
         background: COLOR_SURFACE,
+        border: '1px solid #E8E8E8',
+        borderLeft: accent ? `3px solid ${accent}` : '1px solid #E8E8E8',
         overflow: 'hidden',
         marginBottom: 8,
       }}
@@ -33,7 +36,7 @@ export function Accordion({ label, count, children }: AccordionProps): React.Rea
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          height: 48,
+          height: 44,
           padding: `0 ${SPACING_CONTENT}px`,
           background: COLOR_SURFACE,
           border: 'none',
@@ -41,7 +44,7 @@ export function Accordion({ label, count, children }: AccordionProps): React.Rea
           width: '100%',
         }}
       >
-        <span style={{ display: 'flex', alignItems: 'center' }}>
+        <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
           <span
             style={{
               fontSize: 13,
@@ -54,7 +57,6 @@ export function Accordion({ label, count, children }: AccordionProps): React.Rea
           </span>
           <span
             style={{
-              marginLeft: 8,
               background: COLOR_BG_SECONDARY,
               borderRadius: 10,
               padding: '2px 8px',
@@ -70,11 +72,7 @@ export function Accordion({ label, count, children }: AccordionProps): React.Rea
         </span>
       </button>
       {open && (
-        <div
-          style={{
-            padding: `0 ${SPACING_CONTENT}px ${SPACING_CONTENT}px`,
-          }}
-        >
+        <div style={{ padding: `0 0 8px` }}>
           {children}
         </div>
       )}
