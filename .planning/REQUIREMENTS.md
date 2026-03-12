@@ -54,7 +54,7 @@ Requirements for v2.0 release. Each maps to a roadmap phase.
 ### Architecture Refactor (ARCH)
 
 - [x] **ARCH-01**: Audit logic is split into discrete, independently testable modules with clear interfaces
-- [ ] **ARCH-02**: Export/inject logic is separated from audit logic with a stable, typed interface
+- [x] **ARCH-02**: Export/inject logic is separated from audit logic with a stable, typed interface
 - [x] **ARCH-03**: MCP adaptation layer is separated from core audit data structures
 - [x] **ARCH-04**: Parsing/serialization logic is separated and independently testable
 - [x] **ARCH-05**: UI state management is separated from rendering components
@@ -127,7 +127,7 @@ Requirements for v2.0 release. Each maps to a roadmap phase.
 | UNPB-02 | Phase 9 | Pending |
 | UNPB-03 | Phase 9 | Pending |
 | ARCH-01 | Phase 7 | Complete |
-| ARCH-02 | Phase 7 | Pending |
+| ARCH-02 | Phase 7 | Complete |
 | ARCH-03 | Phase 7 | Complete |
 | ARCH-04 | Phase 7 | Complete |
 | ARCH-05 | Phase 7 | Complete |
