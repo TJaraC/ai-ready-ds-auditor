@@ -15,7 +15,7 @@ Requirements for v2.0 release. Each maps to a roadmap phase.
 - [ ] **UIS-01**: User sees Audit tab empty state (welcome message, subtitle, primary CTA) matching Figma Audit-1 frame exactly
 - [ ] **UIS-02**: User sees Audit tab results state (status banners, metric cards, finding text, accordion categories, primary CTA) matching Figma Audit-2 frame exactly
 - [ ] **UIS-03**: User sees Configuration tab (numbered MCP setup steps, code block, repo link, tools list, primary CTA) matching Figma Config-1 frame exactly
-- [ ] **UIS-04**: User sees consistent visual language throughout: tabs on top, primary CTA bottom, monospaced font, minimal style, generous whitespace
+- [x] **UIS-04**: User sees consistent visual language throughout: tabs on top, primary CTA bottom, monospaced font, minimal style, generous whitespace
 
 ### UI — v2 Extensions (UIX)
 
@@ -25,7 +25,7 @@ Requirements for v2.0 release. Each maps to a roadmap phase.
 - [ ] **UIX-04**: User sees CSS framework selection and active file key / connection status in Configuration
 - [ ] **UIX-05**: User sees export status and re-injection guidance in Configuration
 - [ ] **UIX-06**: User sees MCP capability summary and new tools list in Configuration (get_component_specs, get_component_svg, streaming, unpublished scan)
-- [ ] **UIX-07**: User sees all global UI states across flows: empty, loading, success, warning, error, no SVG available, component not found
+- [x] **UIX-07**: User sees all global UI states across flows: empty, loading, success, warning, error, no SVG available, component not found
 
 ### MCP — Component Specs (SPEC)
 
@@ -106,14 +106,14 @@ Requirements for v2.0 release. Each maps to a roadmap phase.
 | UIS-01 | Phase 8 | Pending |
 | UIS-02 | Phase 8 | Pending |
 | UIS-03 | Phase 8 | Pending |
-| UIS-04 | Phase 8 | Pending |
+| UIS-04 | Phase 8 | Complete |
 | UIX-01 | Phase 9 | Pending |
 | UIX-02 | Phase 9 | Pending |
 | UIX-03 | Phase 9 | Pending |
 | UIX-04 | Phase 10 | Pending |
 | UIX-05 | Phase 10 | Pending |
 | UIX-06 | Phase 10 | Pending |
-| UIX-07 | Phase 8 | Pending |
+| UIX-07 | Phase 8 | Complete |
 | SPEC-01 | Phase 11 | Pending |
 | SPEC-02 | Phase 11 | Pending |
 | SPEC-03 | Phase 11 | Pending |

@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v2.0
 milestone_name: Figma-Faithful UI + Enhanced MCP
-status: planning
-stopped_at: Completed 07-02-PLAN.md — auditor tests + serializeReport() extraction
-last_updated: "2026-03-10T12:27:55.120Z"
-last_activity: 2026-03-10
+status: executing
+stopped_at: "Completed 08-01-PLAN.md — tokens.ts, Tab rename, 592x600 window"
+last_updated: "2026-03-12T18:47:00.000Z"
+last_activity: 2026-03-12
 progress:
-  total_phases: 7
+  total_phases: 12
   completed_phases: 1
   total_plans: 4
-  completed_plans: 5
-  percent: 100
+  completed_plans: 1
+  percent: 25
 ---
 
 # Project State
@@ -21,16 +21,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-06)
 
 **Core value:** Any Non-Enterprise Figma user can connect their Design System to a local AI IDE in under 5 minutes, get live sync indicators, and give the AI full structured context — for free.
-**Current focus:** Milestone v2.0 — execute Phase 7
+**Current focus:** Milestone v2.0 — execute Phase 8
 
 ## Current Position
 
-**Phase:** 7 of 12 — Architecture Refactor (COMPLETE)
-**Plan:** 4/4 plans complete
-**Status:** Ready to plan
-**Last Activity:** 2026-03-10
+**Phase:** 8 of 12 — UI v2 Base (IN PROGRESS)
+**Plan:** 1/4 plans complete
+**Status:** Executing
+**Last Activity:** 2026-03-12
 
-Progress: [██████████] 100%
+Progress: [██░░░░░░░░] 25%
 
 ## Performance Metrics
 
@@ -72,6 +72,12 @@ Progress: [██████████] 100%
 - cornerRadius figma.mixed skipped — future improvement
 - pluginData accessed via fileResponse.document.pluginData ?? {}
 
+### Decisions (from Phase 8 — executed 08-01)
+
+- UI-TOKEN-01: 11 design token constants in `tokens.ts` — pure exports, no imports, no logic — components import named constants
+- UI-TAB-01: Tab type `'audit' | 'config'` (was `'ai-context'`) — all references updated, tsc clean
+- UI-WINDOW-01: Plugin window 592x600px set in `code.ts` `figma.showUI` — matches Figma frame exactly
+
 ### Key v2.0 Technical Notes (Phase 7)
 
 - Figma global mock for tests: `(globalThis as Record<string, unknown>).figma = { mixed: Symbol('figma.mixed') }` — before auditor imports
@@ -88,6 +94,6 @@ None.
 
 ## Session Continuity
 
-**Last session:** 2026-03-10T12:19:53.095Z
-**Stopped at:** Completed 07-02-PLAN.md — auditor tests + serializeReport() extraction
-**Next action:** Phase 7 complete — ready to plan next phase
+**Last session:** 2026-03-12T18:47:00.000Z
+**Stopped at:** Completed 08-01-PLAN.md — tokens.ts, Tab type rename, 592x600 window
+**Next action:** Execute 08-02-PLAN.md — 6 UI components (Tabs, Button, StatusBanner, MetricCard, Accordion, AccordionItem)
