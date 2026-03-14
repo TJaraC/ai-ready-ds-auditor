@@ -97,7 +97,13 @@ Plans:
   4. Calling `get_audit_summary` in an IDE receives streaming events in sequence: start, progress, chunk, end — and error events on failure
   5. Each streaming chunk is a complete, independently parseable unit — reading chunk N does not require chunk N-1
   6. An IDE that does not support streaming receives the full audit summary in a single no-stream fallback response
-**Plans**: TBD
+**Plans**: 4 plans
+
+Plans:
+- [ ] 09-01-PLAN.md - Shared type contracts (publishStatus, unpublishedComponents, contextStatus, AppState fields)
+- [ ] 09-02-PLAN.md - Unpublished component detection in sandbox audit
+- [ ] 09-03-PLAN.md - MCP streaming for get_audit_summary (start/progress/chunk/end events)
+- [ ] 09-04-PLAN.md - UI wiring: progress bar, unpublished badge, contextStatus banner, extended JSON export
 
 ### Phase 10: Configuration Flow v2
 **Goal**: The Configuration tab shows live connection status, CSS framework selection, export status with re-injection guidance, and a full MCP capability summary including new v2 tools
@@ -120,6 +126,18 @@ Plans:
   4. Calling `get_component_svg` with a logo, mark, or icon name returns the serialized SVG markup along with name, type, and viewBox metadata
   5. Calling `get_component_svg` with an interactive or non-SVG-extractable component returns a clear, descriptive error explaining why SVG is not available
 **Plans**: TBD
+
+**⚠️ Research Required — Component Data Source Strategy**
+
+The current `ComponentSpec` in `setPluginData` is a stub (`variants: []`, `props: []`, `usageCount: 0`). Phase 11 must decide how to provide pixel-perfect component data to the MCP. Two candidate approaches must be researched and the most robust one selected before planning:
+
+- **Option A — Serialize in plugin during audit**: The plugin already has full node access at audit time. Extract visual properties (fills, padding, borderRadius, effects, interaction states) per component and include them in `setPluginData` chunks. Zero additional REST API calls. Risk: 100kB-per-key chunk limit may be exceeded for large design systems — requires measurement.
+
+- **Option B — Single batch REST API call at cache load**: When `ensureLoaded()` fetches the file, add one `GET /v1/files/:key/nodes?ids=id1,id2,...` call with all component IDs. Still one extra call per session, consistent with the existing cache architecture. Risk: adds REST API dependency and one extra rate-limit-counted call per session.
+
+**Constraint**: On-demand per-component REST API calls are NOT acceptable — free Figma users are subject to strict monthly rate limits, and the architecture decision (single call per file per session + in-memory cache) must be preserved. The chosen approach must respect this constraint.
+
+GSD research agent must evaluate both options against: (1) payload size impact on chunking, (2) rate limit safety for free users, (3) data freshness, and (4) implementation complexity — and produce a concrete recommendation before planning begins.
 
 ### Phase 12: Hardening
 **Goal**: All UX copy is consistent and reviewed, button states are valid across every flow, audit/inject/export synchronization is correct, every error condition has a descriptive message, naming is consistent across packages, and all flows have defined loading and error states
