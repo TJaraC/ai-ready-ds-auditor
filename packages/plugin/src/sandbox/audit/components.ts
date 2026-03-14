@@ -3,6 +3,24 @@ import type { AuditNode } from './inputs';
 import { buildIssue } from './utils';
 
 /**
+ * Classifies a Figma component's publish status based on its `remote` and `master`
+ * properties, which are available on COMPONENT nodes at runtime.
+ *
+ * Rules (from Figma API semantics):
+ * - `remote === true` → 'private' (component from an external/private library)
+ * - `master == null`  → 'local'   (no master component — unpublished local component)
+ * - otherwise         → 'published' (has a master component and is not remote)
+ */
+export function classifyPublishStatus(
+  remote: boolean,
+  master: unknown,
+): 'published' | 'private' | 'local' {
+  if (remote) return 'private';
+  if (master == null) return 'local';
+  return 'published';
+}
+
+/**
  * Audits a scene node to detect disconnected components — FRAME or GROUP nodes
  * whose name matches a known component name but are not INSTANCE nodes.
  *

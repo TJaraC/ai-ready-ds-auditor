@@ -4,7 +4,7 @@ import { describe, it, expect } from 'vitest';
 const FIGMA_MIXED = Symbol('figma.mixed');
 (globalThis as Record<string, unknown>).figma = { mixed: FIGMA_MIXED };
 
-import { auditComponents } from './components';
+import { auditComponents, classifyPublishStatus } from './components';
 import type { AuditNode } from './inputs';
 
 describe('auditComponents', () => {
@@ -59,5 +59,23 @@ describe('auditComponents', () => {
     const issues = auditComponents(node, 'Page', componentNames);
     expect(issues[0]!.suggestedFix).toContain('FRAME');
     expect(issues[0]!.suggestedFix).toContain('Modal');
+  });
+});
+
+describe('classifyPublishStatus', () => {
+  it('returns private when remote is true', () => {
+    expect(classifyPublishStatus(true, {})).toBe('private');
+  });
+
+  it('returns local when remote is false and master is null', () => {
+    expect(classifyPublishStatus(false, null)).toBe('local');
+  });
+
+  it('returns local when remote is false and master is undefined', () => {
+    expect(classifyPublishStatus(false, undefined)).toBe('local');
+  });
+
+  it('returns published when remote is false and master is non-null', () => {
+    expect(classifyPublishStatus(false, {})).toBe('published');
   });
 });

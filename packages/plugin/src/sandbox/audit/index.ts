@@ -1,10 +1,10 @@
 import type { AuditIssue, AuditReport, ComponentSpec, SandboxMessage } from '@shared/index';
-import type { AuditNode, AuditNodeFills, AuditNodeText, AuditNodeLayout } from './inputs';
+import type { AuditNode, AuditNodeFills, AuditNodeText, AuditNodeLayout, AuditNodeBorder, AuditNodeEffects } from './inputs';
 import { assembleReport } from './utils';
 import { auditFills, auditStrokes } from './color';
 import { auditTypography } from './typography';
 import { auditSpacing } from './spacing';
-import { auditComponents } from './components';
+import { auditComponents, classifyPublishStatus } from './components';
 import { auditBorderShape } from './border';
 import { auditEffects } from './effects';
 import { extractVariableTokens, extractTextStyleTokens } from './tokens';
@@ -63,6 +63,9 @@ export async function runAudit(): Promise<AuditReport> {
     // Collect ComponentSpec for this page
     const pageComponents = page.findAllWithCriteria({ types: ['COMPONENT'] });
     pageComponents.forEach((comp) => {
+      const remote = (comp as unknown as { remote: boolean }).remote ?? false;
+      const master = (comp as unknown as { master: unknown }).master;
+      const publishStatus = classifyPublishStatus(remote, master);
       allComponents.push({
         id: comp.id,
         name: comp.name,
@@ -71,6 +74,7 @@ export async function runAudit(): Promise<AuditReport> {
         variants: [],
         props: [],
         usageCount: 0,
+        publishStatus,
       });
     });
 
@@ -97,11 +101,11 @@ export async function runAudit(): Promise<AuditReport> {
           allIssues.push(...auditSpacing(node as unknown as AuditNodeLayout, pageName));
         }
 
-        // Border: cornerRadius and strokeWeight
-        allIssues.push(...auditBorderShape(node as unknown as AuditNode, pageName));
+        // Border: cornerRadius (uniform and per-corner) and strokeWeight
+        allIssues.push(...auditBorderShape(node as unknown as AuditNodeBorder, pageName));
 
-        // Effects: hardcoded shadows without effect style
-        allIssues.push(...auditEffects(node as unknown as AuditNode, pageName, effectStyleIds));
+        // Effects: hardcoded shadows and blurs without effect style
+        allIssues.push(...auditEffects(node as unknown as AuditNodeEffects, pageName, effectStyleIds));
 
         // Component: disconnected frames/groups that should be component instances
         allIssues.push(...auditComponents(node as unknown as AuditNode, pageName, componentNames));
@@ -118,5 +122,9 @@ export async function runAudit(): Promise<AuditReport> {
     figma.ui.postMessage(progressMsg);
   }
 
-  return assembleReport(allIssues, allComponents, tokens, figma.root.name, figma.root.name);
+  const unpublishedCount = allComponents.filter(
+    (c) => c.publishStatus === 'private' || c.publishStatus === 'local',
+  ).length;
+
+  return assembleReport(allIssues, allComponents, tokens, unpublishedCount, figma.root.name, figma.root.name);
 }

@@ -51,11 +51,14 @@ export function buildIssue(
 /**
  * Assembles a complete AuditReport from the given issues, components, and tokens.
  * Computes all summary fields including healthScore (clamped to 0–100).
+ *
+ * @param unpublishedCount - Count of components with publishStatus 'private' or 'local'
  */
 export function assembleReport(
   issues: AuditIssue[],
   components: ComponentSpec[],
   tokens: DesignToken[],
+  unpublishedCount: number,
   fileId: string,
   fileName: string
 ): AuditReport {
@@ -81,6 +84,7 @@ export function assembleReport(
       totalComponents: components.length,
       issuesByCategory,
       healthScore,
+      unpublishedComponents: unpublishedCount,
     },
     issues,
     components,
