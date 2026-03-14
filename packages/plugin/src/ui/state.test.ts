@@ -18,6 +18,7 @@ const mockReport: AuditReport = {
     totalComponents: 3,
     issuesByCategory: { color: 2 },
     healthScore: 75,
+    unpublishedComponents: 0,
   },
   issues: [],
   components: [],

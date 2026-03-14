@@ -6,7 +6,7 @@ function makeReport(issues: AuditReport['issues'] = []): AuditReport {
   return {
     schemaVersion: '1.0.0', fileId: 'f1', fileName: 'TestFile',
     scannedAt: '2026-01-01T00:00:00.000Z',
-    summary: { totalIssues: issues.length, totalTokens: 0, totalComponents: 0, issuesByCategory: {}, healthScore: 100 },
+    summary: { totalIssues: issues.length, totalTokens: 0, totalComponents: 0, issuesByCategory: {}, healthScore: 100, unpublishedComponents: 0 },
     issues, components: [], tokens: [],
   };
 }
@@ -69,7 +69,7 @@ describe('adaptComponentSpec', () => {
   it('returns component spec unchanged (identity transform)', () => {
     const spec: ComponentSpec = {
       id: 'comp-1', name: 'Button', key: 'abc123', description: 'Primary button',
-      variants: ['primary', 'secondary'], props: ['label', 'disabled'], usageCount: 5,
+      variants: ['primary', 'secondary'], props: ['label', 'disabled'], usageCount: 5, publishStatus: 'published',
     };
 
     const result = adaptComponentSpec(spec);

@@ -12,7 +12,7 @@ export interface AuditIssue {
 export interface DesignToken {
   id: string;
   name: string;
-  type: 'color' | 'typography' | 'spacing' | 'other';
+  type: 'color' | 'typography' | 'spacing' | 'border-radius' | 'border-width' | 'other';
   value: string;
   rawValue: string;
   variableName?: string;
@@ -28,6 +28,7 @@ export interface ComponentSpec {
   variants: string[];
   props: string[];
   usageCount: number;
+  publishStatus: 'published' | 'private' | 'local';
 }
 
 export interface AuditMeta {
@@ -51,6 +52,7 @@ export interface AuditReport {
     totalComponents: number;
     issuesByCategory: Record<string, number>;
     healthScore: number;
+    unpublishedComponents: number;
   };
   issues: AuditIssue[];
   components: ComponentSpec[];
