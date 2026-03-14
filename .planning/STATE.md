@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v2.0
 milestone_name: Figma-Faithful UI + Enhanced MCP
 status: executing
-stopped_at: Completed 08-04-PLAN.md — Plugin build + human visual verification (Phase 8 COMPLETE)
-last_updated: "2026-03-12T21:00:00Z"
-last_activity: 2026-03-12
+stopped_at: Completed 09-01-PLAN.md (type contracts for Phase 9)
+last_updated: "2026-03-14T20:36:16.887Z"
+last_activity: 2026-03-14
 progress:
   total_phases: 7
   completed_phases: 2
-  total_plans: 8
-  completed_plans: 9
+  total_plans: 12
+  completed_plans: 10
   percent: 100
 ---
 
@@ -25,10 +25,10 @@ See: .planning/PROJECT.md (updated 2026-03-06)
 
 ## Current Position
 
-**Phase:** 8 of 12 — UI v2 Base (COMPLETE)
-**Plan:** 4/4 plans complete
+**Phase:** 9 of 12 — Audit Flow v2
+**Plan:** 1/4 plans complete
 **Status:** Executing
-**Last Activity:** 2026-03-12
+**Last Activity:** 2026-03-14
 
 Progress: [██████████] 100%
 
@@ -40,6 +40,10 @@ Progress: [██████████] 100%
 - Total execution time: ~5 hours
 
 *v2.0 metrics will populate as plans complete*
+
+| Phase-Plan | Duration | Tasks | Files |
+| ---------- | -------- | ----- | ----- |
+| 09-01 | 5min | 2 | 4 |
 
 ## Accumulated Context
 
@@ -116,9 +120,21 @@ Progress: [██████████] 100%
 - Plugin window: sandbox code.ts sets pixel dimensions; UI uses 100%/100vh to fill the window
 - Accordion category accent colors: color=#F55442, typography=#7B61FF, spacing=#1E9B6B, border=#F9A825, effects=#FF9500, component=#2B9FE0
 
+### Decisions (from Phase 9 — executed 09-01)
+
+- TYPE-01: `publishStatus` is required (not optional) in `ComponentSpec` — downstream construction must supply it
+- TYPE-02: `contextStatus` defaults to `null` — null means no banner shown; only set after inject or sync-outdated
+- TYPE-03: `INJECT_COMPLETE` → `contextStatus='injected'`; `SYNC_OUTDATED` → `contextStatus='outdated'`; error/start-audit leave contextStatus unchanged
+- TYPE-04: `unpublishedCount` populated from `report.summary.unpublishedComponents` in `SCAN_COMPLETE` — single source in shared types
+
+### Key v2.0 Technical Notes (Phase 9)
+
+- Monorepo: mcp-server/plugin type-check against `packages/shared/dist/*.d.ts` (compiled declarations), not source — always rebuild shared after type changes before checking downstream
+- `publishStatus` required field pattern: test fixtures that construct `ComponentSpec` must include it; update immediately when adding required fields to shared types
+
 ### Blockers/Concerns
 
-None — Phase 8 complete, Phase 9 ready to start.
+None — Phase 9 Plan 1 complete, ready for Plan 2 (components auditor).
 
 ### Pending Todos
 
@@ -126,6 +142,6 @@ None.
 
 ## Session Continuity
 
-**Last session:** 2026-03-12T21:00:00Z
-**Stopped at:** Completed 08-04-PLAN.md — Plugin build + human visual verification (Phase 8 COMPLETE)
-**Next action:** Execute Phase 9 — Audit Flow v2 (streaming, unpublished detection, AI Context status)
+**Last session:** 2026-03-14T20:34:40.000Z
+**Stopped at:** Completed 09-01-PLAN.md (type contracts for Phase 9)
+**Next action:** Execute 09-02-PLAN.md — Components auditor publishStatus detection

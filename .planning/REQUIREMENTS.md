@@ -21,7 +21,7 @@ Requirements for v2.0 release. Each maps to a roadmap phase.
 
 - [ ] **UIX-01**: User sees streaming active state with real-time progress indicator during audit
 - [ ] **UIX-02**: User sees unpublished/private component count in Audit results
-- [ ] **UIX-03**: User sees AI Context status summary (injected / outdated / missing) in Audit results
+- [x] **UIX-03**: User sees AI Context status summary (injected / outdated / missing) in Audit results
 - [ ] **UIX-04**: User sees CSS framework selection and active file key / connection status in Configuration
 - [ ] **UIX-05**: User sees export status and re-injection guidance in Configuration
 - [ ] **UIX-06**: User sees MCP capability summary and new tools list in Configuration (get_component_specs, get_component_svg, streaming, unpublished scan)
@@ -47,8 +47,8 @@ Requirements for v2.0 release. Each maps to a roadmap phase.
 
 ### MCP — Unpublished Detection (UNPB)
 
-- [ ] **UNPB-01**: Audit detects and classifies each component as published, private, or local/unpublished
-- [ ] **UNPB-02**: Unpublished/private component status is included in the audit payload and exposed through MCP tools
+- [x] **UNPB-01**: Audit detects and classifies each component as published, private, or local/unpublished
+- [x] **UNPB-02**: Unpublished/private component status is included in the audit payload and exposed through MCP tools
 - [ ] **UNPB-03**: Unpublished component count and classification is visible in the plugin UI Audit results
 
 ### Architecture Refactor (ARCH)
@@ -109,7 +109,7 @@ Requirements for v2.0 release. Each maps to a roadmap phase.
 | UIS-04 | Phase 8 | Complete |
 | UIX-01 | Phase 9 | Pending |
 | UIX-02 | Phase 9 | Pending |
-| UIX-03 | Phase 9 | Pending |
+| UIX-03 | Phase 9 | Complete |
 | UIX-04 | Phase 10 | Pending |
 | UIX-05 | Phase 10 | Pending |
 | UIX-06 | Phase 10 | Pending |
@@ -123,8 +123,8 @@ Requirements for v2.0 release. Each maps to a roadmap phase.
 | STRM-01 | Phase 9 | Pending |
 | STRM-02 | Phase 9 | Pending |
 | STRM-03 | Phase 9 | Pending |
-| UNPB-01 | Phase 9 | Pending |
-| UNPB-02 | Phase 9 | Pending |
+| UNPB-01 | Phase 9 | Complete |
+| UNPB-02 | Phase 9 | Complete |
 | UNPB-03 | Phase 9 | Pending |
 | ARCH-01 | Phase 7 | Complete |
 | ARCH-02 | Phase 7 | Complete |
