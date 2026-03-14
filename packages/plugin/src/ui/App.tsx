@@ -2,6 +2,7 @@ import React, { useReducer } from 'react';
 import type { UIMessage } from '@shared/messages';
 import type { AuditReport } from '@shared/types';
 import { appReducer, initialState } from './state';
+import type { AppState, CssFramework } from './state';
 import { useAppMessages } from './useAppMessages';
 import { Tabs } from './components/Tabs';
 import { AuditView } from './views/AuditView';
@@ -12,13 +13,43 @@ import { COLOR_SURFACE, RADIUS_FRAME } from './tokens';
 // Helpers
 // ---------------------------------------------------------------------------
 
-function downloadJson(report: AuditReport): void {
-  const json = JSON.stringify(report, null, 2);
+function toCssVarName(tokenName: string): string {
+  return `--${tokenName.replace(/\//g, '-').replace(/\s+/g, '-').toLowerCase()}`;
+}
+
+function downloadJson(report: AuditReport, cssFramework: CssFramework, contextStatus: AppState['contextStatus']): void {
+  const processedTokens = report.tokens.map(({ rawValue: _raw, ...token }) => ({
+    ...token,
+    cssVar: toCssVarName(token.name),
+  }));
+
+  const tokenCountsByType: Record<string, number> = {};
+  for (const token of processedTokens) {
+    tokenCountsByType[token.type] = (tokenCountsByType[token.type] ?? 0) + 1;
+  }
+
+  const payload = {
+    version: report.schemaVersion,
+    fileKey: report.fileId,
+    fileName: report.fileName,
+    exportedAt: new Date().toISOString(),
+    tokenCounts: {
+      total: processedTokens.length,
+      byType: tokenCountsByType,
+    },
+    componentCount: report.summary.totalComponents,
+    cssFramework,
+    auditStatus: 'complete',
+    contextStatus,
+    tokens: processedTokens,
+  };
+
+  const json = JSON.stringify(payload, null, 2);
   const blob = new Blob([json], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = `${report.fileName.replace(/[^a-z0-9]/gi, '-')}-audit.json`;
+  a.download = `${report.fileName.replace(/[^a-z0-9]/gi, '-')}-tokens.json`;
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
@@ -46,7 +77,7 @@ export function App(): React.ReactElement {
 
   const handleExportJson = (): void => {
     if (!state.report) return;
-    downloadJson(state.report);
+    downloadJson(state.report, state.cssFramework, state.contextStatus);
   };
 
   return (
@@ -78,6 +109,8 @@ export function App(): React.ReactElement {
             onAuditAndInject={handleAuditAndInject}
             onSelectNode={handleSelectNode}
             onResetError={() => dispatch({ type: 'RESET_ERROR' })}
+            contextStatus={state.contextStatus}
+            unpublishedCount={state.unpublishedCount}
           />
         ) : (
           <ConfigView
