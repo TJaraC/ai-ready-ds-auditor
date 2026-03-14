@@ -33,6 +33,9 @@ export function useAppMessages(dispatch: (action: AppAction) => void): void {
         case 'SYNC_OUTDATED':
           dispatch({ type: 'SYNC_OUTDATED' });
           break;
+        case 'CONTEXT_STATUS_CHECK':
+          dispatch({ type: 'SET_CONTEXT_STATUS', status: msg.status });
+          break;
         default: {
           const _exhaustive: never = msg;
           void _exhaustive;

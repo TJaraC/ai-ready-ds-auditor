@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v2.0
 milestone_name: Figma-Faithful UI + Enhanced MCP
 status: executing
-stopped_at: Completed 09-02-PLAN.md (publishStatus classification and unpublished component detection)
-last_updated: "2026-03-14T20:41:09.654Z"
+stopped_at: Completed 09-03-PLAN.md (MCP streaming notifications)
+last_updated: "2026-03-14T20:42:23.920Z"
 last_activity: 2026-03-14
 progress:
   total_phases: 7
   completed_phases: 2
   total_plans: 12
-  completed_plans: 11
-  percent: 100
+  completed_plans: 12
+  percent: 92
 ---
 
 # Project State
@@ -26,7 +26,7 @@ See: .planning/PROJECT.md (updated 2026-03-06)
 ## Current Position
 
 **Phase:** 9 of 12 — Audit Flow v2
-**Plan:** 2/4 plans complete
+**Plan:** 3/4 plans complete
 **Status:** Executing
 **Last Activity:** 2026-03-14
 
@@ -45,6 +45,7 @@ Progress: [█████████░] 92%
 | ---------- | -------- | ----- | ----- |
 | 09-01 | 5min | 2 | 4 |
 | Phase 09-audit-flow-v2 P09-02 | 5min | 1 tasks | 5 files |
+| Phase 09 P03 | 3min | 1 tasks | 1 files |
 
 ## Accumulated Context
 
@@ -144,9 +145,21 @@ Progress: [█████████░] 92%
 - assembleReport() signature change: when adding new parameters, insert before fileId/fileName positional args — update all test callers immediately
 - Figma COMPONENT node properties (remote, master) not in SceneNode TypeScript types — must cast via unknown to access at runtime
 
+### Decisions (from Phase 9 — executed 09-03)
+
+- STRM-TYPE-01: `RequestHandlerExtra<ServerRequest, ServerNotification>` required for typed `sendNotification` — `<never, never>` parameterization makes sendNotification expect `never`
+- STRM-FALLBACK-01: Full `AuditSummaryResult` plain JSON return preserved as no-stream fallback (STRM-02)
+- STRM-EMPTY-01: Empty categories produce no chunk event — `continue` if `catIssues.length === 0`
+- STRM-ERR-01: Error notification in catch wrapped in inner try/catch — notification failure never masks the real `errorResponse`
+
+### Key v2.0 Technical Notes (Phase 9 — MCP streaming)
+
+- MCP streaming pattern: `start → loop(progress + chunk per non-empty category) → end → return full JSON fallback`
+- Import `ServerRequest` + `ServerNotification` from `@modelcontextprotocol/sdk/types.js` for properly-typed `RequestHandlerExtra` in tool callbacks
+
 ### Blockers/Concerns
 
-None — Phase 9 Plan 2 complete, ready for Plan 3 (AuditView UI — unpublishedCount badge + contextStatus banner).
+None — Phase 9 Plan 3 complete, ready for Plan 4 (AuditView UI — progress bar, MetricCard badge, contextStatus banner).
 
 ### Pending Todos
 
@@ -154,6 +167,6 @@ None.
 
 ## Session Continuity
 
-**Last session:** 2026-03-14T20:41:09.652Z
-**Stopped at:** Completed 09-02-PLAN.md (publishStatus classification and unpublished component detection)
-**Next action:** Execute 09-03-PLAN.md — AuditView UI updates (progress bar, MetricCard badge, contextStatus banner)
+**Last session:** 2026-03-14T20:42:23.918Z
+**Stopped at:** Completed 09-03-PLAN.md (MCP streaming notifications)
+**Next action:** Execute 09-04-PLAN.md — AuditView UI updates (progress bar, MetricCard badge, contextStatus banner)

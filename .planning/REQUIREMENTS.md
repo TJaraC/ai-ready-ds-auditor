@@ -41,9 +41,9 @@ Requirements for v2.0 release. Each maps to a roadmap phase.
 
 ### MCP — Streaming (STRM)
 
-- [ ] **STRM-01**: User receives streaming events (start, progress, chunk, end, error) when calling `get_audit_summary`
-- [ ] **STRM-02**: User can receive the full audit summary in a no-stream fallback mode when streaming is not supported
-- [ ] **STRM-03**: Streaming chunks are individually parseable without dependency on adjacent chunks
+- [x] **STRM-01**: User receives streaming events (start, progress, chunk, end, error) when calling `get_audit_summary`
+- [x] **STRM-02**: User can receive the full audit summary in a no-stream fallback mode when streaming is not supported
+- [x] **STRM-03**: Streaming chunks are individually parseable without dependency on adjacent chunks
 
 ### MCP — Unpublished Detection (UNPB)
 
@@ -120,9 +120,9 @@ Requirements for v2.0 release. Each maps to a roadmap phase.
 | SVG-01 | Phase 11 | Pending |
 | SVG-02 | Phase 11 | Pending |
 | SVG-03 | Phase 11 | Pending |
-| STRM-01 | Phase 9 | Pending |
-| STRM-02 | Phase 9 | Pending |
-| STRM-03 | Phase 9 | Pending |
+| STRM-01 | Phase 9 | Complete |
+| STRM-02 | Phase 9 | Complete |
+| STRM-03 | Phase 9 | Complete |
 | UNPB-01 | Phase 9 | Complete |
 | UNPB-02 | Phase 9 | Complete |
 | UNPB-03 | Phase 9 | Pending |

@@ -117,9 +117,13 @@ figma.loadAllPagesAsync().then(() => {
   });
 });
 
-// Send initial message to UI to confirm sandbox is alive
-const initMsg: SandboxMessage = {
-  type: 'SYNC_OUTDATED',
-  lastScannedAt: new Date().toISOString(),
-};
-figma.ui.postMessage(initMsg);
+// On startup: check whether AI Context has ever been injected.
+// If no plugin data keys exist, signal the UI that context is missing.
+// SYNC_OUTDATED is NOT sent on startup — it is reserved for document change events.
+const startupKeys = figma.root.getPluginDataKeys();
+if (startupKeys.length === 0) {
+  const missingMsg: SandboxMessage = { type: 'CONTEXT_STATUS_CHECK', status: 'missing' };
+  figma.ui.postMessage(missingMsg);
+}
+// If keys exist, contextStatus stays null (injected/outdated will be set later via
+// INJECT_COMPLETE or SYNC_OUTDATED — no pre-flight read of plugin data needed here).
