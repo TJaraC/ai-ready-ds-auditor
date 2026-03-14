@@ -10,9 +10,10 @@ import {
 interface MetricCardProps {
   value: number | string;
   label: string;
+  badge?: string;  // Optional — renders below label when provided
 }
 
-export function MetricCard({ value, label }: MetricCardProps): React.ReactElement {
+export function MetricCard({ value, label, badge }: MetricCardProps): React.ReactElement {
   return (
     <div
       style={{
@@ -48,6 +49,17 @@ export function MetricCard({ value, label }: MetricCardProps): React.ReactElemen
       >
         {label}
       </span>
+      {badge !== undefined && (
+        <span
+          style={{
+            fontSize: 11,
+            fontFamily: 'monospace',
+            color: COLOR_TEXT_SECONDARY,
+          }}
+        >
+          {badge}
+        </span>
+      )}
     </div>
   );
 }

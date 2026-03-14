@@ -24,7 +24,7 @@ const CATEGORY_LABELS: Record<string, string> = {
   color: 'Color',
   typography: 'Typography',
   spacing: 'Spacing',
-  border: 'Border Radius',
+  border: 'Border',
   effects: 'Effects',
   component: 'Components',
 };
@@ -51,6 +51,8 @@ interface AuditViewProps {
   onAuditAndInject: () => void;
   onSelectNode: (nodeId: string) => void;
   onResetError: () => void;
+  contextStatus: 'injected' | 'outdated' | 'missing' | null;
+  unpublishedCount: number;
 }
 
 // ---------------------------------------------------------------------------
@@ -66,6 +68,8 @@ export function AuditView({
   onAuditAndInject,
   onSelectNode,
   onResetError,
+  contextStatus,
+  unpublishedCount,
 }: AuditViewProps): React.ReactElement {
   switch (phase) {
     case 'idle':
@@ -127,29 +131,38 @@ export function AuditView({
             flex: 1,
             justifyContent: 'center',
             alignItems: 'center',
-            gap: 8,
+            gap: 12,
             padding: SPACING_CONTENT,
             boxSizing: 'border-box',
           }}
         >
-          <span style={{ fontSize: 13, color: COLOR_TEXT }}>
-            {scanProgress != null ? `Scanning... ${scanProgress.percent}%` : 'Scanning...'}
+          <span style={{ fontSize: 13, color: COLOR_TEXT, fontFamily: 'monospace' }}>
+            Scanning design system...
           </span>
-          {scanProgress != null && scanProgress.currentNode && (
-            <span
+          {/* Determinate progress bar */}
+          <div
+            style={{
+              width: '100%',
+              maxWidth: 240,
+              height: 4,
+              borderRadius: 2,
+              background: '#E8E8E8',
+              overflow: 'hidden',
+            }}
+          >
+            <div
               style={{
-                fontSize: 11,
-                color: COLOR_TEXT_SECONDARY,
-                maxWidth: 280,
-                textAlign: 'center',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-                whiteSpace: 'nowrap',
+                height: '100%',
+                borderRadius: 2,
+                background: COLOR_PRIMARY,
+                width: `${scanProgress?.percent ?? 0}%`,
+                transition: 'width 0.2s ease',
               }}
-            >
-              {scanProgress.currentNode}
-            </span>
-          )}
+            />
+          </div>
+          <span style={{ fontSize: 11, color: COLOR_TEXT_SECONDARY, fontFamily: 'monospace' }}>
+            {`${scanProgress?.percent ?? 0}% complete`}
+          </span>
         </div>
       );
 
@@ -191,10 +204,21 @@ export function AuditView({
         );
       }
 
-      const bannerVariant = isOutOfSync ? 'warning' : 'success';
-      const bannerMessage = isOutOfSync
-        ? 'AI Context may be outdated - Re-inject to update'
-        : 'AI Context injected - Ready for IDE';
+      // Derive banner from contextStatus (UIX-03)
+      let bannerVariant: 'success' | 'warning' | 'error' | null = null;
+      let bannerMessage: string | null = null;
+
+      if (contextStatus === 'injected') {
+        bannerVariant = 'success';
+        bannerMessage = 'AI Context injected \u2014 Ready for IDE';
+      } else if (contextStatus === 'outdated') {
+        bannerVariant = 'warning';
+        bannerMessage = 'AI Context may be outdated \u2014 Re-inject to update';
+      } else if (contextStatus === 'missing') {
+        bannerVariant = 'error';
+        bannerMessage = 'No AI Context found \u2014 Run Audit & Inject';
+      }
+      // contextStatus === null → no banner
 
       return (
         <div
@@ -205,8 +229,10 @@ export function AuditView({
             overflow: 'hidden',
           }}
         >
-          {/* Status banner — full width, no side padding */}
-          <StatusBanner variant={bannerVariant} message={bannerMessage} />
+          {/* Status banner — only shown when contextStatus is set */}
+          {bannerVariant !== null && bannerMessage !== null && (
+            <StatusBanner variant={bannerVariant} message={bannerMessage} />
+          )}
 
           {/* Scrollable content area */}
           <div
@@ -223,7 +249,11 @@ export function AuditView({
             {/* Metric cards row */}
             <div style={{ display: 'flex', flexDirection: 'row', gap: 16 }}>
               <MetricCard value={report.summary.totalTokens} label="Variables" />
-              <MetricCard value={report.summary.totalComponents} label="Components" />
+              <MetricCard
+                value={report.summary.totalComponents}
+                label="Components"
+                {...(unpublishedCount > 0 ? { badge: `${unpublishedCount} unpublished` } : {})}
+              />
             </div>
 
             {/* Summary sentence — real count */}
@@ -246,6 +276,7 @@ export function AuditView({
                         nodeId={issue.nodeId}
                         nodeName={issue.nodeName}
                         offendingValue={issue.offendingValue}
+                        issueType={issue.issueType}
                         onClick={onSelectNode}
                       />
                     ))}
