@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v2.0
 milestone_name: Figma-Faithful UI + Enhanced MCP
 status: executing
-stopped_at: Completed 09-03-PLAN.md (MCP streaming notifications)
-last_updated: "2026-03-14T20:42:23.920Z"
+stopped_at: Completed 09-04-PLAN.md (AuditView UI wiring — progress bar, MetricCard badge, contextStatus banner)
+last_updated: "2026-03-14T21:05:34.066Z"
 last_activity: 2026-03-14
 progress:
   total_phases: 7
-  completed_phases: 2
+  completed_phases: 3
   total_plans: 12
-  completed_plans: 12
+  completed_plans: 13
   percent: 92
 ---
 
@@ -26,7 +26,7 @@ See: .planning/PROJECT.md (updated 2026-03-06)
 ## Current Position
 
 **Phase:** 9 of 12 — Audit Flow v2
-**Plan:** 3/4 plans complete
+**Plan:** 4/4 plans complete
 **Status:** Executing
 **Last Activity:** 2026-03-14
 
@@ -46,6 +46,7 @@ Progress: [█████████░] 92%
 | 09-01 | 5min | 2 | 4 |
 | Phase 09-audit-flow-v2 P09-02 | 5min | 1 tasks | 5 files |
 | Phase 09 P03 | 3min | 1 tasks | 1 files |
+| Phase 09-audit-flow-v2 P04 | 30min | 4 tasks | 6 files |
 
 ## Accumulated Context
 
@@ -157,9 +158,22 @@ Progress: [█████████░] 92%
 - MCP streaming pattern: `start → loop(progress + chunk per non-empty category) → end → return full JSON fallback`
 - Import `ServerRequest` + `ServerNotification` from `@modelcontextprotocol/sdk/types.js` for properly-typed `RequestHandlerExtra` in tool callbacks
 
+### Decisions (from Phase 9 — executed 09-04)
+
+- STARTUP-01: `CONTEXT_STATUS_CHECK` only sent when `getPluginDataKeys().length === 0` — `SYNC_OUTDATED` reserved for document change events, not startup; prevents false "outdated" banner on every plugin open
+- BANNER-01: `contextStatus === null` renders no `StatusBanner` — banner only shown after explicit inject/outdated/missing signal; default state after audit that has not yet been injected
+- BADGE-01: MetricCard `badge` prop is optional and undefined-gated — rendered only when `unpublishedCount > 0`; zero unpublished shows clean card
+- EXPORT-01: `downloadJson` includes `tokenCounts.byType` (counts grouped by token type) alongside `tokenCounts.total` — richer IDE/MCP context for downstream consumers
+
+### Key v2.0 Technical Notes (Phase 9 — UI wiring)
+
+- Startup gate pattern: `figma.root.getPluginDataKeys().length === 0` → send `CONTEXT_STATUS_CHECK` with `status: 'missing'`
+- `contextStatus` state machine: null (default) → missing (startup, no prior injection) → injected (INJECT_COMPLETE) → outdated (SYNC_OUTDATED on document change)
+- AuditView props: `contextStatus` + `unpublishedCount` threaded from App.tsx state slices — no dispatch/postMessage inside view files (UI-VIEW-01 pattern)
+
 ### Blockers/Concerns
 
-None — Phase 9 Plan 3 complete, ready for Plan 4 (AuditView UI — progress bar, MetricCard badge, contextStatus banner).
+None — Phase 9 complete (4/4 plans done). All Phase 9 UIX requirements met and human-verified.
 
 ### Pending Todos
 
@@ -167,6 +181,6 @@ None.
 
 ## Session Continuity
 
-**Last session:** 2026-03-14T20:42:23.918Z
-**Stopped at:** Completed 09-03-PLAN.md (MCP streaming notifications)
-**Next action:** Execute 09-04-PLAN.md — AuditView UI updates (progress bar, MetricCard badge, contextStatus banner)
+**Last session:** 2026-03-14T21:05:34.064Z
+**Stopped at:** Completed 09-04-PLAN.md (AuditView UI wiring — progress bar, MetricCard badge, contextStatus banner)
+**Next action:** Execute Phase 10 — Inject Flow v2
