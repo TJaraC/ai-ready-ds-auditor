@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v2.0
 milestone_name: Figma-Faithful UI + Enhanced MCP
 status: executing
-stopped_at: Completed 09-01-PLAN.md (type contracts for Phase 9)
-last_updated: "2026-03-14T20:36:16.887Z"
+stopped_at: Completed 09-02-PLAN.md (publishStatus classification and unpublished component detection)
+last_updated: "2026-03-14T20:41:09.654Z"
 last_activity: 2026-03-14
 progress:
   total_phases: 7
   completed_phases: 2
   total_plans: 12
-  completed_plans: 10
+  completed_plans: 11
   percent: 100
 ---
 
@@ -26,11 +26,11 @@ See: .planning/PROJECT.md (updated 2026-03-06)
 ## Current Position
 
 **Phase:** 9 of 12 — Audit Flow v2
-**Plan:** 1/4 plans complete
+**Plan:** 2/4 plans complete
 **Status:** Executing
 **Last Activity:** 2026-03-14
 
-Progress: [██████████] 100%
+Progress: [█████████░] 92%
 
 ## Performance Metrics
 
@@ -44,6 +44,7 @@ Progress: [██████████] 100%
 | Phase-Plan | Duration | Tasks | Files |
 | ---------- | -------- | ----- | ----- |
 | 09-01 | 5min | 2 | 4 |
+| Phase 09-audit-flow-v2 P09-02 | 5min | 1 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -132,9 +133,20 @@ Progress: [██████████] 100%
 - Monorepo: mcp-server/plugin type-check against `packages/shared/dist/*.d.ts` (compiled declarations), not source — always rebuild shared after type changes before checking downstream
 - `publishStatus` required field pattern: test fixtures that construct `ComponentSpec` must include it; update immediately when adding required fields to shared types
 
+### Decisions (from Phase 9 — executed 09-02)
+
+- IMPL-01: `classifyPublishStatus()` extracted as exported pure function in `components.ts` — testable without Figma runtime
+- IMPL-02: `assembleReport()` new `unpublishedCount` parameter as 4th arg (between tokens and fileId) — all callers updated with 0
+- IMPL-03: Figma `remote`/`master` accessed via `(comp as unknown as { remote: boolean; master: unknown })` cast in `index.ts`
+
+### Key v2.0 Technical Notes (Phase 9 — continued)
+
+- assembleReport() signature change: when adding new parameters, insert before fileId/fileName positional args — update all test callers immediately
+- Figma COMPONENT node properties (remote, master) not in SceneNode TypeScript types — must cast via unknown to access at runtime
+
 ### Blockers/Concerns
 
-None — Phase 9 Plan 1 complete, ready for Plan 2 (components auditor).
+None — Phase 9 Plan 2 complete, ready for Plan 3 (AuditView UI — unpublishedCount badge + contextStatus banner).
 
 ### Pending Todos
 
@@ -142,6 +154,6 @@ None.
 
 ## Session Continuity
 
-**Last session:** 2026-03-14T20:34:40.000Z
-**Stopped at:** Completed 09-01-PLAN.md (type contracts for Phase 9)
-**Next action:** Execute 09-02-PLAN.md — Components auditor publishStatus detection
+**Last session:** 2026-03-14T20:41:09.652Z
+**Stopped at:** Completed 09-02-PLAN.md (publishStatus classification and unpublished component detection)
+**Next action:** Execute 09-03-PLAN.md — AuditView UI updates (progress bar, MetricCard badge, contextStatus banner)
