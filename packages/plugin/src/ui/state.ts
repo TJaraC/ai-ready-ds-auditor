@@ -17,6 +17,8 @@ export interface AppState {
   cssFramework: CssFramework;
   scanProgress: { percent: number; currentNode: string } | null;
   copied: boolean;
+  contextStatus: 'injected' | 'outdated' | 'missing' | null;
+  unpublishedCount: number;
 }
 
 export const initialState: AppState = {
@@ -28,6 +30,8 @@ export const initialState: AppState = {
   cssFramework: 'tailwind',
   scanProgress: null,
   copied: false,
+  contextStatus: null,
+  unpublishedCount: 0,
 };
 
 // ---------------------------------------------------------------------------
@@ -45,7 +49,8 @@ export type AppAction =
   | { type: 'SET_TAB'; tab: Tab }
   | { type: 'SET_CSS_FRAMEWORK'; cssFramework: CssFramework }
   | { type: 'SET_COPIED'; copied: boolean }
-  | { type: 'RESET_ERROR' };
+  | { type: 'RESET_ERROR' }
+  | { type: 'SET_CONTEXT_STATUS'; status: 'injected' | 'outdated' | 'missing' };
 
 // ---------------------------------------------------------------------------
 // Reducer
@@ -57,19 +62,25 @@ export function appReducer(state: AppState, action: AppAction): AppState {
       return { ...state, phase: 'scanning', scanProgress: { percent: action.percent, currentNode: action.currentNode } };
 
     case 'SCAN_COMPLETE':
-      return { ...state, phase: 'injecting', report: action.report, scanProgress: null };
+      return {
+        ...state,
+        phase: 'injecting',
+        report: action.report,
+        scanProgress: null,
+        unpublishedCount: action.report.summary.unpublishedComponents,
+      };
 
     case 'SCAN_ERROR':
       return { ...state, phase: 'error', errorMessage: action.message, scanProgress: null };
 
     case 'INJECT_COMPLETE':
-      return { ...state, phase: 'complete', isOutOfSync: false, scanProgress: null };
+      return { ...state, phase: 'complete', isOutOfSync: false, scanProgress: null, contextStatus: 'injected' };
 
     case 'INJECT_ERROR':
       return { ...state, phase: 'error', errorMessage: action.message, scanProgress: null };
 
     case 'SYNC_OUTDATED':
-      return { ...state, isOutOfSync: true };
+      return { ...state, isOutOfSync: true, contextStatus: 'outdated' };
 
     case 'START_AUDIT':
       return { ...state, phase: 'scanning', scanProgress: null, errorMessage: null, isOutOfSync: false };
@@ -85,6 +96,9 @@ export function appReducer(state: AppState, action: AppAction): AppState {
 
     case 'RESET_ERROR':
       return { ...state, phase: 'idle', errorMessage: null };
+
+    case 'SET_CONTEXT_STATUS':
+      return { ...state, contextStatus: action.status };
 
     default: {
       const _exhaustive: never = action;
