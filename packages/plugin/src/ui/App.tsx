@@ -116,6 +116,10 @@ export function App(): React.ReactElement {
           <ConfigView
             report={state.report}
             onExportJson={handleExportJson}
+            cssFramework={state.cssFramework}
+            onCssFrameworkChange={(fw: CssFramework) => dispatch({ type: 'SET_CSS_FRAMEWORK', cssFramework: fw })}
+            fileKey={state.fileKey}
+            contextStatus={state.contextStatus}
           />
         )}
       </div>

@@ -127,3 +127,9 @@ if (startupKeys.length === 0) {
 }
 // If keys exist, contextStatus stays null (injected/outdated will be set later via
 // INJECT_COMPLETE or SYNC_OUTDATED — no pre-flight read of plugin data needed here).
+
+// Send current file key to UI on startup.
+// figma.fileKey is string | undefined — guard before sending.
+const fk = figma.fileKey;
+const fileKeyMsg: SandboxMessage = { type: 'FILE_KEY', fileKey: fk ?? null };
+figma.ui.postMessage(fileKeyMsg);

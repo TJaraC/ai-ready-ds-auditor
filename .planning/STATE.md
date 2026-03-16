@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v2.0
 milestone_name: Figma-Faithful UI + Enhanced MCP
-status: executing
-stopped_at: Completed 09-04-PLAN.md (AuditView UI wiring — progress bar, MetricCard badge, contextStatus banner)
-last_updated: "2026-03-14T21:05:34.066Z"
+status: planning
+stopped_at: Completed 10-01-PLAN.md
+last_updated: "2026-03-16T20:05:50.759Z"
 last_activity: 2026-03-14
 progress:
   total_phases: 7
   completed_phases: 3
-  total_plans: 12
-  completed_plans: 13
+  total_plans: 14
+  completed_plans: 14
   percent: 92
 ---
 
@@ -21,14 +21,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-06)
 
 **Core value:** Any Non-Enterprise Figma user can connect their Design System to a local AI IDE in under 5 minutes, get live sync indicators, and give the AI full structured context — for free.
-**Current focus:** Milestone v2.0 — Phase 8 COMPLETE, ready for Phase 9
+**Current focus:** Milestone v2.0 — Phase 9 COMPLETE, executing Phase 10
 
 ## Current Position
 
-**Phase:** 9 of 12 — Audit Flow v2
-**Plan:** 4/4 plans complete
-**Status:** Executing
-**Last Activity:** 2026-03-14
+**Phase:** 10 of 12 — Configuration Flow v2
+**Plan:** 1/4 plans complete
+**Status:** In progress
+**Last Activity:** 2026-03-16
 
 Progress: [█████████░] 92%
 
@@ -47,6 +47,7 @@ Progress: [█████████░] 92%
 | Phase 09-audit-flow-v2 P09-02 | 5min | 1 tasks | 5 files |
 | Phase 09 P03 | 3min | 1 tasks | 1 files |
 | Phase 09-audit-flow-v2 P04 | 30min | 4 tasks | 6 files |
+| Phase 10-configuration-flow-v2 P01 | 8min | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -171,6 +172,17 @@ Progress: [█████████░] 92%
 - `contextStatus` state machine: null (default) → missing (startup, no prior injection) → injected (INJECT_COMPLETE) → outdated (SYNC_OUTDATED on document change)
 - AuditView props: `contextStatus` + `unpublishedCount` threaded from App.tsx state slices — no dispatch/postMessage inside view files (UI-VIEW-01 pattern)
 
+### Decisions (from Phase 10 — executed 10-01)
+
+- MSG-01: `FILE_KEY` SandboxMessage carries `fileKey: string | null` — covers undefined runtime value from `figma.fileKey`; null signals "key unavailable" without widening state to `undefined`
+- STATE-01: `fileKey` initializes to `null` — consistent with `report`, `errorMessage`, `contextStatus` nullability conventions
+- WIRE-01: `useAppMessages` wires `FILE_KEY → SET_FILE_KEY` immediately — Plan 10-02 only needs to add sandbox sender (`figma.fileKey` call + postMessage)
+
+### Key v2.0 Technical Notes (Phase 10)
+
+- New SandboxMessage variant always requires simultaneous useAppMessages case — TypeScript exhaustiveness check enforces this at compile time
+- fileKey typed `string | null` (not `string | undefined`) — consistent with the AppState nullability convention
+
 ### Blockers/Concerns
 
 None — Phase 9 complete (4/4 plans done). All Phase 9 UIX requirements met and human-verified.
@@ -181,6 +193,6 @@ None.
 
 ## Session Continuity
 
-**Last session:** 2026-03-14T21:05:34.064Z
-**Stopped at:** Completed 09-04-PLAN.md (AuditView UI wiring — progress bar, MetricCard badge, contextStatus banner)
+**Last session:** 2026-03-16T20:05:50.757Z
+**Stopped at:** Completed 10-01-PLAN.md
 **Next action:** Execute Phase 10 — Inject Flow v2
