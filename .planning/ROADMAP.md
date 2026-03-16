@@ -112,8 +112,12 @@ Plans:
 **Success Criteria** (what must be TRUE):
   1. The Configuration tab shows which CSS framework is selected and the currently connected Figma file key, with a clear connected/disconnected status indicator
   2. The Configuration tab shows export status and, when data is outdated or missing, displays actionable re-injection guidance that tells the user exactly what to do
-  3. The Configuration tab lists the MCP capability summary and explicitly names all four available tools including `get_component_specs` v2 and `get_component_svg`
-**Plans**: TBD
+  3. The Configuration tab links to the MCP capability summary in the GitHub repo and the MCP tools section copy is correct and complete
+**Plans**: 2 plans
+
+Plans:
+- [ ] 10-01-PLAN.md — Type contracts: FILE_KEY message, fileKey AppState slice, SET_FILE_KEY reducer
+- [ ] 10-02-PLAN.md — ConfigView extension: CSS framework dropdown, file key row, export status banner, MCP copy fix + human verify
 
 ### Phase 11: MCP Component Tools
 **Goal**: `get_component_specs` returns computed visual properties with per-state variants and source/origin metadata; `get_component_svg` returns serialized SVG with metadata and a clear error for non-extractable assets
@@ -166,7 +170,7 @@ GSD research agent must evaluate both options against: (1) payload size impact o
 | 6. Discovery & Architecture Decisions | v2.0 | 0/TBD | Not started | - |
 | 7. Architecture Refactor | v2.0 | 4/4 | Complete | 2026-03-10 |
 | 8. UI v2 Base | v2.0 | 4/4 | Complete | 2026-03-12 |
-| 9. Audit Flow v2 | 4/4 | Complete   | 2026-03-14 | - |
+| 9. Audit Flow v2 | 4/4 | Complete    | 2026-03-14 | - |
 | 10. Configuration Flow v2 | v2.0 | 0/TBD | Not started | - |
 | 11. MCP Component Tools | v2.0 | 0/TBD | Not started | - |
 | 12. Hardening | v2.0 | 0/TBD | Not started | - |
