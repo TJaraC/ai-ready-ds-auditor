@@ -40,6 +40,7 @@ describe('appReducer', () => {
     expect(initialState.cssFramework).toBe('tailwind');
     expect(initialState.scanProgress).toBeNull();
     expect(initialState.copied).toBe(false);
+    expect(initialState.fileKey).toBeNull();
   });
 
   describe('SCAN_PROGRESS', () => {
@@ -191,6 +192,21 @@ describe('appReducer', () => {
       const next = appReducer(errorState, action);
       expect(next.phase).toBe('idle');
       expect(next.errorMessage).toBeNull();
+    });
+  });
+
+  describe('SET_FILE_KEY', () => {
+    it('sets fileKey to a non-null string', () => {
+      const action: AppAction = { type: 'SET_FILE_KEY', fileKey: 'abc123def456' };
+      const next = appReducer(initialState, action);
+      expect(next.fileKey).toBe('abc123def456');
+    });
+
+    it('sets fileKey to null', () => {
+      const stateWithKey = { ...initialState, fileKey: 'abc123def456' };
+      const action: AppAction = { type: 'SET_FILE_KEY', fileKey: null };
+      const next = appReducer(stateWithKey, action);
+      expect(next.fileKey).toBeNull();
     });
   });
 
