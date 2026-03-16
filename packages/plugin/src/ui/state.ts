@@ -19,6 +19,7 @@ export interface AppState {
   copied: boolean;
   contextStatus: 'injected' | 'outdated' | 'missing' | null;
   unpublishedCount: number;
+  fileKey: string | null;
 }
 
 export const initialState: AppState = {
@@ -32,6 +33,7 @@ export const initialState: AppState = {
   copied: false,
   contextStatus: null,
   unpublishedCount: 0,
+  fileKey: null,
 };
 
 // ---------------------------------------------------------------------------
@@ -50,7 +52,8 @@ export type AppAction =
   | { type: 'SET_CSS_FRAMEWORK'; cssFramework: CssFramework }
   | { type: 'SET_COPIED'; copied: boolean }
   | { type: 'RESET_ERROR' }
-  | { type: 'SET_CONTEXT_STATUS'; status: 'injected' | 'outdated' | 'missing' };
+  | { type: 'SET_CONTEXT_STATUS'; status: 'injected' | 'outdated' | 'missing' }
+  | { type: 'SET_FILE_KEY'; fileKey: string | null };
 
 // ---------------------------------------------------------------------------
 // Reducer
@@ -99,6 +102,9 @@ export function appReducer(state: AppState, action: AppAction): AppState {
 
     case 'SET_CONTEXT_STATUS':
       return { ...state, contextStatus: action.status };
+
+    case 'SET_FILE_KEY':
+      return { ...state, fileKey: action.fileKey };
 
     default: {
       const _exhaustive: never = action;

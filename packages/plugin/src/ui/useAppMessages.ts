@@ -36,6 +36,9 @@ export function useAppMessages(dispatch: (action: AppAction) => void): void {
         case 'CONTEXT_STATUS_CHECK':
           dispatch({ type: 'SET_CONTEXT_STATUS', status: msg.status });
           break;
+        case 'FILE_KEY':
+          dispatch({ type: 'SET_FILE_KEY', fileKey: msg.fileKey });
+          break;
         default: {
           const _exhaustive: never = msg;
           void _exhaustive;
