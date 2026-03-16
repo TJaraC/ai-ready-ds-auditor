@@ -32,7 +32,7 @@ Full phase details: `.planning/milestones/v1.0-ROADMAP.md`
 - [x] **Phase 7: Architecture Refactor** - Separate audit, inject, MCP, parsing, and UI state into discrete, testable modules with stable contracts (completed 2026-03-10)
 - [x] **Phase 8: UI v2 Base** - Implement the three Figma-faithful core screens (Audit-1, Audit-2, Config-1) with shared state management and all global UI states (completed 2026-03-12)
 - [x] **Phase 9: Audit Flow v2** - Add streaming active state, unpublished detection, AI Context status, and wire streaming events through MCP and UI (completed 2026-03-14)
-- [ ] **Phase 10: Configuration Flow v2** - Add CSS framework selection, connection status, export status, re-injection guidance, and MCP capability summary to Configuration tab
+- [x] **Phase 10: Configuration Flow v2** - Add CSS framework selection, connection status, export status, re-injection guidance, and MCP capability summary to Configuration tab (completed 2026-03-16)
 - [ ] **Phase 11: MCP Component Tools** - Implement `get_component_specs` v2 with computed properties and states, and `get_component_svg` with metadata and error handling
 - [ ] **Phase 12: Hardening** - Correct all copy, button states, sync errors, error messages, naming, and loading/error states across the entire product
 
@@ -171,6 +171,6 @@ GSD research agent must evaluate both options against: (1) payload size impact o
 | 7. Architecture Refactor | v2.0 | 4/4 | Complete | 2026-03-10 |
 | 8. UI v2 Base | v2.0 | 4/4 | Complete | 2026-03-12 |
 | 9. Audit Flow v2 | 4/4 | Complete    | 2026-03-14 | - |
-| 10. Configuration Flow v2 | 1/2 | In Progress|  | - |
+| 10. Configuration Flow v2 | 2/2 | Complete   | 2026-03-16 | - |
 | 11. MCP Component Tools | v2.0 | 0/TBD | Not started | - |
 | 12. Hardening | v2.0 | 0/TBD | Not started | - |

@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v2.0
 milestone_name: Figma-Faithful UI + Enhanced MCP
-status: planning
+status: executing
 stopped_at: Completed 10-01-PLAN.md
-last_updated: "2026-03-16T20:05:50.759Z"
-last_activity: 2026-03-14
+last_updated: "2026-03-16T20:43:19.059Z"
+last_activity: 2026-03-16
 progress:
   total_phases: 7
-  completed_phases: 3
+  completed_phases: 4
   total_plans: 14
-  completed_plans: 14
+  completed_plans: 15
   percent: 92
 ---
 
@@ -26,7 +26,7 @@ See: .planning/PROJECT.md (updated 2026-03-06)
 ## Current Position
 
 **Phase:** 10 of 12 — Configuration Flow v2
-**Plan:** 1/4 plans complete
+**Plan:** 2/4 plans complete
 **Status:** In progress
 **Last Activity:** 2026-03-16
 
@@ -48,6 +48,7 @@ Progress: [█████████░] 92%
 | Phase 09 P03 | 3min | 1 tasks | 1 files |
 | Phase 09-audit-flow-v2 P04 | 30min | 4 tasks | 6 files |
 | Phase 10-configuration-flow-v2 P01 | 8min | 2 tasks | 4 files |
+| Phase 10-configuration-flow-v2 P10-02 | 35min | 3 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -183,6 +184,18 @@ Progress: [█████████░] 92%
 - New SandboxMessage variant always requires simultaneous useAppMessages case — TypeScript exhaustiveness check enforces this at compile time
 - fileKey typed `string | null` (not `string | undefined`) — consistent with the AppState nullability convention
 
+### Decisions (from Phase 10 — executed 10-02)
+
+- CONFIG-01: MCP Status section always visible (only file key row conditional on fileKey !== null) — connection status is independent of file key availability; local files show status but no key
+- CONFIG-02: FILE_KEY send unconditional at startup (null when figma.fileKey undefined for local files) — UI always knows availability state without a separate "no key" message
+- CONFIG-03: Local fileKeyCopied state in ConfigView (not AppState) — transient 2s UI feedback does not belong in global reducer
+
+### Key v2.0 Technical Notes (Phase 10 — ConfigView v2)
+
+- MCP Status indicator (green dot + "Connected") always rendered in Config tab; file key row (truncated key + copy button) rendered only when fileKey !== null
+- ConfigView receives cssFramework, onCssFrameworkChange, fileKey, contextStatus as props from App.tsx — UI-VIEW-01 pattern maintained
+- figma.fileKey is string | undefined at runtime — always coerce to null with ?? before postMessage
+
 ### Blockers/Concerns
 
 None — Phase 9 complete (4/4 plans done). All Phase 9 UIX requirements met and human-verified.
@@ -193,6 +206,6 @@ None.
 
 ## Session Continuity
 
-**Last session:** 2026-03-16T20:05:50.757Z
-**Stopped at:** Completed 10-01-PLAN.md
-**Next action:** Execute Phase 10 — Inject Flow v2
+**Last session:** 2026-03-16T21:43:00Z
+**Stopped at:** Completed 10-02-PLAN.md
+**Next action:** Execute Phase 10 Plan 03 (or next plan in Configuration Flow v2)

@@ -22,9 +22,9 @@ Requirements for v2.0 release. Each maps to a roadmap phase.
 - [x] **UIX-01**: User sees streaming active state with real-time progress indicator during audit
 - [x] **UIX-02**: User sees unpublished/private component count in Audit results
 - [x] **UIX-03**: User sees AI Context status summary (injected / outdated / missing) in Audit results
-- [ ] **UIX-04**: User sees CSS framework selection and active file key / connection status in Configuration
-- [ ] **UIX-05**: User sees export status and re-injection guidance in Configuration
-- [ ] **UIX-06**: User sees MCP capability summary and new tools list in Configuration (get_component_specs, get_component_svg, streaming, unpublished scan)
+- [x] **UIX-04**: User sees CSS framework selection and active file key / connection status in Configuration
+- [x] **UIX-05**: User sees export status and re-injection guidance in Configuration
+- [x] **UIX-06**: User sees MCP capability summary and new tools list in Configuration (get_component_specs, get_component_svg, streaming, unpublished scan)
 - [x] **UIX-07**: User sees all global UI states across flows: empty, loading, success, warning, error, no SVG available, component not found
 
 ### MCP — Component Specs (SPEC)
@@ -110,9 +110,9 @@ Requirements for v2.0 release. Each maps to a roadmap phase.
 | UIX-01 | Phase 9 | Complete |
 | UIX-02 | Phase 9 | Complete |
 | UIX-03 | Phase 9 | Complete |
-| UIX-04 | Phase 10 | Pending |
-| UIX-05 | Phase 10 | Pending |
-| UIX-06 | Phase 10 | Pending |
+| UIX-04 | Phase 10 | Complete |
+| UIX-05 | Phase 10 | Complete |
+| UIX-06 | Phase 10 | Complete |
 | UIX-07 | Phase 8 | Complete |
 | SPEC-01 | Phase 11 | Pending |
 | SPEC-02 | Phase 11 | Pending |
