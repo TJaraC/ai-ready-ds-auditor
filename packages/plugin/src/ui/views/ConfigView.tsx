@@ -145,10 +145,29 @@ export function ConfigView({
         </select>
       </div>
 
-      {/* Section 2: File key + connection status (only when fileKey is non-null) */}
-      {fileKey !== null && (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: SPACING_GAP_HEADER }}>
-          {/* Row 1: green dot + Connected */}
+      {/* Section 2: MCP Status */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: SPACING_GAP_HEADER }}>
+        <label
+          style={{
+            fontSize: 13,
+            fontWeight: 700,
+            fontFamily: 'monospace',
+            color: COLOR_TEXT,
+          }}
+        >
+          MCP Status
+        </label>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 6,
+            background: COLOR_BG_SECONDARY,
+            borderRadius: RADIUS_COMPONENT,
+            padding: '8px 10px',
+          }}
+        >
+          {/* Connected indicator (always visible) */}
           <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 8 }}>
             <div
               style={{
@@ -159,33 +178,35 @@ export function ConfigView({
                 flexShrink: 0,
               }}
             />
-            <span style={{ fontSize: 12, fontFamily: 'monospace', color: COLOR_TEXT }}>
-              Connected
+            <span style={{ fontSize: 12, fontWeight: 600, fontFamily: 'monospace', color: COLOR_TEXT }}>
+              Connected to Figma
             </span>
           </div>
-          {/* Row 2: truncated key + copy button */}
-          <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-            <span style={{ fontSize: 11, fontFamily: 'monospace', color: COLOR_TEXT_SECONDARY }}>
-              {fileKey.slice(0, 12)}...
-            </span>
-            <button
-              onClick={handleFileKeyCopy}
-              style={{
-                background: fileKeyCopied ? '#2B3C35' : COLOR_BG_SECONDARY,
-                color: fileKeyCopied ? '#FFFFFF' : COLOR_TEXT_SECONDARY,
-                border: '1px solid #D0D0D0',
-                borderRadius: 4,
-                padding: '2px 8px',
-                fontSize: 10,
-                fontFamily: 'monospace',
-                cursor: 'pointer',
-              }}
-            >
-              {fileKeyCopied ? '✓ Copied' : 'Copy'}
-            </button>
-          </div>
+          {/* File key row (only when available) */}
+          {fileKey !== null && (
+            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 8, paddingLeft: 16 }}>
+              <span style={{ fontSize: 11, fontFamily: 'monospace', color: COLOR_TEXT_SECONDARY }}>
+                File: {fileKey.slice(0, 12)}...
+              </span>
+              <button
+                onClick={handleFileKeyCopy}
+                style={{
+                  background: fileKeyCopied ? COLOR_STATUS_SUCCESS : 'transparent',
+                  color: fileKeyCopied ? '#FFFFFF' : COLOR_TEXT_SECONDARY,
+                  border: `1px solid ${COLOR_TEXT_SECONDARY}`,
+                  borderRadius: 4,
+                  padding: '2px 8px',
+                  fontSize: 10,
+                  fontFamily: 'monospace',
+                  cursor: 'pointer',
+                }}
+              >
+                {fileKeyCopied ? '✓ Copied' : 'Copy'}
+              </button>
+            </div>
+          )}
         </div>
-      )}
+      </div>
 
       {/* Section title */}
       <h2
