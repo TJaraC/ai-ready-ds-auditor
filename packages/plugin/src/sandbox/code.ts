@@ -14,7 +14,8 @@ figma.ui.onmessage = (raw: unknown): void => {
   switch (msg.type) {
     case 'START_SCAN': {
       runAudit()
-        .then(({ report }) => {
+        .then(({ report, svgRecords: _svgs }) => {
+          // _svgs ignored for scan-only (not injected until INJECT_DATA)
           const msg: SandboxMessage = { type: 'SCAN_COMPLETE', report };
           figma.ui.postMessage(msg);
         })
