@@ -1,5 +1,5 @@
-import type { AuditIssue, AuditReport, ComponentSpec, SandboxMessage } from '@shared/index';
-import type { AuditNode, AuditNodeFills, AuditNodeText, AuditNodeLayout, AuditNodeBorder, AuditNodeEffects } from './inputs';
+import type { AuditIssue, AuditReport, ComponentSpec, SandboxMessage, SvgRecord, ComponentLayer, LayerStateEntry } from '@shared/index';
+import type { AuditNode, AuditNodeFills, AuditNodeText, AuditNodeLayout, AuditNodeBorder, AuditNodeEffects, AuditNodeComponent } from './inputs';
 import { assembleReport } from './utils';
 import { auditFills, auditStrokes } from './color';
 import { auditTypography } from './typography';
@@ -8,6 +8,7 @@ import { auditComponents, classifyPublishStatus } from './components';
 import { auditBorderShape } from './border';
 import { auditEffects } from './effects';
 import { extractVariableTokens, extractTextStyleTokens } from './tokens';
+import { extractLayerTree, getVariantMap, findStatePropertyName, buildStatesMap, extractViewBox } from './extract-layers';
 
 /**
  * runAudit() — Main orchestrator for the design system audit.
@@ -20,7 +21,7 @@ import { extractVariableTokens, extractTextStyleTokens } from './tokens';
  *   Pass 1: Collect all component names across pages (for disconnected-component detection).
  *   Pass 2: For each page, find all COMPONENT nodes, audit every descendant.
  */
-export async function runAudit(): Promise<AuditReport> {
+export async function runAudit(): Promise<{ report: AuditReport; svgRecords: SvgRecord[] }> {
   // PASS 0 — Performance: skip invisible instance children during traversal
   figma.skipInvisibleInstanceChildren = true;
 
@@ -55,6 +56,7 @@ export async function runAudit(): Promise<AuditReport> {
   // PASS 2 — Audit each page, scoped to COMPONENT descendants
   const allIssues: AuditIssue[] = [];
   const allComponents: ComponentSpec[] = [];
+  const allSvgRecords: SvgRecord[] = [];
 
   for (let i = 0; i < pages.length; i++) {
     const page = pages[i]!;
@@ -66,17 +68,52 @@ export async function runAudit(): Promise<AuditReport> {
       const remote = (comp as unknown as { remote: boolean }).remote ?? false;
       const master = (comp as unknown as { master: unknown }).master;
       const publishStatus = classifyPublishStatus(remote, master);
+
+      // Variant map from COMPONENT_SET parent
+      const parentSet = comp.parent?.type === 'COMPONENT_SET' ? comp.parent : null;
+      const variants: Record<string, string[]> = parentSet
+        ? getVariantMap(parentSet as unknown as { componentPropertyDefinitions?: Record<string, { type: string; variantOptions?: string[] }> })
+        : {};
+
+      // Layer tree (sync — resolvedVariables map empty; async variable resolution deferred to future enhancement)
+      const layers: ComponentLayer[] = [extractLayerTree(comp as unknown as AuditNodeComponent)];
+
+      // States map
+      const statePropertyName = findStatePropertyName(variants);
+      const states: Record<string, LayerStateEntry> = {};
+      if (statePropertyName && parentSet) {
+        const siblings = (parentSet as unknown as { children: SceneNode[] }).children
+          .filter((c) => c.type === 'COMPONENT') as unknown as Array<AuditNodeComponent & { variantProperties?: Record<string, string> | null }>;
+        Object.assign(states, buildStatesMap(statePropertyName, variants[statePropertyName]!, siblings));
+      }
+
       allComponents.push({
         id: comp.id,
         name: comp.name,
         key: comp.key,
         description: comp.description,
         publishStatus,
-        layers: [],
-        variants: {},
-        states: {},
+        layers,
+        variants,
+        states,
       });
     });
+
+    // Export SVGs for all components on this page
+    for (const comp of pageComponents) {
+      try {
+        const svg = await (comp as unknown as { exportAsync(opts: { format: string }): Promise<string> }).exportAsync({ format: 'SVG_STRING' });
+        const viewBox = extractViewBox(svg);
+        allSvgRecords.push({ componentId: comp.id, name: comp.name, viewBox, svg });
+      } catch (err) {
+        const errorMsg = err instanceof Error ? err.message : String(err);
+        allSvgRecords.push({
+          componentId: comp.id,
+          name: comp.name,
+          error: `SVG export failed: ${errorMsg}. Remote components cannot be exported directly — use a local instance.`,
+        });
+      }
+    }
 
     // Audit only nodes inside COMPONENT definitions (the component itself + all descendants)
     for (const comp of pageComponents) {
@@ -126,5 +163,6 @@ export async function runAudit(): Promise<AuditReport> {
     (c) => c.publishStatus === 'private' || c.publishStatus === 'local',
   ).length;
 
-  return assembleReport(allIssues, allComponents, tokens, unpublishedCount, figma.root.name, figma.root.name);
+  const report = assembleReport(allIssues, allComponents, tokens, unpublishedCount, figma.root.name, figma.root.name);
+  return { report, svgRecords: allSvgRecords };
 }

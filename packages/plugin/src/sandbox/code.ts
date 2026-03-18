@@ -1,6 +1,7 @@
 import type { SandboxMessage, UIMessage } from '@shared/messages';
 import { runAudit } from './audit/index';
 import { injectReport } from './inject';
+import { injectSvgs } from './inject-svgs';
 
 // Show the plugin UI
 figma.showUI(__html__, { width: 380, height: 600, themeColors: true });
@@ -13,7 +14,7 @@ figma.ui.onmessage = (raw: unknown): void => {
   switch (msg.type) {
     case 'START_SCAN': {
       runAudit()
-        .then((report) => {
+        .then(({ report }) => {
           const msg: SandboxMessage = { type: 'SCAN_COMPLETE', report };
           figma.ui.postMessage(msg);
         })
@@ -26,12 +27,13 @@ figma.ui.onmessage = (raw: unknown): void => {
     }
     case 'INJECT_DATA': {
       runAudit()
-        .then((report) => {
+        .then(({ report, svgRecords }) => {
           // Send SCAN_COMPLETE first — UI needs the report to render the dashboard
           const scanMsg: SandboxMessage = { type: 'SCAN_COMPLETE', report };
           figma.ui.postMessage(scanMsg);
 
           const result = injectReport(report);
+          injectSvgs(svgRecords);
 
           // Record injection time and cancel any pending debounce timer.
           // documentchange PROPERTY_CHANGE events from setPluginData fire async,
