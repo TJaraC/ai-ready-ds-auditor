@@ -55,3 +55,74 @@ export interface AuditNodeLayout extends AuditNode {
     itemSpacing?: unknown;
   };
 }
+
+/** For border auditor: corner radii and stroke weight. */
+export interface AuditNodeBorder extends AuditNode {
+  cornerRadius?: number | symbol;
+  topLeftRadius?: number;
+  topRightRadius?: number;
+  bottomLeftRadius?: number;
+  bottomRightRadius?: number;
+  strokes?: ReadonlyArray<unknown>;
+  strokeWeight?: number | symbol;
+  boundVariables?: {
+    topLeftRadius?: unknown;
+    topRightRadius?: unknown;
+    bottomLeftRadius?: unknown;
+    bottomRightRadius?: unknown;
+    strokeWeight?: unknown;
+  };
+}
+
+/** For effects auditor: effects array and effectStyleId. */
+export interface AuditNodeEffects extends AuditNode {
+  effects?: ReadonlyArray<{ type: string; radius?: number; visible?: boolean }>;
+  effectStyleId?: string;
+}
+
+/**
+ * For layer extraction: a COMPONENT or COMPONENT_SET child node with all
+ * visual and structural properties needed to build a ComponentLayer tree.
+ *
+ * Used by extract-layers.ts — accepts plain objects, not Figma runtime nodes.
+ * figma.mixed (Symbol) is represented as `symbol` for type-safe test simulation.
+ */
+export interface AuditNodeComponent extends AuditNode {
+  width: number;
+  height: number;
+  layoutMode?: string;       // 'NONE' | 'HORIZONTAL' | 'VERTICAL'
+  paddingLeft?: number;
+  paddingRight?: number;
+  paddingTop?: number;
+  paddingBottom?: number;
+  itemSpacing?: number;
+  cornerRadius?: number | symbol;  // symbol = figma.mixed
+  fills?: ReadonlyArray<{
+    type: string;
+    color?: { r: number; g: number; b: number };
+    boundVariables?: { color?: { type: string; id: string } };
+  }> | symbol;
+  strokes?: ReadonlyArray<{
+    type: string;
+    color?: { r: number; g: number; b: number };
+    boundVariables?: { color?: { type: string; id: string } };
+  }>;
+  strokeWeight?: number | symbol;
+  opacity?: number;
+  visible?: boolean;
+  children?: AuditNodeComponent[];
+  // Only present on COMPONENT nodes that are children of a COMPONENT_SET:
+  variantProperties?: Record<string, string> | null;
+  componentSetId?: string | null;
+  // TEXT node properties (present when type === 'TEXT'):
+  fontSize?: number | symbol;
+  fontWeight?: number | symbol;
+  lineHeight?: { unit: string; value?: number } | symbol;
+  boundVariables?: {
+    color?: { type: string; id: string };
+    fontSize?: unknown;
+    fontWeight?: unknown;
+    lineHeight?: unknown;
+    fills?: unknown;
+  };
+}
