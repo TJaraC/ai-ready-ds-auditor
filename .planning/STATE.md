@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v2.0
 milestone_name: Figma-Faithful UI + Enhanced MCP
 status: executing
-stopped_at: Completed 11-03-PLAN.md
-last_updated: "2026-03-18T08:30:05.143Z"
+stopped_at: Completed 11-04-PLAN.md — awaiting Task 4 human verification checkpoint
+last_updated: "2026-03-18T08:34:41.836Z"
 last_activity: 2026-03-18
 progress:
   total_phases: 7
-  completed_phases: 4
+  completed_phases: 5
   total_plans: 18
-  completed_plans: 18
+  completed_plans: 19
   percent: 92
 ---
 
@@ -26,8 +26,8 @@ See: .planning/PROJECT.md (updated 2026-03-06)
 ## Current Position
 
 **Phase:** 11 of 12 — MCP Component Tools
-**Plan:** 3/4 plans complete
-**Status:** In progress
+**Plan:** 4/4 plans complete (awaiting Task 4 human-verify checkpoint)
+**Status:** In progress — checkpoint
 **Last Activity:** 2026-03-18
 
 Progress: [█████████░] 92%
@@ -52,6 +52,7 @@ Progress: [█████████░] 92%
 | Phase 11-mcp-component-tools P11-01 | 3min | 2 tasks | 9 files |
 | Phase 11-mcp-component-tools P11-02 | 4min | 2 tasks | 6 files |
 | Phase 11-mcp-component-tools P11-03 | 8min | 2 tasks | 5 files |
+| Phase 11-mcp-component-tools P11-04 | 10min | 3 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -239,6 +240,17 @@ Progress: [█████████░] 92%
 - `SvgChunkError` mirrors `ChunkReconstructionError` with `fileKey` property for consistent error identification
 - MCP tool test pattern: `(server as any)._registeredTools['tool_name'].handler` — plain object bracket access, not Map API
 
+### Decisions (from Phase 11 — executed 11-04)
+
+- WIRE-SVG-01: START_SCAN destructures svgRecords as _svgs — scan-only path never writes SVG store; injection only via INJECT_DATA
+- WIRE-SVG-02: adapter.ts adaptComponentSpec unchanged — identity transform sufficient as v2 ComponentSpec fields are plain JSON; no transform needed
+
+### Key v2.0 Technical Notes (Phase 11 — MCP wiring)
+
+- server.ts now has 4 registered tools: get_design_tokens, get_component_specs, get_audit_summary, get_component_svg
+- code.ts START_SCAN destructures { report, svgRecords: _svgs } — _svgs unused in scan path but must be destructured for TypeScript exhaustiveness
+- Dual-store write pattern: INJECT_DATA calls injectReport(report) then injectSvgs(svgRecords) — both ai_data_* and ai_svg_* stores always written together
+
 ### Blockers/Concerns
 
 None — Phase 9 complete (4/4 plans done). All Phase 9 UIX requirements met and human-verified.
@@ -249,6 +261,6 @@ None.
 
 ## Session Continuity
 
-**Last session:** 2026-03-18T08:30:05.140Z
-**Stopped at:** Completed 11-03-PLAN.md
+**Last session:** 2026-03-18T08:34:41.834Z
+**Stopped at:** Completed 11-04-PLAN.md — awaiting Task 4 human verification checkpoint
 **Next action:** Plan 11-04 (MCP server registration and server.ts wiring)
