@@ -109,9 +109,9 @@ describe('assembleReport', () => {
     'Use variable'
   );
 
-  it('sets schemaVersion to 1.0.0 from @shared', () => {
+  it('sets schemaVersion to 2.0.0 from @shared', () => {
     const report = assembleReport([], [], [], 0, 'file123', 'My File');
-    expect(report.schemaVersion).toBe('1.0.0');
+    expect(report.schemaVersion).toBe('2.0.0');
   });
 
   it('sets fileId and fileName', () => {

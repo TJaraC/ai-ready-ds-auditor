@@ -8,7 +8,7 @@ import {
 } from './chunk-reader';
 import type { AuditMeta } from '@ai-ds-auditor/shared';
 
-const CURRENT_SCHEMA = '1.0.0';
+const CURRENT_SCHEMA = '2.0.0';
 const TEST_FILE_KEY = 'test-file-key';
 
 function makePluginData(reportJson: string, chunkCount = 1): Record<string, string> {
