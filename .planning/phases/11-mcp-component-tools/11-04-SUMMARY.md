@@ -50,14 +50,14 @@ completed: 2026-03-18
 
 # Phase 11 Plan 04: MCP Wiring Summary
 
-**Plugin SVG injection wired into code.ts and get_component_svg registered as 4th MCP tool — 178 tests green, type-check clean, awaiting human verification**
+**Plugin SVG injection wired into code.ts and get_component_svg registered as 4th MCP tool — 178 tests green, type-check clean, human verified (get_component_specs layers/variants/states non-empty; get_component_svg returns valid SVG + descriptive error for unknown names)**
 
 ## Performance
 
 - **Duration:** ~10 min
 - **Started:** 2026-03-18T08:30:00Z
-- **Completed:** 2026-03-18T08:33:42Z
-- **Tasks:** 3 automated complete (Task 4 = human checkpoint, pending)
+- **Completed:** 2026-03-18T08:34:41Z
+- **Tasks:** 4 (3 automated + 1 human-verify checkpoint)
 - **Files modified:** 2
 
 ## Accomplishments
@@ -74,6 +74,7 @@ Each task was committed atomically:
 1. **Task 1: Wire injectSvgs into code.ts INJECT_DATA handler** - `4ef289d` (feat)
 2. **Task 2: Register get_component_svg in server.ts and update adapter.ts** - `eb3a61b` (feat)
 3. **Task 3: Full type-check and test suite green** - No separate commit (verification only, no new files)
+4. **Task 4: Human verification of get_component_specs v2 and get_component_svg** - Human approved: all 3 MCP tool checks passed (get_component_specs returned correct layers/variants/states; get_component_svg returned valid SVG with name/type/viewBox; nonexistent name returned descriptive error with available components list)
 
 ## Files Created/Modified
 - `packages/plugin/src/sandbox/code.ts` - START_SCAN destructures `{ report, svgRecords: _svgs }` to match new runAudit() signature
@@ -95,13 +96,13 @@ None - no external service configuration required.
 
 ## Next Phase Readiness
 
-**Task 4 (human-verify checkpoint) is pending.** To complete Phase 11:
-1. Build the plugin: `npm run build -w packages/plugin`
-2. Open a Figma file with components in Figma Desktop
-3. Run the plugin and click "Inject / Update"
-4. In IDE (Trae/Cursor), call `get_component_specs` — verify layers[], variants{}, states{} are non-empty
-5. Call `get_component_svg` — verify SVG markup returned or descriptive error
-6. Type "approved" to confirm Phase 11 complete
+**Phase 11 complete — human verification passed.** All 4 MCP component tools are operational:
+- `get_design_tokens` — design token extraction
+- `get_component_specs` — v2 with layers[], variants{}, states{} structured data
+- `get_audit_summary` — streaming audit results
+- `get_component_svg` — SVG markup with metadata + descriptive errors for unknown/remote components
+
+Ready for Phase 12: Hardening — UX copy review, button state correctness, sync error handling, error message polish, and naming consistency across all packages.
 
 ---
 *Phase: 11-mcp-component-tools*
