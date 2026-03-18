@@ -1,12 +1,14 @@
-import type { AuditReport, AuditMeta } from '@ai-ds-auditor/shared';
+import type { AuditReport, AuditMeta, SvgRecord } from '@ai-ds-auditor/shared';
 import { fetchFigmaFile } from '../figma/client.js';
 import { reconstructReport } from '../figma/chunk-reader.js';
+import { assembleSvgChunks } from '../figma/svg-chunk-reader.js';
 
 export interface CacheEntry {
   fileKey: string;
   fileName: string;
   report: AuditReport;
   meta: AuditMeta;
+  svgs: SvgRecord[];     // empty array when no SVG store present
   fetchedAt: number; // Date.now() timestamp
 }
 
@@ -55,12 +57,14 @@ export class DesignSystemCache {
     const pluginData = fileResponse.document.pluginData?.[PLUGIN_ID] ?? {};
 
     const { report, meta } = reconstructReport(pluginData, fileKey);
+    const svgs = assembleSvgChunks(pluginData, fileKey);
 
     const entry: CacheEntry = {
       fileKey,
       fileName: fileResponse.name,
       report,
       meta,
+      svgs,
       fetchedAt: Date.now(),
     };
 

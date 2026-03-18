@@ -37,12 +37,12 @@ type ToolHandler = (args: Record<string, unknown>) => Promise<{ content: Array<{
 
 function captureToolHandler(server: McpServer): ToolHandler {
   // McpServer.tool registers on a server; we capture the registered handler
-  // by intercepting the internal `_registeredTools` map via cast.
+  // by intercepting the internal `_registeredTools` plain object via cast.
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const tools = (server as any)._registeredTools as Map<string, { handler: ToolHandler }>;
-  const handler = tools.get('get_component_svg');
-  if (!handler) throw new Error('get_component_svg not registered');
-  return handler.handler;
+  const tools = (server as any)._registeredTools as Record<string, { handler: ToolHandler }>;
+  const tool = tools['get_component_svg'];
+  if (!tool) throw new Error('get_component_svg not registered');
+  return tool.handler;
 }
 
 // ---------------------------------------------------------------------------
