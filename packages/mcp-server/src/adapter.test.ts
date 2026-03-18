@@ -69,14 +69,17 @@ describe('adaptComponentSpec', () => {
   it('returns component spec unchanged (identity transform)', () => {
     const spec: ComponentSpec = {
       id: 'comp-1', name: 'Button', key: 'abc123', description: 'Primary button',
-      variants: ['primary', 'secondary'], props: ['label', 'disabled'], usageCount: 5, publishStatus: 'published',
+      publishStatus: 'published',
+      layers: [],
+      variants: { Type: ['primary', 'secondary'] },
+      states: {},
     };
 
     const result = adaptComponentSpec(spec);
     expect(result).toEqual(spec);
     expect(result.id).toBe('comp-1');
     expect(result.name).toBe('Button');
-    expect(result.variants).toHaveLength(2);
+    expect(result.variants).toEqual({ Type: ['primary', 'secondary'] });
   });
 });
 

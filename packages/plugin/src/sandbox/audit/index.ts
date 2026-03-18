@@ -71,10 +71,10 @@ export async function runAudit(): Promise<AuditReport> {
         name: comp.name,
         key: comp.key,
         description: comp.description,
-        variants: [],
-        props: [],
-        usageCount: 0,
         publishStatus,
+        layers: [],
+        variants: {},
+        states: {},
       });
     });
 

@@ -31,8 +31,10 @@ Full phase details: `.planning/milestones/v1.0-ROADMAP.md`
 - [x] **Phase 6: Discovery & Architecture Decisions** - Audit the v1.0 codebase, access Figma source frames, and produce concrete decisions for all v2.0 work — completed 2026-03-09
 - [x] **Phase 7: Architecture Refactor** - Separate audit, inject, MCP, parsing, and UI state into discrete, testable modules with stable contracts (completed 2026-03-10)
 - [x] **Phase 8: UI v2 Base** - Implement the three Figma-faithful core screens (Audit-1, Audit-2, Config-1) with shared state management and all global UI states (completed 2026-03-12)
-- [x] **Phase 9: Audit Flow v2** - Add streaming active state, unpublished detection, AI Context status, and wire streaming events through MCP and UI (completed 2026-03-14)
-- [x] **Phase 10: Configuration Flow v2** - Add CSS framework selection, connection status, export status, re-injection guidance, and MCP capability summary to Configuration tab (completed 2026-03-16)
+- [x] **Phase 9: Audit Flow v2** - Add streaming active state, unpublished detection, AI Context status, and wire streaming events through MCP and UI
+ (completed 2026-03-14)
+- [x] **Phase 10: Configuration Flow v2** - Add CSS framework selection, connection status, export status, re-injection guidance, and MCP capability summary to Configuration tab
+ (completed 2026-03-16)
 - [ ] **Phase 11: MCP Component Tools** - Implement `get_component_specs` v2 with computed properties and states, and `get_component_svg` with metadata and error handling
 - [ ] **Phase 12: Hardening** - Correct all copy, button states, sync errors, error messages, naming, and loading/error states across the entire product
 
@@ -129,19 +131,13 @@ Plans:
   3. Each property in the `get_component_specs` output includes source/origin metadata identifying whether the value came from a variable, alias, or was computed directly
   4. Calling `get_component_svg` with a logo, mark, or icon name returns the serialized SVG markup along with name, type, and viewBox metadata
   5. Calling `get_component_svg` with an interactive or non-SVG-extractable component returns a clear, descriptive error explaining why SVG is not available
-**Plans**: TBD
+**Plans**: 4 plans
 
-**⚠️ Research Required — Component Data Source Strategy**
-
-The current `ComponentSpec` in `setPluginData` is a stub (`variants: []`, `props: []`, `usageCount: 0`). Phase 11 must decide how to provide pixel-perfect component data to the MCP. Two candidate approaches must be researched and the most robust one selected before planning:
-
-- **Option A — Serialize in plugin during audit**: The plugin already has full node access at audit time. Extract visual properties (fills, padding, borderRadius, effects, interaction states) per component and include them in `setPluginData` chunks. Zero additional REST API calls. Risk: 100kB-per-key chunk limit may be exceeded for large design systems — requires measurement.
-
-- **Option B — Single batch REST API call at cache load**: When `ensureLoaded()` fetches the file, add one `GET /v1/files/:key/nodes?ids=id1,id2,...` call with all component IDs. Still one extra call per session, consistent with the existing cache architecture. Risk: adds REST API dependency and one extra rate-limit-counted call per session.
-
-**Constraint**: On-demand per-component REST API calls are NOT acceptable — free Figma users are subject to strict monthly rate limits, and the architecture decision (single call per file per session + in-memory cache) must be preserved. The chosen approach must respect this constraint.
-
-GSD research agent must evaluate both options against: (1) payload size impact on chunking, (2) rate limit safety for free users, (3) data freshness, and (4) implementation complexity — and produce a concrete recommendation before planning begins.
+Plans:
+- [ ] 11-01-PLAN.md — Type contracts: ComponentSpec v2 schema, layer interfaces, SvgRecord, SVG constants, AuditNodeComponent
+- [ ] 11-02-PLAN.md — Plugin layer extraction: extract-layers.ts (TDD), audit/index.ts Pass 2 update, serialize-svgs.ts, inject-svgs.ts
+- [ ] 11-03-PLAN.md — MCP SVG infrastructure: svg-chunk-reader.ts (TDD), CacheEntry extension, get-component-svg.ts tool
+- [ ] 11-04-PLAN.md — Wire + verify: code.ts injection, server.ts registration, type-check, human verify
 
 ### Phase 12: Hardening
 **Goal**: All UX copy is consistent and reviewed, button states are valid across every flow, audit/inject/export synchronization is correct, every error condition has a descriptive message, naming is consistent across packages, and all flows have defined loading and error states
@@ -171,6 +167,6 @@ GSD research agent must evaluate both options against: (1) payload size impact o
 | 7. Architecture Refactor | v2.0 | 4/4 | Complete | 2026-03-10 |
 | 8. UI v2 Base | v2.0 | 4/4 | Complete | 2026-03-12 |
 | 9. Audit Flow v2 | 4/4 | Complete    | 2026-03-14 | - |
-| 10. Configuration Flow v2 | 2/2 | Complete   | 2026-03-16 | - |
+| 10. Configuration Flow v2 | 2/2 | Complete    | 2026-03-16 | - |
 | 11. MCP Component Tools | v2.0 | 0/TBD | Not started | - |
 | 12. Hardening | v2.0 | 0/TBD | Not started | - |

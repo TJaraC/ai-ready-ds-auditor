@@ -149,10 +149,10 @@ describe('assembleReport', () => {
       name: 'Button',
       key: 'btn-key',
       description: '',
-      variants: [],
-      props: [],
-      usageCount: 3,
       publishStatus: 'published' as const,
+      layers: [],
+      variants: {},
+      states: {},
     };
     const report = assembleReport([], [comp], [], 0, 'f1', 'F');
     expect(report.summary.totalComponents).toBe(1);
