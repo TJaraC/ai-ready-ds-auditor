@@ -29,15 +29,15 @@ Requirements for v2.0 release. Each maps to a roadmap phase.
 
 ### MCP — Component Specs (SPEC)
 
-- [ ] **SPEC-01**: User can call `get_component_specs` with a component name and receive computed visual properties (width, height, paddingX, paddingY, borderRadius, background, textColor, borderColor)
-- [ ] **SPEC-02**: User can receive per-state properties (default, hover, pressed, disabled) from `get_component_specs` when states exist in the component
-- [ ] **SPEC-03**: User can see source/origin metadata per property (variable, alias, computed) in `get_component_specs` output
+- [x] **SPEC-01**: User can call `get_component_specs` with a component name and receive computed visual properties (width, height, paddingX, paddingY, borderRadius, background, textColor, borderColor)
+- [x] **SPEC-02**: User can receive per-state properties (default, hover, pressed, disabled) from `get_component_specs` when states exist in the component
+- [x] **SPEC-03**: User can see source/origin metadata per property (variable, alias, computed) in `get_component_specs` output
 
 ### MCP — SVG Extraction (SVG)
 
-- [ ] **SVG-01**: User can call `get_component_svg` and receive serialized SVG markup for non-interactive assets (logos, marks, icons)
-- [ ] **SVG-02**: User receives SVG metadata (name, type, viewBox) alongside the SVG string
-- [ ] **SVG-03**: User receives a clear, descriptive error when the requested asset is not SVG-extractable
+- [x] **SVG-01**: User can call `get_component_svg` and receive serialized SVG markup for non-interactive assets (logos, marks, icons)
+- [x] **SVG-02**: User receives SVG metadata (name, type, viewBox) alongside the SVG string
+- [x] **SVG-03**: User receives a clear, descriptive error when the requested asset is not SVG-extractable
 
 ### MCP — Streaming (STRM)
 
@@ -114,12 +114,12 @@ Requirements for v2.0 release. Each maps to a roadmap phase.
 | UIX-05 | Phase 10 | Complete |
 | UIX-06 | Phase 10 | Complete |
 | UIX-07 | Phase 8 | Complete |
-| SPEC-01 | Phase 11 | Pending |
-| SPEC-02 | Phase 11 | Pending |
-| SPEC-03 | Phase 11 | Pending |
-| SVG-01 | Phase 11 | Pending |
-| SVG-02 | Phase 11 | Pending |
-| SVG-03 | Phase 11 | Pending |
+| SPEC-01 | Phase 11 | Complete |
+| SPEC-02 | Phase 11 | Complete |
+| SPEC-03 | Phase 11 | Complete |
+| SVG-01 | Phase 11 | Complete |
+| SVG-02 | Phase 11 | Complete |
+| SVG-03 | Phase 11 | Complete |
 | STRM-01 | Phase 9 | Complete |
 | STRM-02 | Phase 9 | Complete |
 | STRM-03 | Phase 9 | Complete |

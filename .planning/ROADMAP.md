@@ -168,5 +168,5 @@ Plans:
 | 8. UI v2 Base | v2.0 | 4/4 | Complete | 2026-03-12 |
 | 9. Audit Flow v2 | 4/4 | Complete    | 2026-03-14 | - |
 | 10. Configuration Flow v2 | 2/2 | Complete    | 2026-03-16 | - |
-| 11. MCP Component Tools | v2.0 | 0/TBD | Not started | - |
+| 11. MCP Component Tools | 1/4 | In Progress|  | - |
 | 12. Hardening | v2.0 | 0/TBD | Not started | - |

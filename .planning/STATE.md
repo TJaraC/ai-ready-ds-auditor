@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v2.0
 milestone_name: Figma-Faithful UI + Enhanced MCP
-status: planning
-stopped_at: Completed 10-02-PLAN.md
-last_updated: "2026-03-16T20:59:33.656Z"
-last_activity: 2026-03-16
+status: executing
+stopped_at: Completed 11-01-PLAN.md
+last_updated: "2026-03-18T08:15:09.155Z"
+last_activity: 2026-03-18
 progress:
   total_phases: 7
   completed_phases: 4
-  total_plans: 14
-  completed_plans: 15
+  total_plans: 18
+  completed_plans: 16
   percent: 92
 ---
 
@@ -25,10 +25,10 @@ See: .planning/PROJECT.md (updated 2026-03-06)
 
 ## Current Position
 
-**Phase:** 10 of 12 — Configuration Flow v2
-**Plan:** 2/4 plans complete
-**Status:** Ready to plan
-**Last Activity:** 2026-03-16
+**Phase:** 11 of 12 — MCP Component Tools
+**Plan:** 1/? plans complete
+**Status:** In progress
+**Last Activity:** 2026-03-18
 
 Progress: [█████████░] 92%
 
@@ -49,6 +49,7 @@ Progress: [█████████░] 92%
 | Phase 09-audit-flow-v2 P04 | 30min | 4 tasks | 6 files |
 | Phase 10-configuration-flow-v2 P01 | 8min | 2 tasks | 4 files |
 | Phase 10-configuration-flow-v2 P10-02 | 35min | 3 tasks | 4 files |
+| Phase 11-mcp-component-tools P11-01 | 3min | 2 tasks | 9 files |
 
 ## Accumulated Context
 
@@ -196,6 +197,20 @@ Progress: [█████████░] 92%
 - ConfigView receives cssFramework, onCssFrameworkChange, fileKey, contextStatus as props from App.tsx — UI-VIEW-01 pattern maintained
 - figma.fileKey is string | undefined at runtime — always coerce to null with ?? before postMessage
 
+### Decisions (from Phase 11 — executed 11-01)
+
+- SCHEMA-01: schemaVersion bumped to '2.0.0' — ComponentSpec v2 required fields (layers/variants/states) are a breaking schema change; stale plugin data triggers SchemaVersionError forcing re-injection
+- TYPE-05: ComponentSpec stub fields (variants:string[], props:string[], usageCount:number) replaced with v2 fields (layers:ComponentLayer[], variants:Record<string,string[]>, states:Record<string,LayerStateEntry>)
+- TYPE-06: SvgRecord in shared/types.ts — both plugin (Plan 02) and mcp-server (Plan 03) import from same source
+- TYPE-07: AuditNodeComponent extends AuditNode with symbol type for figma.mixed fields — consistent with existing AuditNodeBorder.cornerRadius pattern
+
+### Key v2.0 Technical Notes (Phase 11 — type contracts)
+
+- ComponentSpec.variants is now Record<string, string[]> (was string[]) — all callers construct with variants:{}, Plans 02+ populate with real data
+- ComponentSpec.layers and ComponentSpec.states are required fields — audit/index.ts initializes to empty {}/{} until Plan 02 layer extraction is wired
+- SVG store uses ai_svg_1/ai_svg_2... keys (SVG_CHUNK_KEY_PREFIX='ai_svg_') + ai_svg_meta key — separate from report chunks (ai_data_*)
+- AuditNodeComponent interface placed in inputs.ts (not shared/types.ts) — consistent with all other AuditNode* interfaces
+
 ### Blockers/Concerns
 
 None — Phase 9 complete (4/4 plans done). All Phase 9 UIX requirements met and human-verified.
@@ -206,6 +221,6 @@ None.
 
 ## Session Continuity
 
-**Last session:** 2026-03-16T21:43:00Z
-**Stopped at:** Completed 10-02-PLAN.md
-**Next action:** Execute Phase 10 Plan 03 (or next plan in Configuration Flow v2)
+**Last session:** 2026-03-18T08:15:09.152Z
+**Stopped at:** Completed 11-01-PLAN.md
+**Next action:** Plan Phase 11 (MCP Component Tools) — CONTEXT.md exists
