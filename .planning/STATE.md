@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v2.0
 milestone_name: Figma-Faithful UI + Enhanced MCP
 status: executing
-stopped_at: Completed 11-01-PLAN.md
-last_updated: "2026-03-18T08:22:04.486Z"
+stopped_at: Completed 11-03-PLAN.md
+last_updated: "2026-03-18T08:30:05.143Z"
 last_activity: 2026-03-18
 progress:
   total_phases: 7
   completed_phases: 4
   total_plans: 18
-  completed_plans: 17
+  completed_plans: 18
   percent: 92
 ---
 
@@ -26,7 +26,7 @@ See: .planning/PROJECT.md (updated 2026-03-06)
 ## Current Position
 
 **Phase:** 11 of 12 — MCP Component Tools
-**Plan:** 2/? plans complete
+**Plan:** 3/4 plans complete
 **Status:** In progress
 **Last Activity:** 2026-03-18
 
@@ -51,6 +51,7 @@ Progress: [█████████░] 92%
 | Phase 10-configuration-flow-v2 P10-02 | 35min | 3 tasks | 4 files |
 | Phase 11-mcp-component-tools P11-01 | 3min | 2 tasks | 9 files |
 | Phase 11-mcp-component-tools P11-02 | 4min | 2 tasks | 6 files |
+| Phase 11-mcp-component-tools P11-03 | 8min | 2 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -226,6 +227,18 @@ Progress: [█████████░] 92%
 - Pass 2 extraction flow: variants from parent COMPONENT_SET → layers from extractLayerTree → states from buildStatesMap if State/Interaction property found
 - runAudit() return type is now `{ report: AuditReport; svgRecords: SvgRecord[] }` — code.ts destructures; all callers must update
 
+### Decisions (from Phase 11 — executed 11-03)
+
+- SVG-READER-01: `assembleSvgChunks` returns `[]` when `ai_svg_meta` missing — SVG store is optional (not all files have SVGs injected), unlike report store which throws
+- SVG-READER-02: `_registeredTools` on `McpServer` is a plain object (not a Map) — test helper uses bracket notation `tools['tool_name']`
+- SVG-CACHE-01: `svgs: SvgRecord[]` added to `CacheEntry` interface — empty array when no SVG store injected; populated by `assembleSvgChunks` in `ensureLoaded`
+
+### Key v2.0 Technical Notes (Phase 11 — SVG reader)
+
+- Optional store pattern: missing `ai_svg_meta` returns `[]` (no throw) — symmetric but behaviorally different from `assembleChunks` which throws on missing meta
+- `SvgChunkError` mirrors `ChunkReconstructionError` with `fileKey` property for consistent error identification
+- MCP tool test pattern: `(server as any)._registeredTools['tool_name'].handler` — plain object bracket access, not Map API
+
 ### Blockers/Concerns
 
 None — Phase 9 complete (4/4 plans done). All Phase 9 UIX requirements met and human-verified.
@@ -236,6 +249,6 @@ None.
 
 ## Session Continuity
 
-**Last session:** 2026-03-18T08:20:52Z
-**Stopped at:** Completed 11-02-PLAN.md
-**Next action:** Plan 11-03 (MCP server SVG chunk reader and store)
+**Last session:** 2026-03-18T08:30:05.140Z
+**Stopped at:** Completed 11-03-PLAN.md
+**Next action:** Plan 11-04 (MCP server registration and server.ts wiring)
