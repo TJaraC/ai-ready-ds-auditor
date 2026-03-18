@@ -4,13 +4,13 @@ milestone: v2.0
 milestone_name: Figma-Faithful UI + Enhanced MCP
 status: executing
 stopped_at: Completed 11-01-PLAN.md
-last_updated: "2026-03-18T08:15:09.155Z"
+last_updated: "2026-03-18T08:22:04.486Z"
 last_activity: 2026-03-18
 progress:
   total_phases: 7
   completed_phases: 4
   total_plans: 18
-  completed_plans: 16
+  completed_plans: 17
   percent: 92
 ---
 
@@ -26,7 +26,7 @@ See: .planning/PROJECT.md (updated 2026-03-06)
 ## Current Position
 
 **Phase:** 11 of 12 — MCP Component Tools
-**Plan:** 1/? plans complete
+**Plan:** 2/? plans complete
 **Status:** In progress
 **Last Activity:** 2026-03-18
 
@@ -50,6 +50,7 @@ Progress: [█████████░] 92%
 | Phase 10-configuration-flow-v2 P01 | 8min | 2 tasks | 4 files |
 | Phase 10-configuration-flow-v2 P10-02 | 35min | 3 tasks | 4 files |
 | Phase 11-mcp-component-tools P11-01 | 3min | 2 tasks | 9 files |
+| Phase 11-mcp-component-tools P11-02 | 4min | 2 tasks | 6 files |
 
 ## Accumulated Context
 
@@ -211,6 +212,20 @@ Progress: [█████████░] 92%
 - SVG store uses ai_svg_1/ai_svg_2... keys (SVG_CHUNK_KEY_PREFIX='ai_svg_') + ai_svg_meta key — separate from report chunks (ai_data_*)
 - AuditNodeComponent interface placed in inputs.ts (not shared/types.ts) — consistent with all other AuditNode* interfaces
 
+### Decisions (from Phase 11 — executed 11-02)
+
+- EXTRACT-01: extractLayerTree is synchronous with optional resolvedVariables Map — async variable lookup deferred; fill sources default to 'hardcoded' until future pass pre-resolves variable IDs
+- EXTRACT-02: VECTOR nodes have no children field in layer tree — SVG tool handles full vector content; structural decomposition stops at VECTOR boundary
+- EXTRACT-03: cornerRadius symbol check uses typeof first, then optional mixedSymbol comparison — handles both Figma runtime and Node test environment
+- SVG-INJECT-01: injectSvgs always called alongside injectReport on INJECT_DATA — both stores always written together on every injection
+
+### Key v2.0 Technical Notes (Phase 11 — layer extraction)
+
+- figma.mixed in pure functions: access via `(globalThis as unknown as { figma?: { mixed: symbol } }).figma?.mixed` — works in both real Figma runtime and Node/Vitest mock
+- SVG export error pattern: catch block pushes SvgRecord with error field; never throws; every component always gets a record
+- Pass 2 extraction flow: variants from parent COMPONENT_SET → layers from extractLayerTree → states from buildStatesMap if State/Interaction property found
+- runAudit() return type is now `{ report: AuditReport; svgRecords: SvgRecord[] }` — code.ts destructures; all callers must update
+
 ### Blockers/Concerns
 
 None — Phase 9 complete (4/4 plans done). All Phase 9 UIX requirements met and human-verified.
@@ -221,6 +236,6 @@ None.
 
 ## Session Continuity
 
-**Last session:** 2026-03-18T08:15:09.152Z
-**Stopped at:** Completed 11-01-PLAN.md
-**Next action:** Plan Phase 11 (MCP Component Tools) — CONTEXT.md exists
+**Last session:** 2026-03-18T08:20:52Z
+**Stopped at:** Completed 11-02-PLAN.md
+**Next action:** Plan 11-03 (MCP server SVG chunk reader and store)
