@@ -7,7 +7,6 @@ import { BANNER_COPY } from '../banner-copy';
 import {
   COLOR_BG_SECONDARY,
   COLOR_PRIMARY,
-  COLOR_STATUS_SUCCESS,
   COLOR_TEXT,
   COLOR_TEXT_SECONDARY,
   RADIUS_COMPONENT,
@@ -42,7 +41,6 @@ interface ConfigViewProps {
   onExportJson: () => void;
   cssFramework: CssFramework;
   onCssFrameworkChange: (fw: CssFramework) => void;
-  fileKey: string | null;
   contextStatus: 'injected' | 'outdated' | 'missing' | null;
 }
 
@@ -55,24 +53,14 @@ export function ConfigView({
   onExportJson,
   cssFramework,
   onCssFrameworkChange,
-  fileKey,
   contextStatus,
 }: ConfigViewProps): React.ReactElement {
   const [copied, setCopied] = useState(false);
-  const [fileKeyCopied, setFileKeyCopied] = useState(false);
 
   const handleCopy = (): void => {
     void navigator.clipboard.writeText(MCP_CONFIG_SNIPPET).then(() => {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
-    });
-  };
-
-  const handleFileKeyCopy = (): void => {
-    if (!fileKey) return;
-    void navigator.clipboard.writeText(fileKey).then(() => {
-      setFileKeyCopied(true);
-      setTimeout(() => setFileKeyCopied(false), 2000);
     });
   };
 
@@ -146,69 +134,6 @@ export function ConfigView({
           <option value="css-modules">CSS Modules</option>
           <option value="styled-components">Styled Components</option>
         </select>
-      </div>
-
-      {/* Section 2: MCP Status */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: SPACING_GAP_HEADER }}>
-        <label
-          style={{
-            fontSize: 13,
-            fontWeight: 700,
-            fontFamily: 'monospace',
-            color: COLOR_TEXT,
-          }}
-        >
-          MCP Status
-        </label>
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: 6,
-            background: COLOR_BG_SECONDARY,
-            borderRadius: RADIUS_COMPONENT,
-            padding: '8px 10px',
-          }}
-        >
-          {/* Connected indicator (always visible) */}
-          <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-            <div
-              style={{
-                width: 8,
-                height: 8,
-                borderRadius: '50%',
-                background: COLOR_STATUS_SUCCESS,
-                flexShrink: 0,
-              }}
-            />
-            <span style={{ fontSize: 12, fontWeight: 600, fontFamily: 'monospace', color: COLOR_TEXT }}>
-              Connected to Figma
-            </span>
-          </div>
-          {/* File key row (only when available) */}
-          {fileKey !== null && (
-            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 8, paddingLeft: 16 }}>
-              <span style={{ fontSize: 11, fontFamily: 'monospace', color: COLOR_TEXT_SECONDARY }}>
-                File: {fileKey.slice(0, 12)}...
-              </span>
-              <button
-                onClick={handleFileKeyCopy}
-                style={{
-                  background: fileKeyCopied ? COLOR_STATUS_SUCCESS : 'transparent',
-                  color: fileKeyCopied ? '#FFFFFF' : COLOR_TEXT_SECONDARY,
-                  border: `1px solid ${COLOR_TEXT_SECONDARY}`,
-                  borderRadius: 4,
-                  padding: '2px 8px',
-                  fontSize: 10,
-                  fontFamily: 'monospace',
-                  cursor: 'pointer',
-                }}
-              >
-                {fileKeyCopied ? '✓ Copied' : 'Copy'}
-              </button>
-            </div>
-          )}
-        </div>
       </div>
 
       {/* Section title */}

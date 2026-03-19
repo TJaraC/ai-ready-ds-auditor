@@ -14,7 +14,14 @@ export class SchemaVersionError extends Error {
     public readonly serverVersion: string,
     public readonly fileKey: string
   ) {
-    super('Saved data is outdated — Run Audit & Inject to update.');
+    super(
+      `Saved data is outdated (schema ${fileVersion} → ${serverVersion}).\n\n` +
+      `To fix:\n` +
+      `1. Open the Figma file in Figma Desktop\n` +
+      `2. Run the AI-Ready DS Auditor plugin\n` +
+      `3. Click "Audit & Inject"\n` +
+      `4. Try your request again`
+    );
     this.name = 'SchemaVersionError';
   }
 }

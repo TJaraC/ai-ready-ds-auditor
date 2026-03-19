@@ -119,7 +119,6 @@ export function App(): React.ReactElement {
             onExportJson={handleExportJson}
             cssFramework={state.cssFramework}
             onCssFrameworkChange={(fw: CssFramework) => dispatch({ type: 'SET_CSS_FRAMEWORK', cssFramework: fw })}
-            fileKey={state.fileKey}
             contextStatus={state.contextStatus}
           />
         )}
