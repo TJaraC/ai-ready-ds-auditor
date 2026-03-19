@@ -64,13 +64,19 @@ export async function runAudit(): Promise<{ report: AuditReport; svgRecords: Svg
 
     // Collect ComponentSpec for this page
     const pageComponents = page.findAllWithCriteria({ types: ['COMPONENT'] });
+    const seenComponentSets = new Map<string, ComponentSpec>();
+
     pageComponents.forEach((comp) => {
+      const parentSet = comp.parent?.type === 'COMPONENT_SET' ? comp.parent : null;
+      const componentName = parentSet ? parentSet.name : comp.name;
+
+      // Deduplicate — first variant per COMPONENT_SET name wins
+      if (seenComponentSets.has(componentName)) return;
+
       const remote = (comp as unknown as { remote: boolean }).remote ?? false;
-      const master = (comp as unknown as { master: unknown }).master;
-      const publishStatus = classifyPublishStatus(remote, master);
+      const publishStatus = classifyPublishStatus(remote);
 
       // Variant map from COMPONENT_SET parent
-      const parentSet = comp.parent?.type === 'COMPONENT_SET' ? comp.parent : null;
       const variants: Record<string, string[]> = parentSet
         ? getVariantMap(parentSet as unknown as { componentPropertyDefinitions?: Record<string, { type: string; variantOptions?: string[] }> })
         : {};
@@ -87,16 +93,18 @@ export async function runAudit(): Promise<{ report: AuditReport; svgRecords: Svg
         Object.assign(states, buildStatesMap(statePropertyName, variants[statePropertyName]!, siblings));
       }
 
-      allComponents.push({
+      const spec: ComponentSpec = {
         id: comp.id,
-        name: comp.name,
+        name: componentName,
         key: comp.key,
         description: comp.description,
         publishStatus,
         layers,
         variants,
         states,
-      });
+      };
+      seenComponentSets.set(componentName, spec);
+      allComponents.push(spec);
     });
 
     // Export SVGs for all components on this page
@@ -160,7 +168,7 @@ export async function runAudit(): Promise<{ report: AuditReport; svgRecords: Svg
   }
 
   const unpublishedCount = allComponents.filter(
-    (c) => c.publishStatus === 'private' || c.publishStatus === 'local',
+    (c) => c.publishStatus === 'private',
   ).length;
 
   const report = assembleReport(allIssues, allComponents, tokens, unpublishedCount, figma.root.name, figma.root.name);
