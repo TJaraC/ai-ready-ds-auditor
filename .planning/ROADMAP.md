@@ -36,7 +36,7 @@ Full phase details: `.planning/milestones/v1.0-ROADMAP.md`
 - [x] **Phase 10: Configuration Flow v2** - Add CSS framework selection, connection status, export status, re-injection guidance, and MCP capability summary to Configuration tab
  (completed 2026-03-16)
 - [x] **Phase 11: MCP Component Tools** - Implement `get_component_specs` v2 with computed properties and states, and `get_component_svg` with metadata and error handling (completed 2026-03-18)
-- [ ] **Phase 12: Hardening** - Correct all copy, button states, sync errors, error messages, naming, and loading/error states across the entire product
+- [x] **Phase 12: Hardening** - Correct all copy, button states, sync errors, error messages, naming, and loading/error states across the entire product (completed 2026-03-19)
 
 ## Phase Details
 
@@ -173,4 +173,4 @@ Plans:
 | 9. Audit Flow v2 | 4/4 | Complete    | 2026-03-14 | - |
 | 10. Configuration Flow v2 | 2/2 | Complete    | 2026-03-16 | - |
 | 11. MCP Component Tools | 4/4 | Complete    | 2026-03-18 | - |
-| 12. Hardening | v2.0 | 0/2 | Not started | - |
+| 12. Hardening | 2/2 | Complete   | 2026-03-19 | - |

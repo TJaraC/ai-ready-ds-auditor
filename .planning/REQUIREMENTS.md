@@ -61,12 +61,12 @@ Requirements for v2.0 release. Each maps to a roadmap phase.
 
 ### Corrections & Hardening (FIX)
 
-- [ ] **FIX-01**: All UI copy is consistent and reviewed across all states and flows
-- [ ] **FIX-02**: Button states (disabled/enabled/loading) are valid and consistent across all flows
-- [ ] **FIX-03**: Audit → inject → export synchronization errors are resolved
-- [ ] **FIX-04**: All error conditions include descriptive, actionable messages
-- [ ] **FIX-05**: Naming is consistent across plugin, shared types, and MCP tool contracts
-- [ ] **FIX-06**: All flows have defined loading and error states
+- [x] **FIX-01**: All UI copy is consistent and reviewed across all states and flows
+- [x] **FIX-02**: Button states (disabled/enabled/loading) are valid and consistent across all flows
+- [x] **FIX-03**: Audit → inject → export synchronization errors are resolved
+- [x] **FIX-04**: All error conditions include descriptive, actionable messages
+- [x] **FIX-05**: Naming is consistent across plugin, shared types, and MCP tool contracts
+- [x] **FIX-06**: All flows have defined loading and error states
 
 ---
 
@@ -131,12 +131,12 @@ Requirements for v2.0 release. Each maps to a roadmap phase.
 | ARCH-03 | Phase 7 | Complete |
 | ARCH-04 | Phase 7 | Complete |
 | ARCH-05 | Phase 7 | Complete |
-| FIX-01 | Phase 12 | Pending |
-| FIX-02 | Phase 12 | Pending |
-| FIX-03 | Phase 12 | Pending |
-| FIX-04 | Phase 12 | Pending |
-| FIX-05 | Phase 12 | Pending |
-| FIX-06 | Phase 12 | Pending |
+| FIX-01 | Phase 12 | Complete |
+| FIX-02 | Phase 12 | Complete |
+| FIX-03 | Phase 12 | Complete |
+| FIX-04 | Phase 12 | Complete |
+| FIX-05 | Phase 12 | Complete |
+| FIX-06 | Phase 12 | Complete |
 
 **Coverage:**
 - v2.0 requirements: 34 total

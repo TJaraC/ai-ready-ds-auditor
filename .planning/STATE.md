@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v2.0
 milestone_name: Figma-Faithful UI + Enhanced MCP
 status: completed
-stopped_at: Completed 11-04-PLAN.md — Phase 11 MCP Component Tools fully complete (human verified)
-last_updated: "2026-03-18T12:23:09.379Z"
-last_activity: 2026-03-18
+stopped_at: Completed 12-02-PLAN.md
+last_updated: "2026-03-19T09:29:16.998Z"
+last_activity: 2026-03-19
 progress:
   total_phases: 7
-  completed_phases: 5
-  total_plans: 18
-  completed_plans: 19
-  percent: 92
+  completed_phases: 6
+  total_plans: 20
+  completed_plans: 21
+  percent: 100
 ---
 
 # Project State
@@ -21,16 +21,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-06)
 
 **Core value:** Any Non-Enterprise Figma user can connect their Design System to a local AI IDE in under 5 minutes, get live sync indicators, and give the AI full structured context — for free.
-**Current focus:** Milestone v2.0 — Phase 9 COMPLETE, executing Phase 10
+**Current focus:** Milestone v2.0 — Phase 12 Hardening COMPLETE (2/2 plans)
 
 ## Current Position
 
-**Phase:** 11 of 12 — MCP Component Tools
-**Plan:** 4/4 plans complete
-**Status:** Complete — Phase 11 done, Phase 12 next
-**Last Activity:** 2026-03-18
+**Phase:** 12 of 12 — Hardening
+**Plan:** 2/2 plans complete
+**Status:** Complete
+**Last Activity:** 2026-03-19
 
-Progress: [█████████░] 92%
+Progress: [██████████] 100%
 
 ## Performance Metrics
 
@@ -53,6 +53,8 @@ Progress: [█████████░] 92%
 | Phase 11-mcp-component-tools P11-02 | 4min | 2 tasks | 6 files |
 | Phase 11-mcp-component-tools P11-03 | 8min | 2 tasks | 5 files |
 | Phase 11-mcp-component-tools P11-04 | 10min | 3 tasks | 2 files |
+| Phase 12-hardening P12-01 | 7min | 2 tasks | 6 files |
+| Phase 12-hardening P12-02 | 2min | 2 tasks | 0 files |
 
 ## Accumulated Context
 
@@ -251,9 +253,33 @@ Progress: [█████████░] 92%
 - code.ts START_SCAN destructures { report, svgRecords: _svgs } — _svgs unused in scan path but must be destructured for TypeScript exhaustiveness
 - Dual-store write pattern: INJECT_DATA calls injectReport(report) then injectSvgs(svgRecords) — both ai_data_* and ai_svg_* stores always written together
 
+### Decisions (from Phase 12 — executed 12-01)
+
+- COPY-01: BANNER_COPY keyed by contextStatus value with variant+message pairs — single source of truth for both views
+- COLOR-01: COLOR_STATUS_WARNING (#D4880F) amber distinct from error red (#E03E1A) and success green (#2B3C35)
+- LAYOUT-01: ConfigView restructured to three-part flex column matching AuditView complete phase pattern
+
+### Key v2.0 Technical Notes (Phase 12 — UI hardening)
+
+- Banner copy centralized in banner-copy.ts — both AuditView and ConfigView import BANNER_COPY constant
+- ConfigView three-part layout: StatusBanner (top, fixed) + scrollable content (flex:1) + export button (bottom, fixed)
+- handleAuditAndInject guards against scanning/injecting phase — prevents duplicate work on double-press
+
+### Decisions (from Phase 12 — executed 12-02)
+
+- VERIFY-01: All error messages already actionable from prior execution — no code changes needed for FIX-04
+- VERIFY-02: SchemaVersionError already contained canonical message from Phase 11 — no changes needed
+- VERIFY-03: Full naming consistency confirmed across all three packages (5 dimensions) — no divergence found for FIX-05
+
+### Key v2.0 Technical Notes (Phase 12 — error messages & naming)
+
+- Error message pattern: raw error goes to console.error(), actionable fallback string goes to UI via SandboxMessage
+- Naming consistency: plugin data keys (ai_data_*, ai_svg_*), shared types, MCP tool params (camelCase), schema version, message types — all consistent
+- SchemaVersionError canonical message: 'Saved data is outdated — Run Audit & Inject to update.'
+
 ### Blockers/Concerns
 
-None — Phase 9 complete (4/4 plans done). All Phase 9 UIX requirements met and human-verified.
+None — Phase 12 Hardening complete (2/2 plans). All v2.0 phases complete.
 
 ### Pending Todos
 
@@ -261,6 +287,6 @@ None.
 
 ## Session Continuity
 
-**Last session:** 2026-03-18T12:23:09.376Z
-**Stopped at:** Completed 11-04-PLAN.md — Phase 11 MCP Component Tools fully complete (human verified)
-**Next action:** Phase 12: Hardening — run `/gsd:discuss-phase 12` or `/gsd:execute-phase 12`
+**Last session:** 2026-03-19T09:29:16.995Z
+**Stopped at:** Completed 12-02-PLAN.md
+**Next action:** v2.0 milestone complete — merge to master or final release preparation
