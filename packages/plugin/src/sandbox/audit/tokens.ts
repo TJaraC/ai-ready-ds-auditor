@@ -30,7 +30,11 @@ function resolveTokenType(
   const typographyStringScopes: VariableScope[] = ['FONT_FAMILY', 'FONT_STYLE'];
 
   if (resolvedType === 'FLOAT') {
-    return scopes.some((s) => typographyFloatScopes.includes(s)) ? 'typography' : 'spacing';
+    if (scopes.some((s) => typographyFloatScopes.includes(s))) return 'typography';
+    // CORNER_RADIUS and STROKE_FLOAT are border-specific scopes — distinguish from layout spacing
+    if (scopes.includes('CORNER_RADIUS' as VariableScope)) return 'border-radius';
+    if (scopes.includes('STROKE_FLOAT' as VariableScope)) return 'border-width';
+    return 'spacing';
   }
 
   if (resolvedType === 'STRING') {

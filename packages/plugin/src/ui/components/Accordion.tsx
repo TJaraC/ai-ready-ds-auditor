@@ -17,6 +17,7 @@ interface AccordionProps {
 
 export function Accordion({ label, count, accent, children }: AccordionProps): React.ReactElement {
   const [open, setOpen] = React.useState(false);
+  const [hovered, setHovered] = React.useState(false);
 
   return (
     <div
@@ -32,16 +33,19 @@ export function Accordion({ label, count, accent, children }: AccordionProps): R
     >
       <button
         onClick={() => setOpen((prev) => !prev)}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
         style={{
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
           height: 44,
           padding: `0 ${SPACING_CONTENT}px`,
-          background: COLOR_SURFACE,
+          background: hovered ? COLOR_BG_SECONDARY : COLOR_SURFACE,
           border: 'none',
           cursor: 'pointer',
           width: '100%',
+          transition: 'background 0.15s ease',
         }}
       >
         <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
@@ -71,11 +75,21 @@ export function Accordion({ label, count, accent, children }: AccordionProps): R
           {open ? '▼' : '▶'}
         </span>
       </button>
-      {open && (
-        <div style={{ padding: `0 0 8px` }}>
-          {children}
+
+      {/* Animated content — grid-template-rows 0fr→1fr avoids knowing content height */}
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateRows: open ? '1fr' : '0fr',
+          transition: 'grid-template-rows 0.22s ease',
+        }}
+      >
+        <div style={{ overflow: 'hidden' }}>
+          <div style={{ padding: '0 0 8px' }}>
+            {children}
+          </div>
         </div>
-      )}
+      </div>
     </div>
   );
 }

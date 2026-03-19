@@ -19,18 +19,21 @@ import {
 // MCP configuration snippet (locked copy)
 // ---------------------------------------------------------------------------
 
-const MCP_CONFIG_SNIPPET = `{
+function buildMcpConfigSnippet(fileKey: string | null): string {
+  const key = fileKey ?? 'YOUR_FIGMA_FILE_KEY';
+  return `{
   "mcpServers": [
     {
       "name": "ai-ds-auditor",
       "command": ["node", "/ABSOLUTE/PATH/TO/packages/mcp-server/dist/index.js"],
       "env": {
         "FIGMA_ACCESS_TOKEN": "figd_your_personal_access_token",
-        "FIGMA_FILE_KEYS": "YOUR_FIGMA_FILE_KEY"
+        "FIGMA_FILE_KEYS": "${key}"
       }
     }
   ]
 }`;
+}
 
 // ---------------------------------------------------------------------------
 // Props
@@ -57,8 +60,10 @@ export function ConfigView({
 }: ConfigViewProps): React.ReactElement {
   const [copied, setCopied] = useState(false);
 
+  const mcpConfigSnippet = buildMcpConfigSnippet(report?.fileId ?? null);
+
   const handleCopy = (): void => {
-    void navigator.clipboard.writeText(MCP_CONFIG_SNIPPET).then(() => {
+    void navigator.clipboard.writeText(mcpConfigSnippet).then(() => {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     });
@@ -195,7 +200,7 @@ export function ConfigView({
             color: COLOR_TEXT,
           }}
         >
-          {MCP_CONFIG_SNIPPET}
+          {mcpConfigSnippet}
         </pre>
         <button
           onClick={handleCopy}

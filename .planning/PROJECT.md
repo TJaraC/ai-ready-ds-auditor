@@ -4,7 +4,7 @@
 
 A production-grade DesignOps tool for Non-Enterprise Figma users that bridges Design Systems and AI-powered local IDEs. It consists of two components: a **Figma Plugin** that audits design systems and injects structured data into the file, and a **Local MCP Server** that exposes that data as tools (`get_design_tokens`, `get_component_specs`, `get_component_svg`, `get_audit_summary`) consumable by Trae, Cursor, and other MCP-compatible IDEs — all at zero cost.
 
-Shipped v1.0 with 2,179 LOC TypeScript across three packages (shared, plugin, mcp-server). v2.0 targets a new Figma-faithful UI, enhanced MCP capabilities (streaming, SVG extraction, unpublished component detection), and a full architectural refactor for maintainability.
+Shipped v2.0 with a Figma-faithful UI rebuild, full architectural refactor, streaming MCP, SVG extraction, unpublished component detection, and corrected component naming and publish-status classification.
 
 ## Core Value
 
@@ -26,69 +26,50 @@ Any designer using a Non-Enterprise Figma account can connect their Design Syste
 - ✓ Plugin Community assets (128×128 icon, 1920×1080 cover) — v1.0
 - ✓ Complete README setup guide (plugin + MCP + Cursor/Trae) — v1.0
 - ✓ Zero `any` types, 22/22 tests, 62 kB bundle — v1.0
+- ✓ Audit logic split into discrete, independently testable modules with stable typed contracts — v2.0 (ARCH-01–05)
+- ✓ Plugin UI rebuilt pixel-faithful to Figma designs (Audit-1, Audit-2, Config-1) — v2.0 (UIS-01–04)
+- ✓ Streaming active state with real-time progress indicator during audit — v2.0 (UIX-01)
+- ✓ Unpublished/private component count visible in Audit results — v2.0 (UIX-02, UNPB-01–03)
+- ✓ AI Context status (injected / outdated / missing) visible in Audit results — v2.0 (UIX-03)
+- ✓ CSS framework selection, file key, connection status in Configuration — v2.0 (UIX-04)
+- ✓ Export status and re-injection guidance in Configuration — v2.0 (UIX-05)
+- ✓ MCP capability summary with new tools list in Configuration — v2.0 (UIX-06)
+- ✓ All global UI states defined: empty, loading, success, warning, error, no SVG, not found — v2.0 (UIX-07)
+- ✓ `get_component_specs` v2 with computed properties, per-state variants, source/origin metadata — v2.0 (SPEC-01–03)
+- ✓ `get_component_svg` with serialized SVG, metadata, and descriptive error for non-extractable assets — v2.0 (SVG-01–03)
+- ✓ `get_audit_summary` streaming with start/progress/chunk/end/error events + no-stream fallback — v2.0 (STRM-01–03)
+- ✓ All UX copy, button states, sync errors, error messages, naming consistency corrected — v2.0 (FIX-01–06)
+- ✓ publishStatus 2-state (published | private) — Figma Plugin API does not expose master on COMPONENT nodes — v2.0 (BUG-01)
+- ✓ Component names use COMPONENT_SET parent name; `get_component_specs("Button")` finds correctly — v2.0 (BUG-02)
 
-### Active (v2.0)
+### Active (v3.0)
 
-**UI — Figma-faithful rebuild:**
-- [ ] UI rebuilt pixel-faithful to Figma designs (Audit-1, Audit-2, Config-1 frames)
-- [ ] Audit empty state with welcome message, subtitle, primary CTA
-- [ ] Audit results state with status banners, metric cards, finding text, accordion categories, primary CTA
-- [ ] Configuration state with MCP setup steps, code block, repo link, MCP tools list
-- [ ] Streaming active state with real-time progress indicator
-- [ ] Unpublished/private components count visible in Audit results
-- [ ] AI Context status summary: injected / outdated / missing
-- [ ] Configuration: CSS framework selection, file key/connected status, export status
-- [ ] Configuration: re-injection guidance, MCP capability summary, new tools section
-- [ ] Global states: empty, loading, success, warning, error, no SVG available, component not found
-- [ ] Visual language: minimal, monospaced, technical, clean, generous whitespace, consistent CTA
-
-**MCP — Enhanced capabilities:**
-- [ ] `get_component_specs` v2: computed visual properties (width, height, paddingX/Y, borderRadius, background, textColor, borderColor, states, source/origin)
-- [ ] `get_component_svg`: serialized SVG with metadata for logos, marks, icons
-- [ ] `get_audit_summary` streaming with start/progress/chunk/end/error events
-- [ ] Unpublished component detection (published / private / local)
-- [ ] No-stream fallback mode for streaming tools
-
-**Architecture refactor:**
-- [ ] Audit logic separated into discrete modules
-- [ ] Export/inject logic separated
-- [ ] MCP adaptation layer separated
-- [ ] Parsing/serialization separated
-- [ ] UI state management separated from rendering
-- [ ] All functions small and testable
-- [ ] Stable, consistent contracts between layers
-
-**Corrections:**
-- [ ] Inconsistent copy fixed
-- [ ] Invalid button states fixed
-- [ ] Audit/inject/export sync errors fixed
-- [ ] Edge cases handled with descriptive errors
-- [ ] Naming consistency enforced
-- [ ] Missing loading/error states added
-- [ ] Oversized MCP outputs chunked properly
+- [ ] Component lookup UI panel: look up computed specs by name in the plugin UI (CMLK-01)
+- [ ] SVG asset browser: look up and preview SVG assets by name in the plugin UI (CMLK-02)
+- [ ] fileKey auto-populated in MCP config snippet when audit report is available (UX improvement, low priority)
 
 ### Out of Scope
 
 - Figma Enterprise features — non-Enterprise only, free tier focus
 - Cloud/server-hosted MCP — local execution only
 - Figma write-back (modify designs from MCP) — read-only
-- Real-time WebSocket sync between plugin and MCP — pull-based cache model
+- Real-time WebSocket sync between plugin and MCP — pull-based cache model (MCP-ADV-01)
 - Native mobile app — desktop IDEs only
 - Figma REST API write endpoints — read-only
-- Component Specs / SVG lookup UI panel — deferred to v2.1 if needed
+- Batch component lookup — deferred to v3 (MCP-ADV-02)
 
 ## Context
 
-**v1.0 shipped 2026-03-05.** Built in 3 days across 5 phases, 15 plans.
-**v2.0 started 2026-03-06** on branch `v2.0-development`.
+**v1.0 shipped 2026-03-05.** Built in 3 days across 5 phases, 15 plans, ~2,179 LOC TypeScript.
+**v2.0 shipped 2026-03-19.** Built in 13 days across 8 phases (6–13), 21 plans, ~12,799 net LOC added.
 
-- Tech stack: TypeScript strict, React, Vite (plugin) + Node.js, MCP SDK, Zod (server)
+- Tech stack: TypeScript strict, React, Vite (plugin) + Node.js, MCP SDK, Zod (server), Vitest (tests)
 - Distribution: Figma Community (plugin) + local npm install (MCP server)
 - Figma free API: 6 GET /v1/files requests/month — session cache is mandatory
-- Plugin UI: 62.2 kB gzip (well under 200 kB limit)
-- UI source of truth: Figma file (frames Audit-1, Audit-2, Config-1)
-- Known: icon/cover images uploaded via Figma publish UI (not manifest)
-- v2.0 UI must not be reinvented — must clone Figma structure exactly; extensions follow same visual language
+- Plugin UI: ~209 kB (single-file HTML with inlined JS) — within Figma limits
+- Tests: 178/178 green (Vitest, packages/plugin)
+- Known tech debt: SchemaVersionError from MCP not propagated back to plugin UI (low severity, actionable via IDE message)
+- Branch: `v2.0-development` — ready to merge to `master` after tagging
 
 ## Constraints
 
@@ -104,7 +85,7 @@ Any designer using a Non-Enterprise Figma account can connect their Design Syste
 
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
-| Vite as plugin bundler | Modern, fast HMR, excellent TS support | ✓ Good — builds in <1s, 62 kB output |
+| Vite as plugin bundler | Modern, fast HMR, excellent TS support | ✓ Good — builds in <1s, 209 kB output |
 | React for Plugin UI | Ecosystem maturity, component reuse | ✓ Good — clean two-tab UI |
 | In-memory cache in MCP Server | Avoids rate limit exhaustion (6 req/month) | ✓ Good — single call per session |
 | Multiple files in MCP Server | Multi-brand/multi-file use case | ✓ Good — FIGMA_FILE_KEYS env var |
@@ -114,22 +95,16 @@ Any designer using a Non-Enterprise Figma account can connect their Design Syste
 | `unknown` cast over `any` | Type-safe globalThis access, no eslint-disable | ✓ Good — zero any in codebase |
 | icon field NOT in manifest.json | Figma rejects unknown manifest properties | ✓ Good — uploaded via publish UI |
 | Tailwind formatter as v3 JS config | v4 @theme CSS syntax not widely supported yet | ✓ Good — works with Cursor/Trae |
-| v2.0 UI from Figma source of truth | Ensures design intent is faithfully reproduced | — Pending |
-| MCP streaming for heavy operations | Prevents timeout and large payloads | — Pending |
-| Branch `v2.0-development` | Isolate v2.0 work from stable v1.0 main | — Pending |
-
-## Current Milestone: v2.0 — Figma-Faithful UI + Enhanced MCP
-
-**Goal:** Rebuild the plugin UI to match the Figma design exactly, add streaming MCP, enhanced component specs with states, SVG extraction, unpublished component detection, and refactor the codebase for long-term maintainability.
-
-**Target features:**
-- Figma-faithful UI (Audit-1, Audit-2, Config-1 + v2 extensions)
-- `get_component_specs` v2 with computed properties and states
-- `get_component_svg` with serialized SVG and metadata
-- `get_audit_summary` with MCP streaming
-- Unpublished/private component detection
-- Full architectural refactor (separated concerns, testable units)
-- All UX copy, states, and error handling corrected
+| v2.0 UI from Figma source of truth | Ensures design intent is faithfully reproduced | ✓ Good — pixel-faithful UI shipped |
+| MCP streaming for heavy operations | Prevents timeout and large payloads | ✓ Good — streaming + fallback both work |
+| Branch `v2.0-development` | Isolate v2.0 work from stable v1.0 main | ✓ Good — clean separation maintained |
+| AuditNode* interfaces in audit/inputs.ts | Auditors accept plain objects, not Figma nodes | ✓ Good — 178 tests possible in Vitest |
+| schemaVersion bumped to '2.0.0' | Breaking change requires re-injection | ✓ Good — stale data caught with clear error |
+| SVG stored in ai_svg_* keys | Separate from report chunks (ai_data_*) | ✓ Good — clean key namespacing |
+| extractLayerTree() async recursive | Uses getVariableByIdAsync (deprecated sync removed) | ✓ Good — future-proof against Figma API changes |
+| classifyPublishStatus 2-state (published\|private) | Figma Plugin API has no master property on COMPONENT | ✓ Good — BUG-01 eliminated at source |
+| COMPONENT_SET name for component naming | Variant property strings unusable as lookup keys | ✓ Good — get_component_specs("Button") works |
+| Per-page seenComponentSets Map for dedup | Scoped dedup prevents cross-page collision | ✓ Good — BUG-02 eliminated at source |
 
 ---
-*Last updated: 2026-03-06 after v2.0 milestone start*
+*Last updated: 2026-03-19 after v2.0 milestone*

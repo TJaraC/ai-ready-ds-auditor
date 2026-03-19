@@ -40,6 +40,7 @@ export function Button({ label, onClick, disabled = false }: ButtonProps): React
         cursor: disabled ? 'not-allowed' : 'pointer',
         fontFamily: 'monospace',
         padding: SPACING_CONTENT,
+        transition: 'background 0.15s ease',
       }}
     >
       {label}

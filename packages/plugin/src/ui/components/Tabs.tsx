@@ -4,7 +4,6 @@ import {
   COLOR_PRIMARY,
   COLOR_TEXT,
   COLOR_TEXT_SECONDARY,
-  SPACING_GAP_HEADER,
 } from '../tokens';
 
 interface TabsProps {
@@ -18,6 +17,7 @@ export function Tabs({ activeTab, onTabChange }: TabsProps): React.ReactElement 
     audit: 'Audit',
     config: 'Config',
   };
+  const [hoveredTab, setHoveredTab] = React.useState<Tab | null>(null);
 
   return (
     <div
@@ -29,10 +29,13 @@ export function Tabs({ activeTab, onTabChange }: TabsProps): React.ReactElement 
     >
       {tabs.map((tab) => {
         const isActive = tab === activeTab;
+        const isHovered = hoveredTab === tab;
         return (
           <button
             key={tab}
             onClick={() => onTabChange(tab)}
+            onMouseEnter={() => setHoveredTab(tab)}
+            onMouseLeave={() => setHoveredTab(null)}
             style={{
               flex: 1,
               height: 44,
@@ -42,11 +45,12 @@ export function Tabs({ activeTab, onTabChange }: TabsProps): React.ReactElement 
                 ? `2px solid ${COLOR_PRIMARY}`
                 : '2px solid transparent',
               fontWeight: isActive ? 700 : 400,
-              color: isActive ? COLOR_TEXT : COLOR_TEXT_SECONDARY,
-              cursor: 'pointer',
+              color: isActive || isHovered ? COLOR_TEXT : COLOR_TEXT_SECONDARY,
+              cursor: isActive ? 'default' : 'pointer',
               fontSize: 13,
               fontFamily: 'monospace',
               paddingBottom: 2,
+              transition: 'color 0.15s ease',
             }}
           >
             {labels[tab]}

@@ -17,6 +17,7 @@ import type { DesignToken } from '@ai-ds-auditor/shared';
 export function formatStyledComponents(tokens: DesignToken[]): string {
   const colors: Record<string, string> = {};
   const spacing: Record<string, string> = {};
+  const border: Record<string, string> = {};
   const typography: Record<string, string> = {};
 
   for (const token of tokens) {
@@ -27,13 +28,15 @@ export function formatStyledComponents(tokens: DesignToken[]): string {
       colors[key] = token.value;
     } else if (token.type === 'spacing') {
       spacing[key] = token.value;
+    } else if (token.type === 'border-radius' || token.type === 'border-width') {
+      border[key] = token.value;
     } else if (token.type === 'typography') {
       typography[key] = token.value;
     }
     // 'other' tokens skipped
   }
 
-  const themeObj = { colors, spacing, typography };
+  const themeObj = { colors, spacing, border, typography };
   const json = JSON.stringify(themeObj, null, 2);
 
   // Insert `as const` assertion and add Theme type export
