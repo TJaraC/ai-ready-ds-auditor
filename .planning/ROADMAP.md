@@ -149,7 +149,11 @@ Plans:
   3. Running an audit, then injecting, then exporting produces consistent, correct results — no stale data, no sync mismatches between the plugin UI and the MCP payload
   4. Every error condition surfaces a descriptive, actionable message — the user is never shown a raw error code or a generic failure message
   5. Shared type names, plugin data keys, and MCP tool parameter names are consistent across the plugin, shared package, and MCP server — no divergence
-**Plans**: TBD
+**Plans**: 2 plans
+
+Plans:
+- [ ] 12-01-PLAN.md — Copy consistency, layout fix, button guard, warning color (FIX-01, FIX-02, FIX-06)
+- [ ] 12-02-PLAN.md — Error messages, sync verification, naming consistency audit (FIX-03, FIX-04, FIX-05)
 
 ## Progress
 
@@ -168,5 +172,5 @@ Plans:
 | 8. UI v2 Base | v2.0 | 4/4 | Complete | 2026-03-12 |
 | 9. Audit Flow v2 | 4/4 | Complete    | 2026-03-14 | - |
 | 10. Configuration Flow v2 | 2/2 | Complete    | 2026-03-16 | - |
-| 11. MCP Component Tools | 4/4 | Complete   | 2026-03-18 | - |
-| 12. Hardening | v2.0 | 0/TBD | Not started | - |
+| 11. MCP Component Tools | 4/4 | Complete    | 2026-03-18 | - |
+| 12. Hardening | v2.0 | 0/2 | Not started | - |

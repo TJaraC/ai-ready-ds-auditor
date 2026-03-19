@@ -20,7 +20,8 @@ figma.ui.onmessage = (raw: unknown): void => {
           figma.ui.postMessage(msg);
         })
         .catch((err: unknown) => {
-          const message = err instanceof Error ? err.message : 'Unknown error during scan';
+          console.error('Scan error:', err);
+          const message = 'Audit failed — Try running Audit & Inject again.';
           const msg: SandboxMessage = { type: 'SCAN_ERROR', message };
           figma.ui.postMessage(msg);
         });
@@ -53,7 +54,8 @@ figma.ui.onmessage = (raw: unknown): void => {
           figma.ui.postMessage(doneMsg);
         })
         .catch((err: unknown) => {
-          const message = err instanceof Error ? err.message : 'Injection failed — unknown error';
+          console.error('Injection error:', err);
+          const message = 'Injection failed — Try running Audit & Inject again.';
           const errMsg: SandboxMessage = { type: 'INJECT_ERROR', message };
           figma.ui.postMessage(errMsg);
         });

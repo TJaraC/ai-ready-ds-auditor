@@ -14,11 +14,7 @@ export class SchemaVersionError extends Error {
     public readonly serverVersion: string,
     public readonly fileKey: string
   ) {
-    super(
-      `Schema version mismatch for file "${fileKey}": ` +
-      `file has schemaVersion "${fileVersion}", server supports "${serverVersion}". ` +
-      `Re-run injection from the plugin to update the stored data.`
-    );
+    super('Saved data is outdated — Run Audit & Inject to update.');
     this.name = 'SchemaVersionError';
   }
 }
