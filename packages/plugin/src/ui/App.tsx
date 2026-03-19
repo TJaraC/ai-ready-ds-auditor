@@ -65,6 +65,7 @@ export function App(): React.ReactElement {
   useAppMessages(dispatch);
 
   const handleAuditAndInject = (): void => {
+    if (state.phase === 'scanning' || state.phase === 'injecting') return;
     dispatch({ type: 'START_AUDIT' });
     const msg: UIMessage = { type: 'INJECT_DATA' };
     parent.postMessage({ pluginMessage: msg }, '*');

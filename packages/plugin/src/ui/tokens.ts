@@ -6,6 +6,7 @@ export const COLOR_PRIMARY = '#F55442';
 export const COLOR_PRIMARY_HOVER = '#F78C80';
 export const COLOR_STATUS_SUCCESS = '#2B3C35';
 export const COLOR_STATUS_ERROR = '#E03E1A';
+export const COLOR_STATUS_WARNING = '#D4880F';
 export const COLOR_SURFACE = '#FFFFFF';
 // Text/bg tokens fixed for white surface (dark-mode safe — no Figma CSS vars)
 export const COLOR_TEXT = '#1E1E1E';

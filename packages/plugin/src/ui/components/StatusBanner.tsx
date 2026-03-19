@@ -2,6 +2,7 @@ import React from 'react';
 import {
   COLOR_STATUS_SUCCESS,
   COLOR_STATUS_ERROR,
+  COLOR_STATUS_WARNING,
   COLOR_SURFACE,
   SPACING_CONTENT,
 } from '../tokens';
@@ -13,7 +14,7 @@ interface StatusBannerProps {
 
 const VARIANT_BG: Record<StatusBannerProps['variant'], string> = {
   success: COLOR_STATUS_SUCCESS,
-  warning: COLOR_STATUS_ERROR,
+  warning: COLOR_STATUS_WARNING,
   error: COLOR_STATUS_ERROR,
 };
 

@@ -13,6 +13,7 @@ import {
   SPACING_CONTENT,
   SPACING_GAP_BODY,
 } from '../tokens';
+import { BANNER_COPY } from '../banner-copy';
 
 // ---------------------------------------------------------------------------
 // Category constants
@@ -204,21 +205,8 @@ export function AuditView({
         );
       }
 
-      // Derive banner from contextStatus (UIX-03)
-      let bannerVariant: 'success' | 'warning' | 'error' | null = null;
-      let bannerMessage: string | null = null;
-
-      if (contextStatus === 'injected') {
-        bannerVariant = 'success';
-        bannerMessage = 'AI Context injected \u2014 Ready for IDE';
-      } else if (contextStatus === 'outdated') {
-        bannerVariant = 'warning';
-        bannerMessage = 'AI Context may be outdated \u2014 Re-inject to update';
-      } else if (contextStatus === 'missing') {
-        bannerVariant = 'error';
-        bannerMessage = 'No AI Context found \u2014 Run Audit & Inject';
-      }
-      // contextStatus === null → no banner
+      // Derive banner from contextStatus (UIX-03) — centralized in banner-copy.ts
+      const bannerEntry = contextStatus !== null ? BANNER_COPY[contextStatus] : null;
 
       return (
         <div
@@ -230,8 +218,8 @@ export function AuditView({
           }}
         >
           {/* Status banner — only shown when contextStatus is set */}
-          {bannerVariant !== null && bannerMessage !== null && (
-            <StatusBanner variant={bannerVariant} message={bannerMessage} />
+          {bannerEntry !== null && (
+            <StatusBanner variant={bannerEntry.variant} message={bannerEntry.message} />
           )}
 
           {/* Scrollable content area */}
