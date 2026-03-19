@@ -64,18 +64,10 @@ describe('auditComponents', () => {
 
 describe('classifyPublishStatus', () => {
   it('returns private when remote is true', () => {
-    expect(classifyPublishStatus(true, {})).toBe('private');
+    expect(classifyPublishStatus(true)).toBe('private');
   });
 
-  it('returns local when remote is false and master is null', () => {
-    expect(classifyPublishStatus(false, null)).toBe('local');
-  });
-
-  it('returns local when remote is false and master is undefined', () => {
-    expect(classifyPublishStatus(false, undefined)).toBe('local');
-  });
-
-  it('returns published when remote is false and master is non-null', () => {
-    expect(classifyPublishStatus(false, {})).toBe('published');
+  it('returns published when remote is false (component is in current file)', () => {
+    expect(classifyPublishStatus(false)).toBe('published');
   });
 });

@@ -4,7 +4,7 @@ milestone: v2.0
 milestone_name: Figma-Faithful UI + Enhanced MCP
 status: completed
 stopped_at: Completed 12-02-PLAN.md
-last_updated: "2026-03-19T09:29:16.998Z"
+last_updated: "2026-03-19T10:05:48.235Z"
 last_activity: 2026-03-19
 progress:
   total_phases: 7
@@ -27,7 +27,7 @@ See: .planning/PROJECT.md (updated 2026-03-06)
 
 **Phase:** 12 of 12 — Hardening
 **Plan:** 2/2 plans complete
-**Status:** Complete
+**Status:** Milestone complete
 **Last Activity:** 2026-03-19
 
 Progress: [██████████] 100%

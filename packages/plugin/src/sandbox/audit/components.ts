@@ -3,20 +3,20 @@ import type { AuditNode } from './inputs';
 import { buildIssue } from './utils';
 
 /**
- * Classifies a Figma component's publish status based on its `remote` and `master`
- * properties, which are available on COMPONENT nodes at runtime.
+ * Classifies a Figma component's publish status based on its `remote` property,
+ * which is available on COMPONENT nodes at runtime.
  *
- * Rules (from Figma API semantics):
- * - `remote === true` → 'private' (component from an external/private library)
- * - `master == null`  → 'local'   (no master component — unpublished local component)
- * - otherwise         → 'published' (has a master component and is not remote)
+ * Rules:
+ * - `remote === true`  -> 'private'   (component from an external/private library)
+ * - `remote === false` -> 'published' (component defined in this design system file)
+ *
+ * Note: The Figma Plugin API does not expose a `master` property on COMPONENT nodes.
+ * Components in the current file are always classified as 'published'.
  */
 export function classifyPublishStatus(
   remote: boolean,
-  master: unknown,
-): 'published' | 'private' | 'local' {
+): 'published' | 'private' {
   if (remote) return 'private';
-  if (master == null) return 'local';
   return 'published';
 }
 

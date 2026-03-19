@@ -37,6 +37,7 @@ Full phase details: `.planning/milestones/v1.0-ROADMAP.md`
  (completed 2026-03-16)
 - [x] **Phase 11: MCP Component Tools** - Implement `get_component_specs` v2 with computed properties and states, and `get_component_svg` with metadata and error handling (completed 2026-03-18)
 - [x] **Phase 12: Hardening** - Correct all copy, button states, sync errors, error messages, naming, and loading/error states across the entire product (completed 2026-03-19)
+- [ ] **Phase 13: Component Usability Fixes** - Fix two critical bugs: publishStatus always reporting 'local' due to wrong Figma API property, and component names stored as variant strings instead of COMPONENT_SET names making the MCP unable to find UI components by name
 
 ## Phase Details
 
@@ -155,9 +156,23 @@ Plans:
 - [ ] 12-01-PLAN.md — Copy consistency, layout fix, button guard, warning color (FIX-01, FIX-02, FIX-06)
 - [ ] 12-02-PLAN.md — Error messages, sync verification, naming consistency audit (FIX-03, FIX-04, FIX-05)
 
+### Phase 13: Component Usability Fixes
+**Goal**: Fix two critical bugs that break MCP usability: (1) all components showing as unpublished because `ComponentNode.master` doesn't exist in the Figma Plugin API; (2) component names stored as variant property strings (e.g. `size=large, state=hover`) instead of COMPONENT_SET names, making `get_component_specs` unable to find any UI component by name
+**Depends on**: Phase 11
+**Requirements**: BUG-01, BUG-02
+**Success Criteria** (what must be TRUE):
+  1. Plugin running on a published design system file correctly classifies components — none show as 'local' when they should be 'published'
+  2. `get_component_specs` called with "Button" or "Input" (COMPONENT_SET name) returns the correct spec
+  3. The 1093 raw variant nodes are deduplicated into distinct named components (one entry per COMPONENT_SET + standalone)
+  4. Unpublished count in the plugin UI reflects reality — 0 unpublished on a fully published design system
+**Plans**: 1 plan
+
+Plans:
+- [ ] 13-01-PLAN.md — Fix classifyPublishStatus 2-state logic + deduplicate components by COMPONENT_SET name (BUG-01, BUG-02)
+
 ## Progress
 
-**Execution Order:** Phases execute in numeric order: 6 → 7 → 8 → 9 → 10 → 11 → 12
+**Execution Order:** Phases execute in numeric order: 6 -> 7 -> 8 -> 9 -> 10 -> 11 -> 12 -> 13
 (Note: Phase 10 depends on Phase 8; Phase 11 depends on Phase 7. Both can start after their respective dependencies complete.)
 
 | Phase | Milestone | Plans Complete | Status | Completed |
@@ -173,4 +188,5 @@ Plans:
 | 9. Audit Flow v2 | 4/4 | Complete    | 2026-03-14 | - |
 | 10. Configuration Flow v2 | 2/2 | Complete    | 2026-03-16 | - |
 | 11. MCP Component Tools | 4/4 | Complete    | 2026-03-18 | - |
-| 12. Hardening | 2/2 | Complete   | 2026-03-19 | - |
+| 12. Hardening | 2/2 | Complete    | 2026-03-19 | - |
+| 13. Component Usability Fixes | v2.0 | 0/1 | Not started | - |
