@@ -68,6 +68,11 @@ Requirements for v2.0 release. Each maps to a roadmap phase.
 - [x] **FIX-05**: Naming is consistent across plugin, shared types, and MCP tool contracts
 - [x] **FIX-06**: All flows have defined loading and error states
 
+### Component Bugs (BUG)
+
+- [x] **BUG-01**: Plugin correctly classifies component publish status — components in the current design system file are not all reported as 'local'; a fully published design system shows 0 unpublished components
+- [x] **BUG-02**: `get_component_specs` can find UI components by their COMPONENT_SET name (e.g. "Button", "Input") — names stored in the audit report use the COMPONENT_SET parent name, not the variant property string
+
 ---
 
 ## v3 Requirements (Deferred)

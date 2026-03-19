@@ -2,16 +2,14 @@
 gsd_state_version: 1.0
 milestone: v2.0
 milestone_name: Figma-Faithful UI + Enhanced MCP
-status: completed
-stopped_at: Completed 12-02-PLAN.md
-last_updated: "2026-03-19T10:05:48.235Z"
-last_activity: 2026-03-19
+status: unknown
+stopped_at: Completed 13-01-PLAN.md
+last_updated: "2026-03-19T19:36:45.082Z"
 progress:
-  total_phases: 7
-  completed_phases: 6
-  total_plans: 20
-  completed_plans: 21
-  percent: 100
+  total_phases: 8
+  completed_phases: 7
+  total_plans: 21
+  completed_plans: 22
 ---
 
 # Project State
@@ -21,20 +19,17 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-06)
 
 **Core value:** Any Non-Enterprise Figma user can connect their Design System to a local AI IDE in under 5 minutes, get live sync indicators, and give the AI full structured context — for free.
-**Current focus:** Milestone v2.0 — Phase 12 Hardening COMPLETE (2/2 plans)
+**Current focus:** Phase 13 — component-usability-fixes
 
 ## Current Position
 
-**Phase:** 12 of 12 — Hardening
-**Plan:** 2/2 plans complete
-**Status:** Milestone complete
-**Last Activity:** 2026-03-19
-
-Progress: [██████████] 100%
+Phase: 13 (component-usability-fixes) — EXECUTING
+Plan: 1 of 1
 
 ## Performance Metrics
 
 **Velocity (v1.0 baseline):**
+
 - Total plans completed: 15
 - Average duration: ~20 min/plan
 - Total execution time: ~5 hours
@@ -55,6 +50,7 @@ Progress: [██████████] 100%
 | Phase 11-mcp-component-tools P11-04 | 10min | 3 tasks | 2 files |
 | Phase 12-hardening P12-01 | 7min | 2 tasks | 6 files |
 | Phase 12-hardening P12-02 | 2min | 2 tasks | 0 files |
+| Phase 13-component-usability-fixes P13-01 | 3min | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -277,9 +273,22 @@ Progress: [██████████] 100%
 - Naming consistency: plugin data keys (ai_data_*, ai_svg_*), shared types, MCP tool params (camelCase), schema version, message types — all consistent
 - SchemaVersionError canonical message: 'Saved data is outdated — Run Audit & Inject to update.'
 
+### Decisions (from Phase 13 — executed 13-01)
+
+- BUG-FIX-01: classifyPublishStatus reduced to 1-arg (remote: boolean) returning 'published' | 'private' — Figma Plugin API does not expose `master` on COMPONENT nodes
+- BUG-FIX-02: Component names use COMPONENT_SET parent name with per-page deduplication via seenComponentSets Map — enables get_component_specs lookup by human-readable names
+- CLEAN-01: Removed dead 'local' branch from unpublishedCount filter — classifyPublishStatus can never return 'local'
+
+### Key v2.0 Technical Notes (Phase 13 — component usability)
+
+- classifyPublishStatus is now 1-arg: `classifyPublishStatus(remote: boolean)` returns 'published' | 'private'
+- Component name resolution: `parentSet ? parentSet.name : comp.name` — COMPONENT_SET parent name preferred over variant property string
+- seenComponentSets Map scoped per-page (inside page loop) — two pages with same component name both included
+- SVG export loop still uses comp.name (variant name) — correct for individual variant SVG records
+
 ### Blockers/Concerns
 
-None — Phase 12 Hardening complete (2/2 plans). All v2.0 phases complete.
+None — Phase 13 component usability fixes complete (1/1 plans).
 
 ### Pending Todos
 
@@ -287,6 +296,6 @@ None.
 
 ## Session Continuity
 
-**Last session:** 2026-03-19T09:29:16.995Z
-**Stopped at:** Completed 12-02-PLAN.md
+**Last session:** 2026-03-19T19:36:45.079Z
+**Stopped at:** Completed 13-01-PLAN.md
 **Next action:** v2.0 milestone complete — merge to master or final release preparation

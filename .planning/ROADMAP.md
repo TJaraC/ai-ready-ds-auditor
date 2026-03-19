@@ -37,7 +37,7 @@ Full phase details: `.planning/milestones/v1.0-ROADMAP.md`
  (completed 2026-03-16)
 - [x] **Phase 11: MCP Component Tools** - Implement `get_component_specs` v2 with computed properties and states, and `get_component_svg` with metadata and error handling (completed 2026-03-18)
 - [x] **Phase 12: Hardening** - Correct all copy, button states, sync errors, error messages, naming, and loading/error states across the entire product (completed 2026-03-19)
-- [ ] **Phase 13: Component Usability Fixes** - Fix two critical bugs: publishStatus always reporting 'local' due to wrong Figma API property, and component names stored as variant strings instead of COMPONENT_SET names making the MCP unable to find UI components by name
+- [x] **Phase 13: Component Usability Fixes** - Fix two critical bugs: publishStatus always reporting 'local' due to wrong Figma API property, and component names stored as variant strings instead of COMPONENT_SET names making the MCP unable to find UI components by name (completed 2026-03-19)
 
 ## Phase Details
 
@@ -189,4 +189,4 @@ Plans:
 | 10. Configuration Flow v2 | 2/2 | Complete    | 2026-03-16 | - |
 | 11. MCP Component Tools | 4/4 | Complete    | 2026-03-18 | - |
 | 12. Hardening | 2/2 | Complete    | 2026-03-19 | - |
-| 13. Component Usability Fixes | v2.0 | 0/1 | Not started | - |
+| 13. Component Usability Fixes | 1/1 | Complete   | 2026-03-19 | - |
