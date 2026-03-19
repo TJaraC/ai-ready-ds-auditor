@@ -3,6 +3,7 @@ import type { AuditReport } from '@shared/types';
 import type { CssFramework } from '../state';
 import { Button } from '../components/Button';
 import { StatusBanner } from '../components/StatusBanner';
+import { BANNER_COPY } from '../banner-copy';
 import {
   COLOR_BG_SECONDARY,
   COLOR_PRIMARY,
@@ -75,20 +76,8 @@ export function ConfigView({
     });
   };
 
-  // Derive banner props from contextStatus
-  type BannerVariant = 'success' | 'warning' | 'error';
-  let bannerVariant: BannerVariant | null = null;
-  let bannerMessage: string | null = null;
-  if (contextStatus === 'injected') {
-    bannerVariant = 'success';
-    bannerMessage = 'Context injected — MCP is up to date';
-  } else if (contextStatus === 'outdated') {
-    bannerVariant = 'warning';
-    bannerMessage = 'Design changed — Re-run Audit & Inject';
-  } else if (contextStatus === 'missing') {
-    bannerVariant = 'warning';
-    bannerMessage = 'No context injected — Run Audit & Inject first';
-  }
+  // Derive banner from contextStatus — centralized in banner-copy.ts
+  const bannerEntry = contextStatus !== null ? BANNER_COPY[contextStatus] : null;
 
   return (
     <div
@@ -96,12 +85,26 @@ export function ConfigView({
         display: 'flex',
         flexDirection: 'column',
         flex: 1,
-        overflowY: 'auto',
-        padding: SPACING_CONTENT,
-        gap: SPACING_GAP_BODY,
-        boxSizing: 'border-box',
+        overflow: 'hidden',
       }}
     >
+      {/* Status banner — TOP, outside scroll area */}
+      {bannerEntry !== null && (
+        <StatusBanner variant={bannerEntry.variant} message={bannerEntry.message} />
+      )}
+
+      {/* Scrollable content area */}
+      <div
+        style={{
+          flex: 1,
+          overflowY: 'auto',
+          padding: SPACING_CONTENT,
+          display: 'flex',
+          flexDirection: 'column',
+          gap: SPACING_GAP_BODY,
+          boxSizing: 'border-box',
+        }}
+      >
       {/* Section 1: CSS Framework selector */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: SPACING_GAP_HEADER }}>
         <label
@@ -310,17 +313,16 @@ export function ConfigView({
         </p>
       </div>
 
-      {/* Section 3: Export status banner (directly above the Export button) */}
-      {bannerVariant !== null && bannerMessage !== null && (
-        <StatusBanner variant={bannerVariant} message={bannerMessage} />
-      )}
+      </div>
 
-      {/* Export button */}
-      <Button
-        label="Export variables in JSON"
-        onClick={onExportJson}
-        disabled={report === null}
-      />
+      {/* Export button pinned to bottom — outside scroll area */}
+      <div style={{ padding: SPACING_CONTENT, paddingTop: 12 }}>
+        <Button
+          label="Export variables in JSON"
+          onClick={onExportJson}
+          disabled={report === null}
+        />
+      </div>
     </div>
   );
 }
