@@ -3,7 +3,7 @@ import { schemaVersion, CHUNK_KEY_PREFIX, META_KEY, MAX_CHUNK_BYTES } from './in
 
 describe('shared package exports', () => {
   it('exports the correct schemaVersion as the first export', () => {
-    expect(schemaVersion).toBe('1.0.0');
+    expect(schemaVersion).toBe('2.0.0');
   });
 
   it('exports chunking constants with correct values', () => {

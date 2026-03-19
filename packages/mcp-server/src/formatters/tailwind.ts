@@ -9,6 +9,8 @@ import type { DesignToken } from '@ai-ds-auditor/shared';
  * Token types:
  *   color             → theme.extend.colors
  *   spacing           → theme.extend.spacing
+ *   border-radius     → theme.extend.borderRadius
+ *   border-width      → theme.extend.borderWidth
  *   typography        → bucketed by sub-property (last segment of name):
  *     .../fontFamily  → theme.extend.fontFamily
  *     .../fontSize    → theme.extend.fontSize
@@ -22,6 +24,8 @@ import type { DesignToken } from '@ai-ds-auditor/shared';
 export function formatTailwind(tokens: DesignToken[]): string {
   const colors: Record<string, string> = {};
   const spacing: Record<string, string> = {};
+  const borderRadius: Record<string, string> = {};
+  const borderWidth: Record<string, string> = {};
   const fontFamily: Record<string, string> = {};
   const fontSize: Record<string, string> = {};
   const fontWeight: Record<string, string> = {};
@@ -34,6 +38,12 @@ export function formatTailwind(tokens: DesignToken[]): string {
     } else if (token.type === 'spacing') {
       const key = token.name.replace(/\//g, '-').toLowerCase();
       spacing[key] = token.value;
+    } else if (token.type === 'border-radius') {
+      const key = token.name.replace(/\//g, '-').toLowerCase();
+      borderRadius[key] = token.value;
+    } else if (token.type === 'border-width') {
+      const key = token.name.replace(/\//g, '-').toLowerCase();
+      borderWidth[key] = token.value;
     } else if (token.type === 'typography') {
       // Text style tokens use "<style-name>/<property>" naming convention.
       // Split on the last "/" to determine the property bucket.
@@ -65,7 +75,7 @@ export function formatTailwind(tokens: DesignToken[]): string {
   }
 
   return JSON.stringify(
-    { theme: { extend: { colors, spacing, fontFamily, fontSize, fontWeight, lineHeight } } },
+    { theme: { extend: { colors, spacing, borderRadius, borderWidth, fontFamily, fontSize, fontWeight, lineHeight } } },
     null,
     2
   );

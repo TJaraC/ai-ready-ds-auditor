@@ -1,4 +1,5 @@
 import type { AuditIssue } from '@shared/index';
+import type { AuditNodeText } from './inputs';
 import { buildIssue } from './utils';
 
 /**
@@ -13,7 +14,7 @@ import { buildIssue } from './utils';
  *   (only when fontSize is also unbound, to avoid duplicate noise on partially-bound nodes)
  */
 export function auditTypography(
-  node: TextNode,
+  node: AuditNodeText,
   pageName: string,
   styleIds: Set<string>,
 ): AuditIssue[] {
@@ -24,15 +25,16 @@ export function auditTypography(
   if (
     textStyleId !== figma.mixed &&
     textStyleId !== '' &&
-    styleIds.has(textStyleId as string)
+    typeof textStyleId === 'string' &&
+    styleIds.has(textStyleId)
   ) {
     return issues;
   }
 
   const boundVars = node.boundVariables;
 
-  // Check fontSize — guard figma.mixed before String() conversion
-  if (!boundVars?.fontSize && node.fontSize !== figma.mixed) {
+  // Check fontSize — guard figma.mixed and undefined before String() conversion
+  if (!boundVars?.fontSize && node.fontSize !== undefined && node.fontSize !== figma.mixed) {
     issues.push(
       buildIssue(
         node,
@@ -46,10 +48,11 @@ export function auditTypography(
   }
 
   // Check fontWeight — only when fontSize is also unbound (avoid noise on partial bindings)
-  // Guard figma.mixed before String() conversion
+  // Guard figma.mixed and undefined before String() conversion
   if (
     !boundVars?.fontWeight &&
     !boundVars?.fontSize &&
+    node.fontWeight !== undefined &&
     node.fontWeight !== figma.mixed
   ) {
     issues.push(
@@ -64,9 +67,9 @@ export function auditTypography(
     );
   }
 
-  // Check lineHeight — skip AUTO (intentional default), skip if bound to variable
-  if (!boundVars?.lineHeight && node.lineHeight !== figma.mixed) {
-    const lh = node.lineHeight as LineHeight;
+  // Check lineHeight — skip AUTO (intentional default), skip if bound to variable or undefined
+  if (!boundVars?.lineHeight && node.lineHeight !== undefined && node.lineHeight !== figma.mixed) {
+    const lh = node.lineHeight as { unit: string; value?: number };
     if (lh.unit !== 'AUTO') {
       const value = lh.unit === 'PIXELS' ? `${lh.value}px` : `${lh.value}%`;
       issues.push(
@@ -82,9 +85,9 @@ export function auditTypography(
     }
   }
 
-  // Check letterSpacing — skip 0 (normal default), skip if bound to variable
-  if (!boundVars?.letterSpacing && node.letterSpacing !== figma.mixed) {
-    const ls = node.letterSpacing as LetterSpacing;
+  // Check letterSpacing — skip 0 (normal default), skip if bound to variable or undefined
+  if (!boundVars?.letterSpacing && node.letterSpacing !== undefined && node.letterSpacing !== figma.mixed) {
+    const ls = node.letterSpacing as { unit: string; value: number };
     if (ls.value !== 0) {
       const value = ls.unit === 'PIXELS' ? `${ls.value}px` : `${ls.value}%`;
       issues.push(

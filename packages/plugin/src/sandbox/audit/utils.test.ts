@@ -109,24 +109,24 @@ describe('assembleReport', () => {
     'Use variable'
   );
 
-  it('sets schemaVersion to 1.0.0 from @shared', () => {
-    const report = assembleReport([], [], [], 'file123', 'My File');
-    expect(report.schemaVersion).toBe('1.0.0');
+  it('sets schemaVersion to 2.0.0 from @shared', () => {
+    const report = assembleReport([], [], [], 0, 'file123', 'My File');
+    expect(report.schemaVersion).toBe('2.0.0');
   });
 
   it('sets fileId and fileName', () => {
-    const report = assembleReport([], [], [], 'abc-file-id', 'Design System');
+    const report = assembleReport([], [], [], 0, 'abc-file-id', 'Design System');
     expect(report.fileId).toBe('abc-file-id');
     expect(report.fileName).toBe('Design System');
   });
 
   it('sets scannedAt as an ISO date string', () => {
-    const report = assembleReport([], [], [], 'f1', 'F');
+    const report = assembleReport([], [], [], 0, 'f1', 'F');
     expect(report.scannedAt).toMatch(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/);
   });
 
   it('totalIssues = issues.length', () => {
-    const report = assembleReport([colorIssue, typographyIssue], [], [], 'f1', 'F');
+    const report = assembleReport([colorIssue, typographyIssue], [], [], 0, 'f1', 'F');
     expect(report.summary.totalIssues).toBe(2);
   });
 
@@ -139,7 +139,7 @@ describe('assembleReport', () => {
       rawValue: '#ff0000',
       groupPath: [],
     };
-    const report = assembleReport([], [], [token], 'f1', 'F');
+    const report = assembleReport([], [], [token], 0, 'f1', 'F');
     expect(report.summary.totalTokens).toBe(1);
   });
 
@@ -149,11 +149,12 @@ describe('assembleReport', () => {
       name: 'Button',
       key: 'btn-key',
       description: '',
-      variants: [],
-      props: [],
-      usageCount: 3,
+      publishStatus: 'published' as const,
+      layers: [],
+      variants: {},
+      states: {},
     };
-    const report = assembleReport([], [comp], [], 'f1', 'F');
+    const report = assembleReport([], [comp], [], 0, 'f1', 'F');
     expect(report.summary.totalComponents).toBe(1);
   });
 
@@ -162,6 +163,7 @@ describe('assembleReport', () => {
       [colorIssue, typographyIssue, colorIssue2],
       [],
       [],
+      0,
       'f1',
       'F'
     );
@@ -171,7 +173,7 @@ describe('assembleReport', () => {
   });
 
   it('healthScore = 100 when 0 issues', () => {
-    const report = assembleReport([], [], [], 'f1', 'F');
+    const report = assembleReport([], [], [], 0, 'f1', 'F');
     expect(report.summary.healthScore).toBe(100);
   });
 
@@ -179,7 +181,7 @@ describe('assembleReport', () => {
     const issues = Array.from({ length: 50 }, (_, i) =>
       buildIssue({ id: `${i}:0`, name: `Node ${i}` }, 'Page', 'color', 'hardcoded-fill', '#000', 'fix')
     );
-    const report = assembleReport(issues, [], [], 'f1', 'F');
+    const report = assembleReport(issues, [], [], 0, 'f1', 'F');
     expect(report.summary.healthScore).toBe(50);
   });
 
@@ -187,13 +189,23 @@ describe('assembleReport', () => {
     const issues = Array.from({ length: 150 }, (_, i) =>
       buildIssue({ id: `${i}:0`, name: `Node ${i}` }, 'Page', 'spacing', 'hardcoded-gap', '8', 'fix')
     );
-    const report = assembleReport(issues, [], [], 'f1', 'F');
+    const report = assembleReport(issues, [], [], 0, 'f1', 'F');
     expect(report.summary.healthScore).toBe(0);
   });
 
   it('report contains the issues array passed in', () => {
-    const report = assembleReport([colorIssue], [], [], 'f1', 'F');
+    const report = assembleReport([colorIssue], [], [], 0, 'f1', 'F');
     expect(report.issues).toHaveLength(1);
     expect(report.issues[0]).toEqual(colorIssue);
+  });
+
+  it('summary.unpublishedComponents reflects unpublishedCount parameter', () => {
+    const report = assembleReport([], [], [], 5, 'f1', 'F');
+    expect(report.summary.unpublishedComponents).toBe(5);
+  });
+
+  it('summary.unpublishedComponents is 0 when no unpublished components', () => {
+    const report = assembleReport([], [], [], 0, 'f1', 'F');
+    expect(report.summary.unpublishedComponents).toBe(0);
   });
 });

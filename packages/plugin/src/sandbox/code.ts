@@ -1,9 +1,10 @@
 import type { SandboxMessage, UIMessage } from '@shared/messages';
 import { runAudit } from './audit/index';
 import { injectReport } from './inject';
+import { injectSvgs } from './inject-svgs';
 
 // Show the plugin UI
-figma.showUI(__html__, { width: 320, height: 480, themeColors: true });
+figma.showUI(__html__, { width: 380, height: 600, themeColors: true });
 
 // Handle messages from the UI iframe
 figma.ui.onmessage = (raw: unknown): void => {
@@ -13,12 +14,14 @@ figma.ui.onmessage = (raw: unknown): void => {
   switch (msg.type) {
     case 'START_SCAN': {
       runAudit()
-        .then((report) => {
+        .then(({ report, svgRecords: _svgs }) => {
+          // _svgs ignored for scan-only (not injected until INJECT_DATA)
           const msg: SandboxMessage = { type: 'SCAN_COMPLETE', report };
           figma.ui.postMessage(msg);
         })
         .catch((err: unknown) => {
-          const message = err instanceof Error ? err.message : 'Unknown error during scan';
+          console.error('Scan error:', err);
+          const message = 'Audit failed — Try running Audit & Inject again.';
           const msg: SandboxMessage = { type: 'SCAN_ERROR', message };
           figma.ui.postMessage(msg);
         });
@@ -26,12 +29,13 @@ figma.ui.onmessage = (raw: unknown): void => {
     }
     case 'INJECT_DATA': {
       runAudit()
-        .then((report) => {
+        .then(({ report, svgRecords }) => {
           // Send SCAN_COMPLETE first — UI needs the report to render the dashboard
           const scanMsg: SandboxMessage = { type: 'SCAN_COMPLETE', report };
           figma.ui.postMessage(scanMsg);
 
           const result = injectReport(report);
+          injectSvgs(svgRecords);
 
           // Record injection time and cancel any pending debounce timer.
           // documentchange PROPERTY_CHANGE events from setPluginData fire async,
@@ -50,7 +54,8 @@ figma.ui.onmessage = (raw: unknown): void => {
           figma.ui.postMessage(doneMsg);
         })
         .catch((err: unknown) => {
-          const message = err instanceof Error ? err.message : 'Injection failed — unknown error';
+          console.error('Injection error:', err);
+          const message = 'Injection failed — Try running Audit & Inject again.';
           const errMsg: SandboxMessage = { type: 'INJECT_ERROR', message };
           figma.ui.postMessage(errMsg);
         });
@@ -117,9 +122,19 @@ figma.loadAllPagesAsync().then(() => {
   });
 });
 
-// Send initial message to UI to confirm sandbox is alive
-const initMsg: SandboxMessage = {
-  type: 'SYNC_OUTDATED',
-  lastScannedAt: new Date().toISOString(),
-};
-figma.ui.postMessage(initMsg);
+// On startup: check whether AI Context has ever been injected.
+// If no plugin data keys exist, signal the UI that context is missing.
+// SYNC_OUTDATED is NOT sent on startup — it is reserved for document change events.
+const startupKeys = figma.root.getPluginDataKeys();
+if (startupKeys.length === 0) {
+  const missingMsg: SandboxMessage = { type: 'CONTEXT_STATUS_CHECK', status: 'missing' };
+  figma.ui.postMessage(missingMsg);
+}
+// If keys exist, contextStatus stays null (injected/outdated will be set later via
+// INJECT_COMPLETE or SYNC_OUTDATED — no pre-flight read of plugin data needed here).
+
+// Send current file key to UI on startup.
+// figma.fileKey is string | undefined — guard before sending.
+const fk = figma.fileKey;
+const fileKeyMsg: SandboxMessage = { type: 'FILE_KEY', fileKey: fk ?? null };
+figma.ui.postMessage(fileKeyMsg);
