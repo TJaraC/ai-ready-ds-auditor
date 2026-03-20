@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import type { AuditReport } from '@shared/types';
-import type { CssFramework } from '../state';
+import type { AuditCategory } from '@shared/messages';
+import type { CssFramework, ScopeConfig } from '../state';
 import { Button } from '../components/Button';
+import { ToggleSwitch } from '../components/ToggleSwitch';
 import { StatusBanner } from '../components/StatusBanner';
 import { BANNER_COPY } from '../banner-copy';
 import {
@@ -45,7 +47,18 @@ interface ConfigViewProps {
   cssFramework: CssFramework;
   onCssFrameworkChange: (fw: CssFramework) => void;
   contextStatus: 'injected' | 'outdated' | 'missing' | null;
+  scopeConfig: ScopeConfig;
+  onToggleCategory: (category: AuditCategory, enabled: boolean) => void;
 }
+
+const SCOPE_CATEGORIES: Array<{ key: AuditCategory; label: string }> = [
+  { key: 'color', label: 'Colors' },
+  { key: 'typography', label: 'Typography' },
+  { key: 'spacing', label: 'Spacing' },
+  { key: 'border', label: 'Borders' },
+  { key: 'effects', label: 'Effects' },
+  { key: 'component', label: 'Components' },
+];
 
 // ---------------------------------------------------------------------------
 // ConfigView
@@ -57,8 +70,11 @@ export function ConfigView({
   cssFramework,
   onCssFrameworkChange,
   contextStatus,
+  scopeConfig,
+  onToggleCategory,
 }: ConfigViewProps): React.ReactElement {
   const [copied, setCopied] = useState(false);
+  const enabledCount = Object.values(scopeConfig).filter(Boolean).length;
 
   const mcpConfigSnippet = buildMcpConfigSnippet(report?.fileId ?? null);
 
@@ -98,7 +114,49 @@ export function ConfigView({
           boxSizing: 'border-box',
         }}
       >
-      {/* Section 1: CSS Framework selector */}
+      {/* Section 1: Audit Scope */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: SPACING_GAP_HEADER }}>
+        <label
+          style={{
+            fontSize: 13,
+            fontWeight: 700,
+            fontFamily: 'monospace',
+            color: COLOR_TEXT,
+          }}
+        >
+          Audit Scope
+        </label>
+        <p
+          style={{
+            fontSize: 11,
+            margin: 0,
+            color: COLOR_TEXT_SECONDARY,
+            fontFamily: 'monospace',
+          }}
+        >
+          {`${enabledCount} of 6 enabled`}
+        </p>
+        {SCOPE_CATEGORIES.map(({ key, label }) => (
+          <div
+            key={key}
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}
+          >
+            <span style={{ fontSize: 13, fontFamily: 'monospace', color: COLOR_TEXT }}>
+              {label}
+            </span>
+            <ToggleSwitch
+              checked={scopeConfig[key]}
+              onChange={(v) => onToggleCategory(key, v)}
+            />
+          </div>
+        ))}
+      </div>
+
+      {/* Section 2: CSS Framework selector */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: SPACING_GAP_HEADER }}>
         <label
           style={{

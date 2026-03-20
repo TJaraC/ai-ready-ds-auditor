@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react';
+import React, { useReducer, useState } from 'react';
 import type { UIMessage, AuditCategory } from '@shared/messages';
 import type { AuditReport } from '@shared/types';
 import { appReducer, initialState } from './state';
@@ -62,20 +62,36 @@ function downloadJson(report: AuditReport, cssFramework: CssFramework, contextSt
 
 export function App(): React.ReactElement {
   const [state, dispatch] = useReducer(appReducer, initialState);
+  const [hasVisitedConfig, setHasVisitedConfig] = useState(false);
   useAppMessages(dispatch);
+
+  const allCategoriesDisabled = Object.values(state.scopeConfig).every((v) => !v);
+
+  const enabledCategories = (Object.entries(state.scopeConfig) as Array<[AuditCategory, boolean]>)
+    .filter(([, enabled]) => enabled)
+    .map(([cat]) => cat);
 
   const handleAuditAndInject = (): void => {
     if (state.phase === 'scanning' || state.phase === 'injecting') return;
+    if (allCategoriesDisabled) return;
     dispatch({ type: 'START_AUDIT' });
-    const enabledCategories: AuditCategory[] = (Object.entries(state.scopeConfig) as [AuditCategory, boolean][])
-      .filter(([, v]) => v)
-      .map(([k]) => k);
     const msg: UIMessage = { type: 'INJECT_DATA', enabledCategories };
     parent.postMessage({ pluginMessage: msg }, '*');
   };
 
   const handleSelectNode = (nodeId: string): void => {
     const msg: UIMessage = { type: 'SELECT_NODE', nodeId };
+    parent.postMessage({ pluginMessage: msg }, '*');
+  };
+
+  const handleGoToConfig = (): void => {
+    setHasVisitedConfig(true);
+    dispatch({ type: 'SET_TAB', tab: 'config' });
+  };
+
+  const handleToggleCategory = (category: AuditCategory, enabled: boolean): void => {
+    dispatch({ type: 'TOGGLE_SCOPE_CATEGORY', category, enabled });
+    const msg: UIMessage = { type: 'TOGGLE_SCOPE', category, enabled };
     parent.postMessage({ pluginMessage: msg }, '*');
   };
 
@@ -115,6 +131,9 @@ export function App(): React.ReactElement {
             onResetError={() => dispatch({ type: 'RESET_ERROR' })}
             contextStatus={state.contextStatus}
             unpublishedCount={state.unpublishedCount}
+            hasVisitedConfig={hasVisitedConfig}
+            onGoToConfig={handleGoToConfig}
+            allCategoriesDisabled={allCategoriesDisabled}
           />
         ) : (
           <ConfigView
@@ -123,6 +142,8 @@ export function App(): React.ReactElement {
             cssFramework={state.cssFramework}
             onCssFrameworkChange={(fw: CssFramework) => dispatch({ type: 'SET_CSS_FRAMEWORK', cssFramework: fw })}
             contextStatus={state.contextStatus}
+            scopeConfig={state.scopeConfig}
+            onToggleCategory={handleToggleCategory}
           />
         )}
       </div>

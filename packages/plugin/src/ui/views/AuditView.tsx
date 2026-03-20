@@ -54,6 +54,9 @@ interface AuditViewProps {
   onResetError: () => void;
   contextStatus: 'injected' | 'outdated' | 'missing' | null;
   unpublishedCount: number;
+  hasVisitedConfig: boolean;
+  onGoToConfig: () => void;
+  allCategoriesDisabled: boolean;
 }
 
 // ---------------------------------------------------------------------------
@@ -71,9 +74,15 @@ export function AuditView({
   onResetError,
   contextStatus,
   unpublishedCount,
+  hasVisitedConfig,
+  onGoToConfig,
+  allCategoriesDisabled,
 }: AuditViewProps): React.ReactElement {
   switch (phase) {
-    case 'idle':
+    case 'idle': {
+      // First-use state: no injected data + hasn't visited config this session
+      const isFirstUse = contextStatus === 'missing' && !hasVisitedConfig;
+
       return (
         <div
           style={{
@@ -105,7 +114,7 @@ export function AuditView({
                 margin: 0,
               }}
             >
-              Welcome to AI-Ready DS Auditor!
+              {isFirstUse ? 'AI-Ready DS Auditor' : 'Welcome to AI-Ready DS Auditor!'}
             </h1>
             <p
               style={{
@@ -115,13 +124,26 @@ export function AuditView({
                 margin: 0,
               }}
             >
-              Press the button below to get started
+              {isFirstUse
+                ? 'Set up your audit scope before running your first scan.'
+                : 'Press the button below to get started'}
             </p>
           </div>
           {/* Button pinned to bottom */}
-          <Button label="Audit & Inject" onClick={onAuditAndInject} />
+          {isFirstUse ? (
+            <Button label="Go to Config \u2192" onClick={onGoToConfig} />
+          ) : (
+            <div title={allCategoriesDisabled ? 'Enable at least one category' : undefined}>
+              <Button
+                label="Audit & Inject"
+                onClick={onAuditAndInject}
+                disabled={allCategoriesDisabled}
+              />
+            </div>
+          )}
         </div>
       );
+    }
 
     case 'scanning':
       return (
@@ -276,7 +298,13 @@ export function AuditView({
 
           {/* Button always pinned to bottom */}
           <div style={{ padding: SPACING_CONTENT, paddingTop: 12 }}>
-            <Button label="Re-audit & Inject" onClick={onAuditAndInject} />
+            <div title={allCategoriesDisabled ? 'Enable at least one category' : undefined}>
+              <Button
+                label="Re-audit & Inject"
+                onClick={onAuditAndInject}
+                disabled={allCategoriesDisabled}
+              />
+            </div>
           </div>
         </div>
       );
