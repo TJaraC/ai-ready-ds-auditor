@@ -1,7 +1,13 @@
-import type { SandboxMessage, UIMessage } from '@shared/messages';
+import type { AuditCategory, SandboxMessage, UIMessage } from '@shared/messages';
 import { runAudit } from './audit/index';
 import { injectReport } from './inject';
 import { injectSvgs } from './inject-svgs';
+
+const SCOPE_KEY = 'scope_config';
+const DEFAULT_SCOPE: Record<AuditCategory, boolean> = {
+  color: true, typography: true, spacing: true,
+  border: true, effects: true, component: true,
+};
 
 // Show the plugin UI
 figma.showUI(__html__, { width: 380, height: 600, themeColors: true });
@@ -13,7 +19,7 @@ figma.ui.onmessage = (raw: unknown): void => {
 
   switch (msg.type) {
     case 'START_SCAN': {
-      runAudit({ skipSvg: true })
+      runAudit({ skipSvg: true, enabledCategories: msg.enabledCategories })
         .then(({ report }) => {
           // SVGs skipped for scan-only (not injected until INJECT_DATA)
           const msg: SandboxMessage = { type: 'SCAN_COMPLETE', report };
@@ -28,7 +34,7 @@ figma.ui.onmessage = (raw: unknown): void => {
       break;
     }
     case 'INJECT_DATA': {
-      runAudit()
+      runAudit({ enabledCategories: msg.enabledCategories })
         .then(({ report, svgRecords }) => {
           // Send SCAN_COMPLETE first — UI needs the report to render the dashboard
           const scanMsg: SandboxMessage = { type: 'SCAN_COMPLETE', report };
@@ -71,7 +77,14 @@ figma.ui.onmessage = (raw: unknown): void => {
       break;
     }
     case 'TOGGLE_SCOPE': {
-      // Scope toggle received from UI — will be wired to persistence in Plan 02
+      // Load current scope, apply toggle, persist
+      const raw = figma.root.getPluginData(SCOPE_KEY);
+      const current: Record<AuditCategory, boolean> = raw
+        ? { ...DEFAULT_SCOPE, ...JSON.parse(raw) as Record<string, boolean> }
+        : { ...DEFAULT_SCOPE };
+      current[msg.category] = msg.enabled;
+      figma.root.setPluginData(SCOPE_KEY, JSON.stringify(current));
+      lastScopeWriteAt = Date.now();
       break;
     }
     default: {
@@ -91,6 +104,7 @@ figma.ui.onmessage = (raw: unknown): void => {
 // PROPERTY_CHANGE asynchronously, which would falsely mark fresh data as stale).
 let syncDebounceTimer: ReturnType<typeof setTimeout> | null = null;
 let lastInjectedAt = 0;
+let lastScopeWriteAt = 0;
 const POST_INJECTION_GRACE_MS = 5000;
 
 figma.loadAllPagesAsync().then(() => {
@@ -98,6 +112,9 @@ figma.loadAllPagesAsync().then(() => {
     // Suppress events within the grace period after injection — setPluginData writes
     // trigger PROPERTY_CHANGE asynchronously, which would falsely mark fresh data as stale.
     if (Date.now() - lastInjectedAt < POST_INJECTION_GRACE_MS) return;
+
+    // Ignore PROPERTY_CHANGE events caused by scope config writes
+    if (Date.now() - lastScopeWriteAt < 2000) return;
 
     // NOTE: Figma documentchange does NOT fire for variable changes (known API limitation).
     const relevant = event.documentChanges.some(
@@ -136,6 +153,14 @@ if (startupKeys.length === 0) {
 }
 // If keys exist, contextStatus stays null (injected/outdated will be set later via
 // INJECT_COMPLETE or SYNC_OUTDATED — no pre-flight read of plugin data needed here).
+
+// Load persisted scope config and send to UI
+const rawScope = figma.root.getPluginData(SCOPE_KEY);
+const scopeConfig: Record<AuditCategory, boolean> = rawScope
+  ? { ...DEFAULT_SCOPE, ...JSON.parse(rawScope) as Record<string, boolean> }
+  : { ...DEFAULT_SCOPE };
+const scopeMsg: SandboxMessage = { type: 'SCOPE_LOADED', config: scopeConfig };
+figma.ui.postMessage(scopeMsg);
 
 // Send current file key to UI on startup.
 // figma.fileKey is string | undefined — guard before sending.
