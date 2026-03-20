@@ -39,6 +39,9 @@ export function useAppMessages(dispatch: (action: AppAction) => void): void {
         case 'FILE_KEY':
           dispatch({ type: 'SET_FILE_KEY', fileKey: msg.fileKey });
           break;
+        case 'SCOPE_LOADED':
+          dispatch({ type: 'SET_SCOPE_CONFIG', config: msg.config });
+          break;
         default: {
           const _exhaustive: never = msg;
           void _exhaustive;

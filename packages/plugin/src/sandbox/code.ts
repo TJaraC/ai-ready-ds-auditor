@@ -13,9 +13,9 @@ figma.ui.onmessage = (raw: unknown): void => {
 
   switch (msg.type) {
     case 'START_SCAN': {
-      runAudit()
-        .then(({ report, svgRecords: _svgs }) => {
-          // _svgs ignored for scan-only (not injected until INJECT_DATA)
+      runAudit({ skipSvg: true })
+        .then(({ report }) => {
+          // SVGs skipped for scan-only (not injected until INJECT_DATA)
           const msg: SandboxMessage = { type: 'SCAN_COMPLETE', report };
           figma.ui.postMessage(msg);
         })
@@ -68,6 +68,10 @@ figma.ui.onmessage = (raw: unknown): void => {
           figma.viewport.scrollAndZoomIntoView([node as SceneNode]);
         }
       });
+      break;
+    }
+    case 'TOGGLE_SCOPE': {
+      // Scope toggle received from UI — will be wired to persistence in Plan 02
       break;
     }
     default: {

@@ -1,4 +1,4 @@
-import type { AuditIssue, AuditReport, ComponentSpec, SandboxMessage, SvgRecord, ComponentLayer, LayerStateEntry } from '@shared/index';
+import type { AuditIssue, AuditReport, ComponentSpec, SandboxMessage, SvgRecord, ComponentLayer, LayerStateEntry, AuditCategory } from '@shared/index';
 import type { AuditNode, AuditNodeFills, AuditNodeText, AuditNodeLayout, AuditNodeBorder, AuditNodeEffects, AuditNodeComponent } from './inputs';
 import { assembleReport } from './utils';
 import { auditFills, auditStrokes } from './color';
@@ -9,6 +9,32 @@ import { auditBorderShape } from './border';
 import { auditEffects } from './effects';
 import { extractVariableTokens, extractTextStyleTokens } from './tokens';
 import { extractLayerTree, getVariantMap, findStatePropertyName, buildStatesMap, extractViewBox } from './extract-layers';
+
+/** Options for runAudit(). */
+export interface RunAuditOptions {
+  /** When true, skip SVG export entirely (saves O(n) exportAsync calls). */
+  skipSvg?: boolean;
+  /** When provided, only run auditors for these categories. Omit for all (backward compat). */
+  enabledCategories?: AuditCategory[];
+}
+
+/** All 6 audit categories. */
+const ALL_CATEGORIES: AuditCategory[] = ['color', 'typography', 'spacing', 'border', 'effects', 'component'];
+
+/**
+ * Determines whether a given audit category should run.
+ * Extracted for unit testability -- runAudit() itself requires Figma globals.
+ */
+export function shouldRunAuditor(
+  category: AuditCategory,
+  enabledSet?: Set<AuditCategory>,
+): boolean {
+  if (!enabledSet) return true; // backward compat: no set = all enabled
+  return enabledSet.has(category);
+}
+
+/** Maximum number of concurrent SVG exports to avoid Figma memory pressure. */
+const SVG_EXPORT_CONCURRENCY = 5;
 
 /**
  * runAudit() — Main orchestrator for the design system audit.
@@ -21,7 +47,7 @@ import { extractLayerTree, getVariantMap, findStatePropertyName, buildStatesMap,
  *   Pass 1: Collect all component names across pages (for disconnected-component detection).
  *   Pass 2: For each page, find all COMPONENT nodes, audit every descendant.
  */
-export async function runAudit(): Promise<{ report: AuditReport; svgRecords: SvgRecord[] }> {
+export async function runAudit(options?: RunAuditOptions): Promise<{ report: AuditReport; svgRecords: SvgRecord[] }> {
   // PASS 0 — Performance: skip invisible instance children during traversal
   figma.skipInvisibleInstanceChildren = true;
 
@@ -107,21 +133,47 @@ export async function runAudit(): Promise<{ report: AuditReport; svgRecords: Svg
       allComponents.push(spec);
     });
 
-    // Export SVGs for all components on this page
-    for (const comp of pageComponents) {
-      try {
-        const svg = await (comp as unknown as { exportAsync(opts: { format: string }): Promise<string> }).exportAsync({ format: 'SVG_STRING' });
-        const viewBox = extractViewBox(svg);
-        allSvgRecords.push({ componentId: comp.id, name: comp.name, viewBox, svg });
-      } catch (err) {
-        const errorMsg = err instanceof Error ? err.message : String(err);
-        allSvgRecords.push({
-          componentId: comp.id,
-          name: comp.name,
-          error: `SVG export failed: ${errorMsg}. Remote components cannot be exported directly — use a local instance.`,
-        });
+    // Export SVGs for all components on this page (skipped during scan-only)
+    if (!options?.skipSvg) {
+      const total = pageComponents.length;
+      for (let j = 0; j < total; j += SVG_EXPORT_CONCURRENCY) {
+        const batch = pageComponents.slice(j, j + SVG_EXPORT_CONCURRENCY);
+        const results = await Promise.all(
+          batch.map(async (comp) => {
+            try {
+              const svg = await (comp as unknown as { exportAsync(opts: { format: string }): Promise<string> }).exportAsync({ format: 'SVG_STRING' });
+              const viewBox = extractViewBox(svg);
+              return { componentId: comp.id, name: comp.name, viewBox, svg } as SvgRecord;
+            } catch (err) {
+              const errorMsg = err instanceof Error ? err.message : String(err);
+              return {
+                componentId: comp.id,
+                name: comp.name,
+                error: `SVG export failed: ${errorMsg}. Remote components cannot be exported directly — use a local instance.`,
+              } as SvgRecord;
+            }
+          }),
+        );
+        allSvgRecords.push(...results);
+
+        // Sub-page progress during SVG export
+        const svgDone = Math.min(j + SVG_EXPORT_CONCURRENCY, total);
+        const pageBase = (i / pages.length) * 100;
+        const pageSlice = (1 / pages.length) * 100;
+        const svgPercent = Math.round(pageBase + (svgDone / total) * pageSlice);
+        const svgProgressMsg: SandboxMessage = {
+          type: 'SCAN_PROGRESS',
+          percent: Math.min(svgPercent, Math.round(((i + 1) / pages.length) * 100)),
+          currentNode: `${pageName} — exporting SVGs (${svgDone}/${total})`,
+        };
+        figma.ui.postMessage(svgProgressMsg);
       }
     }
+
+    // Build enabled-category set for filtering (undefined = all enabled, backward compat)
+    const enabled = options?.enabledCategories
+      ? new Set(options.enabledCategories)
+      : undefined;
 
     // Audit only nodes inside COMPONENT definitions (the component itself + all descendants)
     for (const comp of pageComponents) {
@@ -129,31 +181,43 @@ export async function runAudit(): Promise<{ report: AuditReport; svgRecords: Svg
 
       for (const node of nodes) {
         // Color: fills and strokes (guards for property existence are inside each auditor)
-        allIssues.push(...auditFills(node as unknown as AuditNodeFills, pageName, styleIds));
-        allIssues.push(...auditStrokes(node as unknown as AuditNodeFills, pageName, styleIds));
+        if (shouldRunAuditor('color', enabled)) {
+          allIssues.push(...auditFills(node as unknown as AuditNodeFills, pageName, styleIds));
+          allIssues.push(...auditStrokes(node as unknown as AuditNodeFills, pageName, styleIds));
+        }
 
         // Typography: text-specific properties
-        if (node.type === 'TEXT') {
-          allIssues.push(...auditTypography(node as unknown as AuditNodeText, pageName, styleIds));
+        if (shouldRunAuditor('typography', enabled)) {
+          if (node.type === 'TEXT') {
+            allIssues.push(...auditTypography(node as unknown as AuditNodeText, pageName, styleIds));
+          }
         }
 
         // Spacing: auto-layout padding and gap (FRAME, COMPONENT, INSTANCE only)
-        if (
-          node.type === 'FRAME' ||
-          node.type === 'COMPONENT' ||
-          node.type === 'INSTANCE'
-        ) {
-          allIssues.push(...auditSpacing(node as unknown as AuditNodeLayout, pageName));
+        if (shouldRunAuditor('spacing', enabled)) {
+          if (
+            node.type === 'FRAME' ||
+            node.type === 'COMPONENT' ||
+            node.type === 'INSTANCE'
+          ) {
+            allIssues.push(...auditSpacing(node as unknown as AuditNodeLayout, pageName));
+          }
         }
 
         // Border: cornerRadius (uniform and per-corner) and strokeWeight
-        allIssues.push(...auditBorderShape(node as unknown as AuditNodeBorder, pageName));
+        if (shouldRunAuditor('border', enabled)) {
+          allIssues.push(...auditBorderShape(node as unknown as AuditNodeBorder, pageName));
+        }
 
         // Effects: hardcoded shadows and blurs without effect style
-        allIssues.push(...auditEffects(node as unknown as AuditNodeEffects, pageName, effectStyleIds));
+        if (shouldRunAuditor('effects', enabled)) {
+          allIssues.push(...auditEffects(node as unknown as AuditNodeEffects, pageName, effectStyleIds));
+        }
 
         // Component: disconnected frames/groups that should be component instances
-        allIssues.push(...auditComponents(node as unknown as AuditNode, pageName, componentNames));
+        if (shouldRunAuditor('component', enabled)) {
+          allIssues.push(...auditComponents(node as unknown as AuditNode, pageName, componentNames));
+        }
       }
     }
 

@@ -1,4 +1,5 @@
 import type { AuditReport } from '@shared/types';
+import type { AuditCategory } from '@shared/messages';
 
 // ---------------------------------------------------------------------------
 // State shape
@@ -7,6 +8,17 @@ import type { AuditReport } from '@shared/types';
 export type Tab = 'audit' | 'config';
 export type Phase = 'idle' | 'scanning' | 'injecting' | 'complete' | 'error';
 export type CssFramework = 'tailwind' | 'css-variables' | 'css-modules' | 'styled-components';
+
+export type ScopeConfig = Record<AuditCategory, boolean>;
+
+export const DEFAULT_SCOPE_CONFIG: ScopeConfig = {
+  color: true,
+  typography: true,
+  spacing: true,
+  border: true,
+  effects: true,
+  component: true,
+};
 
 export interface AppState {
   tab: Tab;
@@ -20,6 +32,7 @@ export interface AppState {
   contextStatus: 'injected' | 'outdated' | 'missing' | null;
   unpublishedCount: number;
   fileKey: string | null;
+  scopeConfig: ScopeConfig;
 }
 
 export const initialState: AppState = {
@@ -34,6 +47,7 @@ export const initialState: AppState = {
   contextStatus: null,
   unpublishedCount: 0,
   fileKey: null,
+  scopeConfig: DEFAULT_SCOPE_CONFIG,
 };
 
 // ---------------------------------------------------------------------------
@@ -53,7 +67,9 @@ export type AppAction =
   | { type: 'SET_COPIED'; copied: boolean }
   | { type: 'RESET_ERROR' }
   | { type: 'SET_CONTEXT_STATUS'; status: 'injected' | 'outdated' | 'missing' }
-  | { type: 'SET_FILE_KEY'; fileKey: string | null };
+  | { type: 'SET_FILE_KEY'; fileKey: string | null }
+  | { type: 'SET_SCOPE_CONFIG'; config: ScopeConfig }
+  | { type: 'TOGGLE_SCOPE_CATEGORY'; category: AuditCategory; enabled: boolean };
 
 // ---------------------------------------------------------------------------
 // Reducer
@@ -105,6 +121,15 @@ export function appReducer(state: AppState, action: AppAction): AppState {
 
     case 'SET_FILE_KEY':
       return { ...state, fileKey: action.fileKey };
+
+    case 'SET_SCOPE_CONFIG':
+      return { ...state, scopeConfig: action.config };
+
+    case 'TOGGLE_SCOPE_CATEGORY':
+      return {
+        ...state,
+        scopeConfig: { ...state.scopeConfig, [action.category]: action.enabled },
+      };
 
     default: {
       const _exhaustive: never = action;
