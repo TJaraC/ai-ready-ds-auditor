@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { appReducer, initialState } from './state';
+import { appReducer, initialState, DEFAULT_SCOPE_CONFIG } from './state';
 import type { AppAction } from './state';
 import type { AuditReport } from '@shared/types';
 
@@ -216,5 +216,62 @@ describe('appReducer', () => {
     // Should not throw even with frozen state, because reducer uses spread
     const next = appReducer(frozen as typeof initialState, action);
     expect(next.tab).toBe('config');
+  });
+
+  describe('scope config', () => {
+    it('initialState.scopeConfig defaults all 6 categories to true', () => {
+      expect(initialState.scopeConfig).toEqual({
+        color: true,
+        typography: true,
+        spacing: true,
+        border: true,
+        effects: true,
+        component: true,
+      });
+    });
+
+    describe('SET_SCOPE_CONFIG', () => {
+      it('replaces entire scopeConfig', () => {
+        const newConfig = {
+          color: false, typography: false, spacing: true,
+          border: true, effects: false, component: true,
+        };
+        const action: AppAction = { type: 'SET_SCOPE_CONFIG', config: newConfig };
+        const next = appReducer(initialState, action);
+        expect(next.scopeConfig).toEqual(newConfig);
+      });
+    });
+
+    describe('TOGGLE_SCOPE_CATEGORY', () => {
+      it('sets a single category to false', () => {
+        const action: AppAction = { type: 'TOGGLE_SCOPE_CATEGORY', category: 'color', enabled: false };
+        const next = appReducer(initialState, action);
+        expect(next.scopeConfig.color).toBe(false);
+        expect(next.scopeConfig.typography).toBe(true);
+        expect(next.scopeConfig.spacing).toBe(true);
+        expect(next.scopeConfig.border).toBe(true);
+        expect(next.scopeConfig.effects).toBe(true);
+        expect(next.scopeConfig.component).toBe(true);
+      });
+
+      it('sets a single category back to true', () => {
+        const stateWithColorOff = appReducer(initialState, { type: 'TOGGLE_SCOPE_CATEGORY', category: 'color', enabled: false });
+        const next = appReducer(stateWithColorOff, { type: 'TOGGLE_SCOPE_CATEGORY', category: 'color', enabled: true });
+        expect(next.scopeConfig.color).toBe(true);
+      });
+    });
+  });
+
+  describe('DEFAULT_SCOPE_CONFIG', () => {
+    it('is exported and has all 6 keys set to true', () => {
+      expect(DEFAULT_SCOPE_CONFIG).toEqual({
+        color: true,
+        typography: true,
+        spacing: true,
+        border: true,
+        effects: true,
+        component: true,
+      });
+    });
   });
 });
