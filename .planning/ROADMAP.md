@@ -10,7 +10,7 @@
 ## Phases
 
 - [ ] **Phase 14: Usability & Performance** - Performance verification, audit scope toggles, and first-use onboarding
-- [ ] **Phase 15: Icon Detection & Audit** - Detect and audit icon usage consistency with toggleable scope control
+- [x] **Phase 15: Icon Detection & Audit** - Detect and audit icon usage consistency with toggleable scope control (completed 2026-03-24)
 
 ## Phase Details
 
@@ -54,4 +54,4 @@ Phase 14 → Phase 15
 | Phase | Milestone | Plans Complete | Status | Completed |
 |-------|-----------|----------------|--------|-----------|
 | 14. Usability & Performance | 1/2 | In Progress|  | - |
-| 15. Icon Detection & Audit | 2/2 | Complete   | 2026-03-24 | - |
+| 15. Icon Detection & Audit | 2/2 | Complete    | 2026-03-24 | - |

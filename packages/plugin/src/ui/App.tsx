@@ -116,7 +116,10 @@ export function App(): React.ReactElement {
     >
       <Tabs
         activeTab={state.tab}
-        onTabChange={(tab) => dispatch({ type: 'SET_TAB', tab })}
+        onTabChange={(tab) => {
+          if (tab === 'config') setHasVisitedConfig(true);
+          dispatch({ type: 'SET_TAB', tab });
+        }}
       />
       <div style={{ flex: 1, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
         {state.tab === 'audit' ? (
