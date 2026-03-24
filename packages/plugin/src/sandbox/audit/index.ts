@@ -1,5 +1,5 @@
 import type { AuditIssue, AuditReport, ComponentSpec, SandboxMessage, SvgRecord, ComponentLayer, LayerStateEntry, AuditCategory } from '@shared/index';
-import type { AuditNode, AuditNodeFills, AuditNodeText, AuditNodeLayout, AuditNodeBorder, AuditNodeEffects, AuditNodeComponent } from './inputs';
+import type { AuditNode, AuditNodeFills, AuditNodeText, AuditNodeLayout, AuditNodeBorder, AuditNodeEffects, AuditNodeIcon, AuditNodeComponent } from './inputs';
 import { assembleReport } from './utils';
 import { auditFills, auditStrokes } from './color';
 import { auditTypography } from './typography';
@@ -7,6 +7,7 @@ import { auditSpacing } from './spacing';
 import { auditComponents, classifyPublishStatus } from './components';
 import { auditBorderShape } from './border';
 import { auditEffects } from './effects';
+import { isIconByName, isIconByFont, isDisconnectedVectorIcon, auditIconSize, auditIconFills } from './icon';
 import { extractVariableTokens, extractTextStyleTokens } from './tokens';
 import { extractLayerTree, getVariantMap, findStatePropertyName, buildStatesMap, extractViewBox } from './extract-layers';
 
@@ -217,6 +218,18 @@ export async function runAudit(options?: RunAuditOptions): Promise<{ report: Aud
         // Component: disconnected frames/groups that should be component instances
         if (shouldRunAuditor('component', enabled)) {
           allIssues.push(...auditComponents(node as unknown as AuditNode, pageName, componentNames));
+        }
+
+        // Icon: detection + size + fills (ICON-01 through ICON-05, ICON-07)
+        if (shouldRunAuditor('icon', enabled)) {
+          const iconNode = node as unknown as AuditNodeIcon;
+          const isIcon = isIconByName(node.name)
+            || (node.type === 'TEXT' && isIconByFont(iconNode.fontName))
+            || isDisconnectedVectorIcon(iconNode);
+          if (isIcon) {
+            allIssues.push(...auditIconSize(iconNode, pageName));
+            allIssues.push(...auditIconFills(iconNode, pageName, styleIds));
+          }
         }
       }
     }
