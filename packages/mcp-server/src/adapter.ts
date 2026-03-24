@@ -10,7 +10,7 @@
  */
 import type { AuditReport, ComponentSpec, DesignToken, AuditIssue } from '@ai-ds-auditor/shared';
 
-const CATEGORY_VALUES = ['color', 'typography', 'spacing', 'border', 'effects', 'component'] as const;
+const CATEGORY_VALUES = ['color', 'typography', 'spacing', 'border', 'effects', 'component', 'icon'] as const;
 type AuditCategory = (typeof CATEGORY_VALUES)[number];
 
 export interface AuditSummaryResult {

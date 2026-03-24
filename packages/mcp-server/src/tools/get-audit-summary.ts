@@ -18,6 +18,7 @@ const CATEGORY_ENUM = [
   'border',
   'effects',
   'component',
+  'icon',
 ] as const;
 
 type Category = (typeof CATEGORY_ENUM)[number];
@@ -61,7 +62,7 @@ export function registerGetAuditSummary(
         .enum(CATEGORY_ENUM)
         .optional()
         .describe(
-          'Filter issues by category. Options: color, typography, spacing, border, effects, component. ' +
+          'Filter issues by category. Options: color, typography, spacing, border, effects, component, icon. ' +
             'If omitted, all issues are returned.'
         ),
     },
