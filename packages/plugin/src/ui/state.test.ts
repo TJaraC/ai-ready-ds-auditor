@@ -219,7 +219,7 @@ describe('appReducer', () => {
   });
 
   describe('scope config', () => {
-    it('initialState.scopeConfig defaults all 6 categories to true', () => {
+    it('initialState.scopeConfig defaults all 7 categories (icon defaults to false)', () => {
       expect(initialState.scopeConfig).toEqual({
         color: true,
         typography: true,
@@ -227,6 +227,7 @@ describe('appReducer', () => {
         border: true,
         effects: true,
         component: true,
+        icon: false,
       });
     });
 
@@ -234,7 +235,7 @@ describe('appReducer', () => {
       it('replaces entire scopeConfig', () => {
         const newConfig = {
           color: false, typography: false, spacing: true,
-          border: true, effects: false, component: true,
+          border: true, effects: false, component: true, icon: false,
         };
         const action: AppAction = { type: 'SET_SCOPE_CONFIG', config: newConfig };
         const next = appReducer(initialState, action);
@@ -263,7 +264,7 @@ describe('appReducer', () => {
   });
 
   describe('DEFAULT_SCOPE_CONFIG', () => {
-    it('is exported and has all 6 keys set to true', () => {
+    it('is exported and has all 7 keys with icon defaulting to false', () => {
       expect(DEFAULT_SCOPE_CONFIG).toEqual({
         color: true,
         typography: true,
@@ -271,6 +272,7 @@ describe('appReducer', () => {
         border: true,
         effects: true,
         component: true,
+        icon: false,
       });
     });
   });

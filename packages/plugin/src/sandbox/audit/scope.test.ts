@@ -31,7 +31,7 @@ describe('scope config migration (merge with defaults)', () => {
   it('preserves all values when full config loaded', () => {
     const full: ScopeConfig = {
       color: false, typography: false, spacing: false,
-      border: false, effects: false, component: false,
+      border: false, effects: false, component: false, icon: false,
     };
     const merged: ScopeConfig = { ...DEFAULT_SCOPE_CONFIG, ...full };
     expect(merged).toEqual(full);
