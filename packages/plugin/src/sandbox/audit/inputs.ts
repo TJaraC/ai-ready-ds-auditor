@@ -80,6 +80,23 @@ export interface AuditNodeEffects extends AuditNode {
   effectStyleId?: string;
 }
 
+/** For icon auditor: icon detection and audit properties. */
+export interface AuditNodeIcon extends AuditNode {
+  width: number;
+  height: number;
+  /** For font-based icon detection (TEXT nodes only). symbol = figma.mixed */
+  fontName?: { family: string; style: string } | symbol;
+  /** For fill audit (same shape as AuditNodeFills). symbol = figma.mixed */
+  fills?: ReadonlyArray<{
+    type: string;
+    color?: { r: number; g: number; b: number };
+    boundVariables?: { color?: unknown };
+  }> | symbol;
+  fillStyleId?: string | symbol;
+  /** For disconnected vector detection (FRAME/GROUP only) */
+  children?: ReadonlyArray<{ type: string }>;
+}
+
 /**
  * For layer extraction: a COMPONENT or COMPONENT_SET child node with all
  * visual and structural properties needed to build a ComponentLayer tree.

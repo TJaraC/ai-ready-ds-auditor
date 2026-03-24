@@ -18,8 +18,8 @@ export interface RunAuditOptions {
   enabledCategories?: AuditCategory[];
 }
 
-/** All 6 audit categories. */
-const ALL_CATEGORIES: AuditCategory[] = ['color', 'typography', 'spacing', 'border', 'effects', 'component'];
+/** All 7 audit categories. */
+const ALL_CATEGORIES: AuditCategory[] = ['color', 'typography', 'spacing', 'border', 'effects', 'component', 'icon'];
 
 /**
  * Determines whether a given audit category should run.

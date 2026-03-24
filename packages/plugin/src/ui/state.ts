@@ -18,6 +18,7 @@ export const DEFAULT_SCOPE_CONFIG: ScopeConfig = {
   border: true,
   effects: true,
   component: true,
+  icon: false,
 };
 
 export interface AppState {

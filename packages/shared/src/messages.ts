@@ -1,7 +1,7 @@
 import type { AuditReport } from './types';
 
-/** The 6 audit categories matching AuditIssue.category. */
-export type AuditCategory = 'color' | 'typography' | 'spacing' | 'border' | 'effects' | 'component';
+/** The 7 audit categories matching AuditIssue.category. */
+export type AuditCategory = 'color' | 'typography' | 'spacing' | 'border' | 'effects' | 'component' | 'icon';
 
 // Messages FROM sandbox TO UI
 export type SandboxMessage =
