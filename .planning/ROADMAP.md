@@ -5,7 +5,7 @@
 - [x] **v1.0 MVP** - Phases 1-5 (shipped 2026-03-05)
 - [x] **v2.0 Figma-Faithful UI + Enhanced MCP** - Phases 6-13 (shipped 2026-03-19)
 - [ ] **v2.1 Usability & Performance** - Phase 14 (in progress)
-- [ ] **v2.2 Icon Detection & Audit** - Phase 15 (planned)
+- [x] **v2.2 Icon Detection & Audit** - Phase 15 (planned) (completed 2026-03-24)
 
 ## Phases
 
@@ -40,7 +40,7 @@ Plans:
   3. The audit reports icon size inconsistencies (sizes outside 16/20/24/32/40/48 scale) and hardcoded fill colors on icon nodes
   4. A new `icons` toggle appears in the Audit Scope section, disabled by default; when disabled, zero icon nodes are processed
   5. The MCP server exposes icon audit results in its response schema
-**Plans:** 1/2 plans executed
+**Plans:** 2/2 plans complete
 
 Plans:
 - [ ] 15-01-PLAN.md -- Add 'icon' category to all type unions, ScopeConfig, ConfigView toggle, MCP enums, AuditNodeIcon interface
@@ -54,4 +54,4 @@ Phase 14 → Phase 15
 | Phase | Milestone | Plans Complete | Status | Completed |
 |-------|-----------|----------------|--------|-----------|
 | 14. Usability & Performance | 1/2 | In Progress|  | - |
-| 15. Icon Detection & Audit | 1/2 | In Progress|  | - |
+| 15. Icon Detection & Audit | 2/2 | Complete   | 2026-03-24 | - |
