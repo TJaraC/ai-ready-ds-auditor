@@ -79,9 +79,9 @@ figma.ui.onmessage = (raw: unknown): void => {
     case 'TOGGLE_SCOPE': {
       // Load current scope, apply toggle, persist
       const raw = figma.root.getPluginData(SCOPE_KEY);
-      const current: Record<AuditCategory, boolean> = raw
-        ? { ...DEFAULT_SCOPE, ...JSON.parse(raw) as Record<string, boolean> }
-        : { ...DEFAULT_SCOPE };
+      let parsed: Record<string, boolean> = {};
+      try { parsed = raw ? (JSON.parse(raw) as Record<string, boolean>) : {}; } catch { parsed = {}; }
+      const current: Record<AuditCategory, boolean> = { ...DEFAULT_SCOPE, ...parsed };
       current[msg.category] = msg.enabled;
       figma.root.setPluginData(SCOPE_KEY, JSON.stringify(current));
       lastScopeWriteAt = Date.now();
@@ -156,9 +156,9 @@ if (startupKeys.length === 0) {
 
 // Load persisted scope config and send to UI
 const rawScope = figma.root.getPluginData(SCOPE_KEY);
-const scopeConfig: Record<AuditCategory, boolean> = rawScope
-  ? { ...DEFAULT_SCOPE, ...JSON.parse(rawScope) as Record<string, boolean> }
-  : { ...DEFAULT_SCOPE };
+let parsedScope: Record<string, boolean> = {};
+try { parsedScope = rawScope ? (JSON.parse(rawScope) as Record<string, boolean>) : {}; } catch { parsedScope = {}; }
+const scopeConfig: Record<AuditCategory, boolean> = { ...DEFAULT_SCOPE, ...parsedScope };
 const scopeMsg: SandboxMessage = { type: 'SCOPE_LOADED', config: scopeConfig };
 figma.ui.postMessage(scopeMsg);
 
