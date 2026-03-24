@@ -22,6 +22,17 @@
 - [ ] **UX-01**: En el primer uso (sin datos inyectados y sin config previa), el dashboard muestra un estado específico que invita al usuario a configurar el scope antes de escanear
 - [ ] **UX-02**: El CTA del estado de primer uso navega directamente al usuario a la pestaña Config
 
+### ICON — Detección y Auditoría de Iconos
+
+- [ ] **ICON-01**: El plugin detecta nodos icono por patrón de nombre (`icon/`, `Icon/`, `ic_`, `icons/`, etc.) — detección con alta confianza, sin falsos positivos
+- [ ] **ICON-02**: El plugin detecta nodos icono por fuente (fontFamily = `Material Icons`, `Font Awesome`, `Ionicons`, etc.) — detección de icon fonts
+- [ ] **ICON-03**: El plugin detecta iconos vectoriales desconectados: frames cuadrados pequeños (16–48 px) que contienen solo paths y NO son instancias de componente
+- [ ] **ICON-04**: El audit reporta inconsistencias de tamaño — iconos fuera de la escala estándar (16, 20, 24, 32, 40, 48 px)
+- [ ] **ICON-05**: El audit reporta iconos con fills hardcodeados que deberían usar variables de color
+- [x] **ICON-06**: La categoría `icons` aparece como toggle en el Audit Scope de ConfigView, deshabilitada por defecto
+- [x] **ICON-07**: Con el toggle de icons deshabilitado, cero nodos icono se procesan — previene data bloat en archivos con cientos de iconos
+- [x] **ICON-08**: El servidor MCP expone los resultados del audit de iconos en el schema de respuesta
+
 ## Future Requirements (v3.0+)
 
 ### Lookup
@@ -50,6 +61,14 @@
 | SCOPE-03 | Phase 14 | Pending |
 | UX-01 | Phase 14 | Pending |
 | UX-02 | Phase 14 | Pending |
+| ICON-01 | Phase 15 | Pending |
+| ICON-02 | Phase 15 | Pending |
+| ICON-03 | Phase 15 | Pending |
+| ICON-04 | Phase 15 | Pending |
+| ICON-05 | Phase 15 | Pending |
+| ICON-06 | Phase 15 | Complete |
+| ICON-07 | Phase 15 | Complete |
+| ICON-08 | Phase 15 | Complete |
 
 **Coverage:**
 - v2.1 requirements: 7 total
